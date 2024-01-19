@@ -15,7 +15,7 @@ export const RecoveryContext = createContext({
     setEmail: (prev) => { }
 });
 
-const forgot = () => {
+const Forgot = () => {
     const [page, setPage] = useState("Login");
     const [email, setEmail] = useState("");
     const [otp, setOtp] = useState();
@@ -46,4 +46,4 @@ const forgot = () => {
   )
 }
 
-export default forgot
+export default Forgot
