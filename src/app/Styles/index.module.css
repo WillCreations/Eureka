@@ -1,0 +1,57 @@
+.slide{
+    border: top 100px;
+    height: auto;
+    display: flex;
+    left: 0;
+    animation-name: slider;
+    animation-duration: 40s;
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
+    animation-timing-function: linear; 
+    
+}
+
+.slide:hover{
+    animation-play-state: paused;
+}
+
+
+.slide2 {
+    border: top 100px;
+    height: auto;
+    display: flex;
+    left: 0;
+    top:800px;
+    animation-name: slider;
+    animation-duration: 40s;
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
+    animation-timing-function: linear;
+    animation-direction: reverse;
+
+}
+
+.slide2:hover {
+    animation-play-state: paused;
+}
+
+@keyframes slider {
+    from {
+        transform: translateX(3000px)
+    }
+
+    to {
+        transform: translateX(-3000px)
+    }
+
+}
+
+.card{
+    width: 250px;
+    margin-right: 10px;
+    transition: 0.5s;
+}
+
+.card:hover{
+    scale: 105%;
+}
