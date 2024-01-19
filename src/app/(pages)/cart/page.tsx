@@ -36,7 +36,7 @@ const Cart = () => {
       body: JSON.stringify(produce),
     })
 
-    if (response.statusCode === 500) return
+    if (response.status === 500) return
 
     console.log(response, "responser")
     
