@@ -1,5 +1,5 @@
 "use client"
-import { useState, useContext, useEffect } from 'react'
+import {  useContext} from 'react'
 import Login from '@/app/components/Login';
 import OTPInput from '@/app/components/OTPInput';
 import Reset from '@/app/components/Reset';
@@ -10,24 +10,21 @@ import RecoveryContext from "@/contextProvider/Recovery"
 
 
 
-const Navigator = () => {
+
+
+
+const Forgot = () => {
+
+    const Navigator = () => {
     const Contex = useContext(RecoveryContext)
     const page = Contex.page
 
-
-
-    const Navigator = () => {
         if (page === "Login") return <Login />;
         if (page === "otp") return <OTPInput />;
         if (page === "Reset") return <Reset/>;
         return <Recovered/> 
 
-}
-
-
-const Forgot = () => {
-
-    
+    }
 
     return ( 
    <ForgotProvider>
