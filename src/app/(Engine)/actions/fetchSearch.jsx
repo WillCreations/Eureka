@@ -1,7 +1,7 @@
 
 import User from "@/app/(Engine)/models/user"
 import { connectToDb } from "../mongodb/database"
-
+ 
 export const fetchSearch = async (q, page) => {
     const regex = new RegExp(q, "i")
 
