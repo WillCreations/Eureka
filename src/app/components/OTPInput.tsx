@@ -1,11 +1,11 @@
 "use client"
 import { useContext, useState, useEffect } from 'react'
-import  RecoveryContext  from '../(Auth)/login/page'
+import  RecoveryContext  from '@/contextProvider/Recovery'
 import Input from './Input'
 
 
 const OTPInput = () => {
-    const { email, otp, setPage } = useContext(RecoveryContext)
+    const {email,  otp, setPage } = useContext(RecoveryContext)
     const [timer, setTimer] = useState(60)
     const [disable, setDisable] = useState(true)
     const [OTPInput, setOTPInput] = useState({
