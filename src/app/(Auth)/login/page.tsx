@@ -1,5 +1,5 @@
 "use client"
-import { useState, createContext } from 'react'
+import { useState, createContext, useEffect } from 'react'
 import Login from '@/app/components/Login';
 import OTPInput from '@/app/components/OTPInput';
 import Reset from '@/app/components/Reset';
@@ -15,7 +15,9 @@ const RecoveryContext = createContext({
     setEmail: (prev) => { }
 });
 
-export const Forgot = () => {
+
+
+const Forgot = () => {
     const [page, setPage] = useState("Login");
     const [email, setEmail] = useState("");
     const [otp, setOtp] = useState();
@@ -45,5 +47,9 @@ export const Forgot = () => {
       </RecoveryContext.Provider >
   )
 }
+
+useEffect(() => {
+    Forgot()
+}, [])
 
 export default RecoveryContext
