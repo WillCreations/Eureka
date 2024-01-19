@@ -11,7 +11,7 @@ import { redirect } from "next/navigation"
 
 
 
-export const options: authoptions = {
+export const options = {
     providers: [
         GoogleProvider({
             clientId: process.env.GOOGLE_ID,
