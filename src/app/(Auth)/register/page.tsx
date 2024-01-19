@@ -6,7 +6,7 @@ import { MdVisibilityOff } from "react-icons/md"
 import { useRouter } from "next/navigation"
 
 
-const register = () => {
+const Register = () => {
     const router = useRouter();
     const [show, setShow] = useState(false)
     const [showing, setShowing] = useState(false)
@@ -120,4 +120,4 @@ const register = () => {
   )
 }
 
-export default register
+export default Register

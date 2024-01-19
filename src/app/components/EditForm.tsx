@@ -84,6 +84,7 @@ const EditForm = ({Updater, Parameter, Prod}) => {
                   ].map((one) => {
                       return (
                           <div
+                              key={one.name}
                               className='mb-3'
                           >
                               <label
