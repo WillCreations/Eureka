@@ -1,6 +1,6 @@
 "use client"
 import { useContext, useState, useEffect } from 'react'
-import { RecoveryContext } from '../(Auth)/login/page'
+import  RecoveryContext  from '../(Auth)/login/page'
 import Input from './Input'
 
 

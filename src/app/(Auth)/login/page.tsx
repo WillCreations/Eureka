@@ -6,7 +6,7 @@ import Reset from '@/app/components/Reset';
 import Recovered from '@/app/components/Recovered';
  
 
-export const RecoveryContext = createContext({
+const RecoveryContext = createContext({
     page: "",
     setPage: (prev) => { },
     otp: "",
@@ -15,7 +15,7 @@ export const RecoveryContext = createContext({
     setEmail: (prev) => { }
 });
 
-const Forgot = () => {
+export const Forgot = () => {
     const [page, setPage] = useState("Login");
     const [email, setEmail] = useState("");
     const [otp, setOtp] = useState();
@@ -46,4 +46,4 @@ const Forgot = () => {
   )
 }
 
-export default Forgot
+export default RecoveryContext
