@@ -13,6 +13,10 @@ import RecoveryContext from "@/contextProvider/Recovery"
 const Navigator = () => {
     const Contex = useContext(RecoveryContext)
     const page = Contex.page
+
+
+
+    const Navigator = () => {
         if (page === "Login") return <Login />;
         if (page === "otp") return <OTPInput />;
         if (page === "Reset") return <Reset/>;
