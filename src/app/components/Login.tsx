@@ -5,7 +5,7 @@ import { MdVisibilityOff } from "react-icons/md"
 import { useRouter } from 'next/navigation'
 import { signIn, getProviders, useSession } from 'next-auth/react'
 import Link from 'next/link'
-import  RecoveryContext  from '../(Auth)/login/page'
+import  RecoveryContext from '@/contextProvider/Recovery'
 
 const Login = () => {
     const router = useRouter();

@@ -17,7 +17,7 @@ const Forgot = () => {
 
     const Navigator = () => {
     const Contex = useContext(RecoveryContext)
-    const page = Contex.page
+    const {page} = Contex
 
         if (page === "Login") return <Login />;
         if (page === "otp") return <OTPInput />;
