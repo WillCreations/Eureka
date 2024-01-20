@@ -11,7 +11,7 @@ export const connectToDb = async () => {
 
     try {
         await mongoose.connect(process.env.MONGODB_URI, {
-            dbName: "share_prompt"
+            dbName: "Bank"
         })
         isConnected = true
         console.log( isConnected, "Mongodb just connected")
