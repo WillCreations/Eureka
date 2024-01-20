@@ -6,6 +6,7 @@ import Product from "./(Engine)/models/productSchema"
 import styles from "@/app/Styles/index.module.css"
 import Typo from '@/app/components/Typo'
 import Slider from "./components/Slider"
+import Box from "@/app/components/Box"
 
 
 
@@ -35,7 +36,11 @@ export default async function Home() {
               <div key={p._id} className={styles.card} >
                 <Card
                   prod={p}
-                />
+                >
+                  <Box
+                    prod={p}
+                  />
+                </Card>
               </div>
             )
           })}

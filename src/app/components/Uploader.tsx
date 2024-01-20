@@ -4,11 +4,7 @@ import Image from 'next/image'
 
 const Uploader = ({imagine, image, Upload}) => {
     
-    
 
-
-
-  
 
     console.log(image, "In uploader")
 

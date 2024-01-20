@@ -2,6 +2,7 @@
 import { useRef } from 'react'
 import Card from './Card'
 import styles from "@/app/Styles/index.module.css"
+  import Box from '@/app/components/Box'
 
 const Slider = ({Prod}) => {
     const ScrollerRef = useRef(null)
@@ -11,7 +12,7 @@ const Slider = ({Prod}) => {
         const scrollContainer = ScrollerRef.current
         if (scrollContainer) {
             scrollContainer.scrollLeft -= delta * 40; 
-            e.preventDefault();   
+            e.preventDefault();  
         }
     
     }
@@ -28,7 +29,11 @@ const Slider = ({Prod}) => {
               <div key={p._id} className={styles.card} >
                 <Card
                   prod={p}
-                />
+                >
+                  <Box
+                    prod={p}
+                  />
+                </Card>
               </div>
             )
           })}
