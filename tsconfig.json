@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/components/ProductForm.jsx", "src/app/api/stripe/route.jsx", "src/app/(pages)/users/page.jsx", "src/app/components/UserForm.jsx", "src/app/products/page.jsx", "src/app/components/UserEdit.jsx", "src/app/components/Pagination.jsx", "src/app/components/Navbar.jsx", "src/app/components/EditForm.jsx", "src/app/components/BuyButton.jsx", "src/app/components/Box.jsx", "src/app/(pages)/users/[profile]/page.jsx", "src/app/(pages)/product_panel/page.jsx", "src/app/(pages)/cart/page.jsx", "src/app/(Engine)/actions/fetchproduct.jsx", "src/app/(Engine)/actions/fetchSearch.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/components/ProductForm.jsx", "src/app/api/stripe/route.jsx", "src/app/(pages)/users/page.jsx", "src/app/components/UserForm.jsx", "src/app/products/page.jsx", "src/app/components/UserEdit.jsx", "src/app/components/Pagination.jsx", "src/app/components/Navbar.jsx", "src/app/components/EditForm.jsx", "src/app/components/BuyButton.jsx", "src/app/components/Box.jsx", "src/app/(pages)/users/[profile]/page.jsx", "src/app/(pages)/product_panel/page.jsx", "src/app/(pages)/cart/page.jsx", "src/app/(Engine)/actions/fetchproduct.jsx", "src/app/(Engine)/actions/fetchSearch.jsx", "src/app/layout.jsx"],
   "exclude": ["node_modules"]
 }
