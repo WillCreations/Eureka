@@ -74,7 +74,7 @@ const Products = ({ searchParams }) => {
         <AltCategory {...Functions} />
       </div>
 
-      <div className="mx-10 md:mx-28 grid gap-5 sm:grid-cols-2 md:grid-cols-4">
+      <div className="mx-10 md:mx-28 grid gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {produce.map((Prod) => {
           return (
             <Card key={Prod._id} prod={Prod}>

@@ -46,40 +46,48 @@ const ProductDetails = async ({ params }) => {
           }
         </div>
       </div>
-      <div className="flex flex-col md:flex-row md:justify-between bg-white rounded-md px-5 my-5 text-black">
-        <div className="flex flex-col md:flex-row md:items-center">
-          <div className="relative rounded-md w-full shadow-2xl overflow-hidden h-60 md:w-60 ">
-            <Image
-              className="object-contain object-center"
-              src={image}
-              alt={description}
-              height={500}
-              width={500}
-            />
-            <h3 className="absolute text-white bg-green-700 top-2 py-1 px-2 rounded-sm left-2 items-center">
-              ${price}
-            </h3>
+      <div className="flex flex-col lg:flex-row md:justify-between bg-white rounded-md px-5 my-5 text-black">
+        <div className="flex flex-col md:flex-row md:items-start ">
+          <div className="sm:flex justify-center md:flex-2 mt-5  md:mt-10 ">
+            <div className=" relative rounded-md w-full shadow-2xl overflow-hidden h-auto sm:h-60 sm:w-60 ">
+              <Image
+                className="object-cover object-end"
+                src={image}
+                alt={description}
+                height={500}
+                width={500}
+              />
+              <h3 className="absolute text-white bg-green-700 top-2 py-1 px-2 rounded-sm left-2 items-center">
+                ${price}
+              </h3>
+            </div>
           </div>
-          <div className="md:flex md:flex-col grid grid-cols-2 p-5">
+          
+          <div className="md:flex md:flex-col md:flex-1 p-5">
+            
             <div>
               <h1
-                className='md:pl-10 text-3xl font-bold text-green-800 pt-7'
+                className='md:pl-5 text-3xl font-bold text-green-800 pt-7'
               >
                 {name}
               </h1>
-              <h3 className='md:pl-10 py-2 text-sm font-thin'
-              >
-                {description}
-              </h3>
+              <div className='h-28'>
+                <h3 className='md:pl-5 py-2 text-sm font-thin'
+                >
+                  {description}
+                </h3>
+              </div>
             </div>
            
-            <div className='md:ml-10 my-5 pr-5'>
+            <div className='md:ml-5 my-5 pr-5'>
               <BuyButton prod={prime} />
             </div>
+
           </div>
+        
         </div>
-        <div className="flex  px-5 md:flex-col my-5 justify-between items-center md:items-end">
-          <button className='font-bold text-white text-sm bg-green-600 py-3 px-5 md:mt-3 rounded-md'>
+        <div className="flex  px-5 lg:flex-col my-5 justify-between items-center lg:items-end">
+          <button className='font-bold text-white text-sm bg-green-600 py-3 px-5 lg:mt-3 rounded-md'>
             {category}
           </button>
           <Box

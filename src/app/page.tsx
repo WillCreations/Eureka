@@ -29,7 +29,7 @@ export default async function Home() {
           <Typo/>
         </div>
         <div className="w-full flex justify-end">
-          <div className=" w-60 hover:scale-105 h-60 overflow-hidden mt-14 md:mt-0 rounded-md">
+          <div className=" w-60 hover:scale-105 hover:-rotate-6 transition h-60 overflow-hidden mt-14 md:mt-0 rounded-md">
             <Image
               src="/prince.jpg"
               width={500}
