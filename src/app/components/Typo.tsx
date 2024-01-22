@@ -7,9 +7,9 @@ const Typo = () => {
 
     useEffect(() => {
         var typed = new Typed(".text", {
-            strings: ['Fullstack ^1000 Developer', 'Brand ^1000 Strategist', 'Graphic ^1000 Designer'],
-            typeSpeed: 200,
-            backSpeed: 200,
+            strings: ['Full ^1000 Stack ^1000 Developer', 'Brand ^1000 Strategist', 'Graphic ^1000 Designer'],
+            typeSpeed: 150,
+            backSpeed: 150,
             backDelay: 1000,
             loop: true,
             fadeOut: false,
