@@ -38,8 +38,8 @@ const Multipier = ({ SingleProd, Quant, disabler }) => {
 
 
   return (
-      <div className='flex flex-col justify-between mt-5'>
-          <div>
+      <div className='flex flex-col justify-between '>
+          <div className='flex items-center '>
               <button disabled={!disabler && true}  className='btn btn-success rounded-l-btn ' onClick={() => { HandleReducer() }}>-</button>
               <span className="px-5">{stock}</span>
               <button disabled={!disabler && true} className='btn btn-success rounded-r-btn' onClick={() => { HandleIncrease() }}>+</button>
