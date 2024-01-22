@@ -7,6 +7,7 @@ import styles from "@/app/Styles/index.module.css"
 import Typo from '@/app/components/Typo'
 import Slider from "./components/Slider"
 import Box from "@/app/components/Box"
+import Image from "next/image"
 
 
 
@@ -20,11 +21,24 @@ export default async function Home() {
   return (
    
     <div className="pt-32">
-      <div className="bg-blue-500 text-white px-10 md:px-28 py-20 h-auto">
-        <h1 className="text-4xl font-extrabold">Welcome to Eureka Tech</h1>
-        <p className="mt-2">Start building your Dream Brand Today!</p>
-        <p>My name is Princewill Igwe.</p>
-        <Typo/>
+      <div className="bg-blue-500 text-white px-10 md:px-28 py-20 h-auto md:grid grid-cols-2">
+        <div>
+          <h1 className="text-4xl font-extrabold">Welcome to Eureka Tech</h1>
+          <p className="mt-2">Start building your Dream Brand Today!</p>
+          <p>My name is Princewill Igwe.</p>
+          <Typo/>
+        </div>
+        <div className="w-full flex justify-end">
+          <div className=" w-60 h-60 overflow-hidden rounded-md">
+            <Image
+          
+              src="/prince.jpg"
+              width={500}
+              height={500}
+              alt="Igwe Princewill"
+            />
+          </div>
+        </div>
       </div>
       <Slider Prod={Prod} />
       <div
