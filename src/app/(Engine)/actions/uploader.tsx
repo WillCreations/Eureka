@@ -10,18 +10,18 @@ export const uploader = async (formData) => {
     "use server"
     const { image } = Object.fromEntries(formData)
 
-  console.log(formData, "frotmatter")
+//   console.log(formData, "frotmatter")
 
-        console.log(image, "na me wan enter")
+//         console.log(image, "na me wan enter")
 
     try {
 
         const storage = multer.diskStorage({
-            destination: (req, image, cb) => {
+            destination: (_, image, cb) => {
                 cb(null, "public") 
             },
 
-            filename: (req, image, cb) =>  {
+            filename: (_, image, cb) =>  {
                 console.log(image, "vivi imagination")
                 cb(null, Date.now() + path.extname(image.name))
             }

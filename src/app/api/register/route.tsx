@@ -6,6 +6,7 @@ import bcrypt from "bcrypt"
 
 export async function POST(request) {
     connectToDb()
+    console.log(request, "request")
     const body = await request.json();
     const { name, email, password } = body.data;
     console.log(body)

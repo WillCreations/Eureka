@@ -32,7 +32,7 @@ const ProductDetails = async ({ params }) => {
  
 
   return (
-    <div className="h-full m-1 px-10 pt-32 pb-96">
+    <div className="h-full m-1 md:px-10  px-2 pt-32 pb-96">
       <div className='flex justify-between items-center rounded-full text-xl py-2 bg-gray-800 text-white px-10' >
         <h2>ProductDetails</h2>
         <div>
@@ -46,7 +46,7 @@ const ProductDetails = async ({ params }) => {
           }
         </div>
       </div>
-      <div className="flex flex-col lg:flex-row md:justify-between bg-white rounded-md px-5 my-5 text-black">
+      <div className="flex flex-col lg:flex-row md:justify-between bg-white rounded-md px-2 my-5 text-black">
         <div className="flex flex-col md:flex-row md:items-start ">
           <div className="sm:flex justify-center md:flex-2 mt-5  md:mt-10 ">
             <div className=" relative rounded-md w-full shadow-2xl overflow-hidden h-auto sm:h-60 sm:w-60 ">

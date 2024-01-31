@@ -25,8 +25,8 @@ export const addProduct = async (formData) => {
         console.log('loader', cloudinary.uploader);
         
         (async function Run() {
-            // const result = await cloudinary.uploader.upload(image)
-            // console.log('result', result.secure_url)
+            const result = await cloudinary.uploader.upload(image)
+            console.log('result', result.secure_url)
 
 
         const product = new Product({
@@ -36,8 +36,7 @@ export const addProduct = async (formData) => {
             description,
             slug,
             image,
-            // alt_image: result.secure_url,
-            alt_image: image,
+            alt_image: result.secure_url,
             stock
         });
 

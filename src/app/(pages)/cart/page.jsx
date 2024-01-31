@@ -104,56 +104,23 @@ const Cart = () => {
   return (
     <div className=" mx-6 pt-32">
       <div className="flex flex-col w-full">
-        <div className="flex mt-10 justify-between items-start">
-          <h1 className="mx-5 text-2xl">Shopping Cart</h1>
-          <h1 className="mx-5 bg-white px-5 text-black py-2 rounded-md ">
-            Sub-Total:
-            <span className=" text-2xl text-green-700 font-extrabold">
-              {" "}
+        <div className="flex mt-10 md:mx-5 justify-between items-start">
+          <h1 className=" hidden md:block  text-2xl">Shopping Cart</h1>
+          <h1 className="  w-full md:w-40 bg-white px-2 text-black py-2 rounded-md ">
+            <span className=" block text-center text-2xl text-green-700 font-extrabold">
               {total}
-            </span>{" "}
+            </span>
+            <p className="text-center">Sub Total</p>
           </h1>
-        </div>
-        <div className="flex mt-5 flex-col justify-start items-Start mx-5">
-          <button
-            className="btn btn-ghost "
-            // onClick={() => {
-            //   handleFlutterPayment({
-            //       callback: (response) => {
-            //       console.log(response);
-            //       if (response.status === "completed") {
-            //          router.push("/success")
-            //        }
-            //       closePaymentModal() // this will close the modal programmatically
-            //     },
-            //     onClose: () => {
-            //       console.log("closed")
-            //     },
-            //   })
-            // }}
-          >
-            Pay with Flutterwave!
-          </button>
-
-          <button
-            className="btn btn-ghost"
-            onClick={() => {
-              startSpinner(), HandleCheckout();
-            }}
-          >
-            {showSpinner ? (
-              <span className="animate-spin  mr-2">
-                <AiOutlineLoading3Quarters />
-              </span>
-            ) : null}
-            Checkout
-          </button>
         </div>
       </div>
       <div className="w-full grid md:grid-cols-2">
         {produce.map((prod) => {
           return (
-            <div className="m-5 bg-gray-900 rounded-md px-5" key={prod._id}>
+            <div
+              className="my-5 md:mx-5 bg-gray-900 rounded-md px-5"
+              key={prod._id}
+            >
               <div className="my-5  flex justify-between items-center">
                 <div className="grid grid-cols-3 w-full">
                   <div className="my-5 mr-10 col-span-1">
@@ -195,6 +162,41 @@ const Cart = () => {
             </div>
           );
         })}
+      </div>
+      <div className="flex mt-5 flex-col justify-start items-Start mx-5">
+        <button
+          className="btn btn-ghost "
+          // onClick={() => {
+          //   handleFlutterPayment({
+          //       callback: (response) => {
+          //       console.log(response);
+          //       if (response.status === "completed") {
+          //          router.push("/success")
+          //        }
+          //       closePaymentModal() // this will close the modal programmatically
+          //     },
+          //     onClose: () => {
+          //       console.log("closed")
+          //     },
+          //   })
+          // }}
+        >
+          Pay with Flutterwave!
+        </button>
+
+        <button
+          className="btn btn-ghost"
+          onClick={() => {
+            startSpinner(), HandleCheckout();
+          }}
+        >
+          {showSpinner ? (
+            <span className="animate-spin  mr-2">
+              <AiOutlineLoading3Quarters />
+            </span>
+          ) : null}
+          Checkout
+        </button>
       </div>
     </div>
   );

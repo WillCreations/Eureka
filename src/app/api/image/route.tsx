@@ -1,34 +1,29 @@
-import multer from "multer"
+import { writeFile } from "fs/promises"
+import { join } from "path"
 import path from "path"
 import { NextResponse } from "next/server"
 
-const storage = multer.diskStorage({
-    destination: (request, cb) => {
-        cb(null, "public") 
-    },
 
-    filename: (request, file, cb) => {
-        console.log(file)
-        cb(null, Date.now() + path.extname(file.originalname))
-    }
-})
-
-const upload = multer({storage: storage })
 
 export async function POST(request) {
-    console.log(request, " reques sta sta sta ")
-    if (request.method === 'POST') {
-        const body= await request.json()
-        console.log(body, "gbe bodie")
-        upload.single("image")(request, (err) => {
-            if (err) {
-                return new NextResponse("failed to upload", { status: 500 })
-            }
-            return new NextResponse(JSON.stringify({ file: request.file }), { status: 200 })
-        
 
-    
-        })
+    if (request.method === 'POST') {
+        const body = await request.formData()
+        const image = body.get("image")
+        console.log(image, "gbe bodie")
+        console.log(request.file, "Files straight up")
+        const newName = "avatar/" + Date.now() + path.extname(image.name)
+        const pathname = join("public", newName)
+
+        const imagebyte = await image.arrayBuffer() 
+        console.log(imagebyte, "imagebyte")
+        const buffer = Buffer.from(imagebyte)
+        console.log(buffer, " buffer")
+        await writeFile(pathname, buffer)
+
+        console.log(pathname, "path of upload")
+        return new NextResponse( buffer, { status: 200 })
+
     }
 }
 
