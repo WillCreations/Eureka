@@ -6,20 +6,15 @@ import Reset from '@/app/components/Reset';
 import Recovered from '@/app/components/Recovered';
 import {ForgotProvider} from '@/contextProvider/Recovery';
 import RecoveryContext from "@/contextProvider/Recovery"
- 
-
-
-
-
 
 
 const Forgot = () => {
 
     const Navigator = () => {
     const Contex = useContext(RecoveryContext)
-    const {page} = Contex
+    const {page, setEmail} = Contex
 
-        if (page === "Login") return <Login />;
+        if (page === "Login") return <Login setEmail={setEmail} />;
         if (page === "otp") return <OTPInput />;
         if (page === "Reset") return <Reset/>;
         return <Recovered/> 
@@ -27,9 +22,11 @@ const Forgot = () => {
     }
 
     return ( 
-   <ForgotProvider>
-    <Navigator/>
-    </ForgotProvider >
+        <div className='pt-32'>
+        <ForgotProvider>
+            <Navigator/>
+        </ForgotProvider >
+        </div>
     )
 }
 

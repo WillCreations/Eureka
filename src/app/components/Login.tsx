@@ -7,7 +7,7 @@ import { signIn, getProviders, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import  RecoveryContext from '@/contextProvider/Recovery'
 
-const Login = () => {
+const Login = ({setEmail}) => {
     const router = useRouter();
     const Provider = getProviders()
     const [show, setShow] = useState(false)
@@ -15,7 +15,7 @@ const Login = () => {
     const [success, setSuccess] = useState(false)
     const [pass, setPass] = useState("password")
     const { data: session } = useSession()
-    const { setPage, setOtp} = useContext(RecoveryContext)
+    const { setPage, setOtp } = useContext(RecoveryContext)
     const [data, setData] = useState({
         email: "",
         password:""
@@ -55,6 +55,7 @@ const Login = () => {
     const SendOtp = async () => {
         const OTP = Math.floor(Math.random() * 9000 + 1000)
         setOtp(OTP)
+        setEmail(data.email)
         const response = await fetch('/api/recovery', {
             method: "POST",
             body:JSON.stringify({
@@ -64,11 +65,10 @@ const Login = () => {
         })
        
         setPage((prev) => { return "otp"; })
-        
-        
-        
-     
+ 
     }
+
+
   return (
       <div className='flex  justify-center'>
           <div className='w-64 my-5'>

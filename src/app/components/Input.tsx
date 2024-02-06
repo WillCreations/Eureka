@@ -8,7 +8,11 @@ const Input = ({setInput, input, name}) => {
     }
 
   return (
-      <input className='mx-2 rounded-md w-full py-1 px-3' name={name} type="text"  onChange={ HandleChange} />
+    <input className='rounded-md w-full h-10 py-1 text-center px-3'
+      name={name}
+      type="text"
+      onChange={HandleChange}
+    />
   )
 }
 

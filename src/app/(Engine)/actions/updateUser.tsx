@@ -7,7 +7,7 @@ import { NextResponse } from 'next/server';
 
 export const updateUser = async (formData) => {
     "use server"
-    const { id, username, email, phone, address, picture, password } =
+    const { id, username, email, phone, address, picture, password, password2 } =
        formData;
 
         console.log(username, "na me wan enter")
@@ -16,6 +16,11 @@ export const updateUser = async (formData) => {
 
         connectToDb()
         console.log(password, "password")
+        // if (password2) {
+        //     if (password !== password2) {
+        //         throw new Error("passwords don't match")
+        //     }
+        // }
         
 
         if (password) {
