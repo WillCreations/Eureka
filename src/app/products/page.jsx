@@ -58,9 +58,9 @@ const Products = ({ searchParams }) => {
   };
 
   return (
-    <div>
+    <div className="min-h-screen">
       <div className="hidden md:block">
-        <div className="mx-10 md:mx-28 flex justify-between items-center pt-32">
+        <div className="mx-10 md:mx-10 flex justify-between items-center pt-32">
           <h1 className=" text-2xl font-extrabold text-green-500 flex-1">
             Products
           </h1>

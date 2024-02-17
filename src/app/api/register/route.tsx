@@ -6,7 +6,7 @@ import bcrypt from "bcrypt"
 
 export async function POST(request) {
     connectToDb()
-    console.log(request, "request")
+    
     const body = await request.json();
     const { name, email, password } = body.data;
     console.log(body)
@@ -20,7 +20,7 @@ export async function POST(request) {
         email,
     })
     
-    console.log(userExists)
+    
 
            
     if (!userExists) {
@@ -36,7 +36,8 @@ export async function POST(request) {
         console.log(newuser, "newuser")
          return new NextResponse(JSON.stringify(newuser))
     } else {
-        return new NextResponse("user alraedy exists", {status: 400})
+        console.log(userExists.email)
+        return new NextResponse( JSON.stringify({error: "email already exists"}), {status: 400})
     }
     
 

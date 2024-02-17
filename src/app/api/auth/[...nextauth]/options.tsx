@@ -31,28 +31,26 @@ export const options = {
                 const user = await User.findOne({
                    email: credentials?.email
                 })
-                console.log(user, " user in credential auth")
+                console.log(user.name, " found")
            
                    if (!user) {
-                    console.log("User dosen't exist")
-                    return null
-                    
+                       console.log("User dosen't exist")
+                       return null;   
                 };
                  
                 const hashedPassword = await bcrypt.compare(credentials?.password, user.password)  
                 
-                   console.log(hashedPassword, " hashed")
+                   console.log(hashedPassword, "password")
 
                    if (!hashedPassword) {
-                       console.log("Password incorrect")
-                    return null
-                    
+                       console.log( "password incorrect")
+                       return null;
                    }
 
                    console.log("correct! i dey inside")
                    return user;
                } catch (error) {
-                   console.log("server error", { status: 500 })
+                   console.log( "server error",  { status: 500 })
                }
                 }
             }),
@@ -77,9 +75,17 @@ export const options = {
 
            
             if (user) {
-                console.log(user, " callbaack user")  
-                token.phone = user.phone  
-                token.id = user._id.toString()
+                console.log(user.name, " callbaack user") 
+               
+                if (user.phone) {
+                    token.phone = user.phone
+                }
+                   
+                if (user._id) {
+                    token.id = user._id.toString()
+                }
+                  
+                
             }
              
             return token
@@ -87,9 +93,12 @@ export const options = {
         },
 
         async session({ session, token }) {
+
+    
             if (token) {
                 session.user.phone = token.phone
                 session.user.id = token.id
+                
             }
 
             return session

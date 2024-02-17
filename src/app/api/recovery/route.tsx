@@ -1,6 +1,9 @@
 
 import { NextResponse } from "next/server"
 import nodemailer from 'nodemailer'
+import { connectToDb } from "@/app/(Engine)/mongodb/database";
+import User from "@/app/(Engine)/models/user";
+
 
 const email_Config = {
     service: 'gmail',
@@ -39,6 +42,16 @@ const sendEmail = async (body) => {
         console.log(error)
         throw new Error("email Failed")
     }
+}
+
+
+export async function GET( request ) {
+    const {searchParams} = new URL(request.url)
+    const email = searchParams.get("search")
+    await connectToDb()
+    const user = await User.findOne({ email: email })
+    return new NextResponse(JSON.stringify(user))
+    
 }
 
 export async function POST(request) {

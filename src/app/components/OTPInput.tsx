@@ -8,7 +8,7 @@ const OTPInput = () => {
     const {email,  otp, setPage, setOtp } = useContext(RecoveryContext)
     const [timer, setTimer] = useState(60)
     const [disable, setDisable] = useState(true)
-    const [border, setBorder] = useState("green-500")
+    const [border, setBorder] = useState("border-solid border-2 border-gray-100")
     const [OTPInput, setOTPInput] = useState({
         one: "",
         two: "",
@@ -29,7 +29,6 @@ const OTPInput = () => {
                 if (prevTimer <= 1) setDisable(false);
                 if (prevTimer <= 0) return prevTimer;
                 return prevTimer - 1;
-
             })
         }, 1000)
     }, [disable])
@@ -39,9 +38,10 @@ const OTPInput = () => {
         e.preventDefault()
 
         if (otp.toString() === NewOTP) {
-          setPage("Reset")  
+            setBorder("border-solid border-2 border-green-500")
+          setTimeout(() => {setPage("Reset")}, 3000)  
         } else {
-            setBorder("red-900")
+            setBorder("border-solid border-2 border-red-900")
         }
        
     }
@@ -50,7 +50,11 @@ const OTPInput = () => {
     const SendOtp = async () => {
         const OTP = Math.floor(Math.random() * 9000 + 1000)
         setOtp(OTP)
-        setDisable(true)
+        setTimer(60)
+        setDisable((prev) => {
+          if (prev === false ) return !prev
+        })
+        
         console.log(email, "maillllll")
         
         const response = await fetch('/api/recovery', {
@@ -72,7 +76,7 @@ const OTPInput = () => {
   
     return (
     <div  className='flex justify-center'>
-        <div className='flex flex-col py-5 bg-white w-1/2 rounded-md justify-center items-center'>
+        <div className='flex flex-col py-5 px-5 bg-white w-1/2 rounded-md justify-center items-center'>
                 <h1
                     className='text-black text-2xl font-semibold'
                 >
@@ -82,25 +86,24 @@ const OTPInput = () => {
                     onSubmit={CrossCheck}
                     className='flex  flex-col items-center'
                 >
-                    <div className='flex m-5 '>
+                    <div className='flex my-5 '>
                   {
                       ["one", "two", "three", "four"].map((name) => {
                           return (
-                              <div className={`p-1 mx-1 rounded-md border-solid border-2 border-${border}`} key={name}>
+                              <div className={`p-1 mx-1 rounded-md ${border}`} key={name}>
                                   <Input setInput={setOTPInput} input={OTPInput}  name={name} />
                               </div>
                           )
                       
                       })
                   }
-            </div>
+                    </div>
                     <button
-                        
-                        className="my-2 py-1 px-3 rounded-md bg-green-500 text-black"
+                        className="my-2 py-3 px-5 w-full rounded-md  bg-green-500 text-black"
                     >
                         Confirm
                     </button>
-          </form>
+                </form>
 
                 <button
                     disabled={disable}

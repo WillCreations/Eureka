@@ -2,7 +2,9 @@ import React from 'react'
 
 const loading = () => {
   return (
-      <div className='text-5xl pt-32'>loading...</div>
+    <div className='min-h-screen flex justify-center  pt-32'>
+      <h1 className='text-5xl'>loading...</h1>
+    </div>
   )
 }
 
