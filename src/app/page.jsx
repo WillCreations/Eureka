@@ -17,7 +17,7 @@ export default async function Home() {
 
   const session = await getServerSession(options);
   return (
-    <div className="pt-32">
+    <div className="min-h-screen">
       <div className="bg-blue-500 text-white px-10 md:px-28 py-20 h-auto md:grid grid-cols-2">
         <div className="flex flex-col justify-between">
           <div>

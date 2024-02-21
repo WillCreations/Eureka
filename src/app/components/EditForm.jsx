@@ -44,7 +44,7 @@ const EditForm = ({ Updater, Parameter, Prod }) => {
 
   return (
     <div className="flex flex-col w-full items-center justify-start">
-      <div className="my-5">
+      <div className="my-5 flex justify-between  rounded-md  w-4/5 text-xl py-2 bg-gray-800 text-white px-10">
         <p className="text-white">Update Product</p>
       </div>
 

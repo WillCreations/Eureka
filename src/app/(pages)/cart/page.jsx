@@ -18,6 +18,7 @@ const Cart = () => {
   const router = useRouter();
   const { data: session } = useSession();
   const [showSpinner, setShowSpinner] = useState(false);
+  const [checkout, setCheckout] = useState("text-green-500");
 
   const HandleCheckout = async () => {
     const stripe = await getStripe();
@@ -74,8 +75,10 @@ const Cart = () => {
 
   const startSpinner = () => {
     setShowSpinner(true);
+    setCheckout("bg-green-500 text-black");
     setTimeout(() => {
       setShowSpinner(false);
+      setCheckout("text-green-500");
     }, 30000); // Hides the spinner after 2 seconds (you can adjust this value)
   };
 
@@ -102,10 +105,12 @@ const Cart = () => {
   //  const handleFlutterPayment = useFlutterwave(config);
 
   return (
-    <div className=" mx-6 pt-32">
+    <div className=" mx-6">
       <div className="flex flex-col w-full">
-        <div className="flex mt-10 md:mx-5 justify-between items-start">
-          <h1 className=" hidden md:block  text-2xl">Shopping Cart</h1>
+        <div className="flex md:mx-5 justify-between items-center">
+          <h1 className=" hidden md:block  text-2xl font-extrabold text-green-500 flex-1">
+            Shopping Cart
+          </h1>
           <h1 className="  w-full md:w-40 bg-white px-2 text-black py-2 rounded-md ">
             <span className=" block text-center text-2xl text-green-700 font-extrabold">
               {total}
@@ -185,13 +190,13 @@ const Cart = () => {
         </button>
 
         <button
-          className="btn btn-ghost"
+          className={`hover:bg-green-500 mt-3 active:scale-95 active:bg-green-700 ${checkout} active:text-black flex items-center justify-center hover:text-black  transition-all w-full rounded-lg py-3  border-solid border-green-500 border-2`}
           onClick={() => {
             startSpinner(), HandleCheckout();
           }}
         >
           {showSpinner ? (
-            <span className="animate-spin  mr-2">
+            <span className={`animate-spin font-extrabold mr-2`}>
               <AiOutlineLoading3Quarters />
             </span>
           ) : null}

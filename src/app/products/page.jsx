@@ -6,6 +6,8 @@ import SearchBar from "@/app/components/SearchBar";
 import Card from "../components/Card";
 import Category from "@/app/components/Category";
 import AltCategory from "@/app/components/AltCategory";
+import { Suspense } from "react";
+import Loading from "@/app/loading";
 
 const Products = ({ searchParams }) => {
   const q = searchParams?.q || "";
@@ -13,6 +15,9 @@ const Products = ({ searchParams }) => {
   const [produce, setProduce] = useState([]);
 
   const Fetcher = async () => {
+    await new Promise((resolve) =>
+      setTimeout(resolve(console.log("load")), 10000)
+    );
     const response = await fetch("/api/products");
     const data = await response.json();
     setProduce(data);
@@ -60,7 +65,7 @@ const Products = ({ searchParams }) => {
   return (
     <div className="min-h-screen">
       <div className="hidden md:block">
-        <div className="mx-10 md:mx-10 flex justify-between items-center pt-32">
+        <div className="mx-10 md:mx-10 flex justify-between items-center ">
           <h1 className=" text-2xl font-extrabold text-green-500 flex-1">
             Products
           </h1>
@@ -69,29 +74,30 @@ const Products = ({ searchParams }) => {
         <Category {...Functions} />
       </div>
 
-      <div className="mx-10 md:hidden pt-32">
+      <div className="mx-10 md:hidden ">
         <SearchBar placeholder="Search Product..." />
         <AltCategory {...Functions} />
       </div>
-
-      <div className="mx-10 md:mx-28 grid gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {produce.map((Prod) => {
-          return (
-            <Card key={Prod._id} prod={Prod}>
-              <CartButton
-                SingleProd={Prod}
-                show={parallax.Bool(Prod._id) ? "remove" : "Add to Cart"}
-                AddHandler={HandleAdd}
-                colour={
-                  parallax.Bool(Prod._id)
-                    ? "bg-red-700"
-                    : "bg-yellow-500 text-black"
-                }
-              />
-            </Card>
-          );
-        })}
-      </div>
+      <Suspense fallback={<Loading />}>
+        <div className="mx-10 md:mx-28 grid gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {produce.map((Prod) => {
+            return (
+              <Card key={Prod._id} prod={Prod}>
+                <CartButton
+                  SingleProd={Prod}
+                  show={parallax.Bool(Prod._id) ? "remove" : "Add to Cart"}
+                  AddHandler={HandleAdd}
+                  colour={
+                    parallax.Bool(Prod._id)
+                      ? "bg-red-700"
+                      : "bg-yellow-500 text-black"
+                  }
+                />
+              </Card>
+            );
+          })}
+        </div>
+      </Suspense>
     </div>
   );
 };

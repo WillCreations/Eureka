@@ -42,6 +42,7 @@ const Navbar = () => {
   };
 
   const handleSignout = () => {
+    Toggler();
     signOut({ redirect: false });
     router.push("/");
   };
@@ -51,7 +52,7 @@ const Navbar = () => {
   console.log(session?.user.name, "user");
 
   return (
-    <div className="md:flex fixed top-0 left-0 z-10 w-full bg-black justify-between block md:py-8 md:items-Start  pb-0">
+    <div className="md:flex sticky top-0 left-0 z-10 w-full bg-black justify-between block md:py-8 md:items-Start  pb-0">
       <div className="flex sticky py-8 md:py-0 bg-black z-10 w-full md:w-fit justify-between items-center">
         <h1 className="mx-10 my-2 font-bold text-2xl text-blue-300">Eureka</h1>
 
@@ -120,7 +121,6 @@ const Navbar = () => {
             <li>
               <button
                 onClick={() => {
-                  Toggler;
                   handleSignout();
                 }}
                 className="text-green-500 hover:text-red-800 md:bg-green-500 md:hover:bg-red-700 md:hover:text-white md:text-white mx-10 md:mx-0 md:px-4 py-2 my-2  md:ml-4 rounded"

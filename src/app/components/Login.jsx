@@ -104,7 +104,7 @@ const Login = ({ setEmail }) => {
   };
 
   return (
-    <div className="flex w-screen justify-center">
+    <div className="flex w-screen justify-center items-center">
       <div className="w-2/3 md:w-2/5 my-5">
         <div className="my-5">
           <div className="my-5">
