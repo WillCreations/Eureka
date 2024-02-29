@@ -1,34 +1,29 @@
 import React from "react";
+import Image from "next/image";
 
 const Loading = () => {
   return (
     <div>
-      hello
-      {/* <div className="mx-10 md:mx-28 grid gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((p) => {
+      <div className="mx-10 md:mx-28 grid gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {[...Array(10)].map((p) => {
           return (
-            <div key={p} className="animate-pulse h-64 w-64 bg-gray-500">
-              <div className="w-full">
-                <Image
-                  style={{ objectFit: "cover" }}
-                  src="/avatar/avatar.svg"
-                  alt={prod.description}
-                  width={500}
-                  height={200}
-                />
-              </div>
-              <div className="flex flex-col p-5">
+            <div
+              key={p}
+              className="animate-pulse h-auto w-[400] rounded-md overflow-hidden bg-gray-600"
+            >
+              <div className="w-full h-64  rounded-md bg-gray-900 animate-pulse"></div>
+              <div className="p-5">
                 <div>
-                  <h2 className="w-[50%] bg-gray-900 animate-pulse h-20"></h2>
-                  <h2 className="w-full  bg-gray-900 animate-pulse h-10"></h2>
+                  <h2 className="w-[80%] h-10 rounded-md bg-gray-900 animate-pulse "></h2>
+                  <h2 className="w-[50%]  rounded-md bg-gray-900 animate-pulse mt-2 h-5"></h2>
                 </div>
 
-                <div className="flex justify-end mt-5">{children}</div>
+                <div className="flex justify-end rounded-md bg-gray-900 h-14 mt-5"></div>
               </div>
             </div>
           );
         })}
-      </div> */}
+      </div>
     </div>
   );
 };

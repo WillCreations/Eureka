@@ -10,7 +10,7 @@ const Input = ({setInput, input, name}) => {
   return (
     <input className='rounded-md w-full h-10 py-1 text-center px-3'
       name={name}
-      type="text"
+      type="number"
       onChange={HandleChange}
     />
   )

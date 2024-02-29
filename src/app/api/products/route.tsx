@@ -6,6 +6,7 @@ import Product from "../../(Engine)/models/productSchema"
 
 
 
+
 export const GET = async () => {
     try {
       console.log(Product)
@@ -15,4 +16,7 @@ export const GET = async () => {
   } catch (error) {
       return new NextResponse("Failed to fetch all Products ", {status: 500})
     }
+
 }
+
+

@@ -61,7 +61,7 @@ const Reset = () => {
 
   return (
     <div className="flex justify-center">
-      <div className="bg-white w-1/2 p-5 text-black rounded-md">
+      <div className="bg-white w-2/3 md:w-2/5 p-5 text-black rounded-md">
         <h1 className="text-2xl text-center font-extrabold my-3">Reset</h1>
 
         <form onSubmit={HandleSubmit}>
@@ -121,7 +121,9 @@ const Reset = () => {
                         {!show[p.name] ? <MdVisibility /> : <MdVisibilityOff />}
                       </span>
                     </div>
-                    <span className="text-red-700 hidden ">{p.error}</span>
+                    <span className="text-red-500 border-2 my-2 border-red-500 border-solid py-2 px-5 bg-red-300 rounded-md hidden ">
+                      {p.error}
+                    </span>
                   </div>
                 </div>
               );

@@ -46,6 +46,57 @@
 
 }
 
+
+.Service {
+    scale: .8;
+    opacity: 0;
+    animation-name: appear-pop;
+    animation-fill-mode: both;
+    animation-timing-function: ease-in-out;
+    animation-duration: 2s;
+    animation-timeline: view();
+    animation-range: 150px 450px;
+    animation-delay: 500ms;
+}
+@keyframes appear-pop {
+    
+        to {
+            scale: 1;
+            opacity: 1;
+        }
+}
+
+
+.SlideIn {
+    
+    
+    animation-name: slide-in;
+    animation-fill-mode: both;
+    animation-timing-function: linear;
+    animation-timeline: view();
+    animation-range: 100px 350px;
+    animation-delay: 500ms;
+
+}
+
+@keyframes slide-in {
+    from{
+        transform: translateX(-100%);
+        opacity: 0;
+       
+        filter: blur(50px);
+        
+    }
+
+    to {
+        transform: translateX(0%);
+        opacity: 1;
+        
+        filter: blur(0px);
+    }
+}
+
+
 .card{
     width: 250px;
     margin-right: 10px;

@@ -7,7 +7,7 @@ const Typo = () => {
 
     useEffect(() => {
         var typed = new Typed(".text", {
-            strings: ['Full ^1000 Stack ^1000 Developer', 'Brand ^1000 Strategist', 'Graphic ^1000 Designer'],
+            strings: ['Founder', 'Full ^1000 Stack ^1000 Developer', 'Brand ^1000 Strategist', 'Graphic ^1000 Designer'],
             typeSpeed: 150,
             backSpeed: 150,
             backDelay: 1000,
@@ -20,7 +20,7 @@ const Typo = () => {
 
   return (
       <div>
-          <p>I&apos;m a <span className="text text-green-300 font-extrabold text-2xl"></span></p>
+          <p>A <span className="text text-green-300 font-extrabold text-2xl"></span></p>
       </div>
   )
 }

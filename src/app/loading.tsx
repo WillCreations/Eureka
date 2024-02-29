@@ -1,12 +1,15 @@
-import React from 'react'
+import Loading from '@/app/components/Loading'
 
-const Loading = () => {
+
+const Load = () => {
   return (
+
+    // <Loading/>
     <div className='min-h-screen flex justify-center  pt-32'>
-      <h1 className='text-5xl'>loading...</h1>
+      <h1 className='text-5xl'>Loading...</h1>
       
     </div>
   )
 }
 
-export default Loading
+export default Load

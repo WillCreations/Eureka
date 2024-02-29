@@ -58,7 +58,7 @@ const Navbar = () => {
 
         <div
           onClick={Toggler}
-          className="md:hidden h-full flex items-center cursor-pointer mx-4 pr-10 text-2xl hover:text-blue-300 text-white relative"
+          className="md:hidden h-full flex items-center cursor-pointer mx-4 pr-10 text-2xl hover:text-white text-blue-300 relative"
         >
           {isOpen ? <IoClose /> : <FaBars />}
           {!session || Num === 0 ? null : (
@@ -80,7 +80,7 @@ const Navbar = () => {
           >
             <li
               onClick={Toggler}
-              className="mx-10 my-2 md:mx-6 active:text-blue-500 hover:text-blue-300"
+              className="mx-10 my-2 md:mx-6 active:text-blue-500 active:border-b-2 active:border-solid active:border-blue-500 hover:text-blue-300"
             >
               <Link href="/">Home </Link>
             </li>

@@ -76,7 +76,7 @@ const OTPInput = () => {
   
     return (
     <div  className='flex justify-center'>
-        <div className='flex flex-col py-5 px-5 bg-white w-1/2 rounded-md justify-center items-center'>
+        <div className='flex flex-col py-5 px-5 bg-white w-2/3 md:w-2/5 mx-5 my-auto rounded-md justify-center items-center'>
                 <h1
                     className='text-black text-2xl font-semibold'
                 >
