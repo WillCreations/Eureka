@@ -10,10 +10,40 @@ import Box from "@/app/components/Box";
 import Image from "next/image";
 import Link from "next/link";
 import Navbutton from "./components/Navbutton";
+import Slide from "@/app/components/Slide";
 
 export default async function Home() {
   await connectToDb();
-  const Prod = await Product.find();
+  const Prod = [
+    {
+      name: "package 1",
+      image: "/Package 01.png",
+      price: "$100",
+      category: "bronze",
+      description: "package 1 description",
+    },
+    {
+      name: "package 2",
+      image: "/Package 02.png",
+      price: "$200",
+      category: "silver",
+      description: "package 2 description",
+    },
+    {
+      name: "package 3",
+      image: "/Package 03.png",
+      price: "$300",
+      category: "gold",
+      description: "package 3 description",
+    },
+    {
+      name: "package 4",
+      image: "/Package 04.png",
+      price: "$400",
+      category: "platinum",
+      description: "package 4 description",
+    },
+  ];
 
   const session = await getServerSession(options);
   return (
@@ -115,6 +145,7 @@ export default async function Home() {
           })}
         </div>
       </div>
+      <Slide Prod={Prod} />
       <div className="my-5 px-10 md:px-28 mt-32">
         <h2 className="text-2xl my-5 font-semibold text-blue-300 text-center ">
           Why Choose us
