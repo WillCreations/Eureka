@@ -3,44 +3,16 @@
 import Uploader from "@/app/components/Uploader";
 import { useState } from "react";
 import Image from "next/image";
+import * as styles from "@/app/Styles/index.module.css";
 
-const EditForm = ({ Updater, Parameter, Prod }) => {
-  const [base, setBase] = useState("");
+const EditForm = ({ Updater, Parameter, Prod, url }) => {
   const { name, category, price, description, image, slug } = Prod;
-
-  const Loader = (e) => {
-    e.preventDefault();
-    console.log("hey");
-    const reader = new FileReader();
-    console.log(reader);
-    reader.readAsDataURL(e.target.files[0]);
-    reader.onload = () => {
-      console.log(reader.result, "result");
-      setBase(reader.result);
-    };
-  };
 
   const Netflix = async (formData) => {
     console.log(formData, "onSubmit");
-    const { id, name, category, price, description, slug } =
-      Object.fromEntries(formData);
 
-    console.log(slug, "slug in form prep");
-
-    const form = {
-      id,
-      name,
-      category,
-      price,
-      description,
-      slug,
-      image: base,
-    };
-
-    Updater(form);
+    Updater(formData);
   };
-
-  console.log(base, "base10 kor outside");
 
   return (
     <div className="flex flex-col w-full items-center justify-start">
@@ -51,18 +23,15 @@ const EditForm = ({ Updater, Parameter, Prod }) => {
       <div className="flex flex-col lg:flex-row justify-between my-5 bg-gray-900 py-5 px-10 mx-10 md:w-4/5 rounded-md">
         <div className="w-1/2 my-3 mr-10">
           <div className="mt-5 mr-14 rounded-md overflow-hidden w-full">
-            <Image
-              src={image}
-              alt={description}
-              width={400}
-              height={400}
-              objectFit="cover"
-            />
+            <Image src={image} alt={description} width={400} height={400} />
           </div>
         </div>
         <form className=" pb-5 w-full" action={Netflix}>
           <div className="my-5 w-full">
             <input className="p-5" type="hidden" name="id" value={Parameter} />
+          </div>
+          <div className="my-5 w-full">
+            <input className="p-5" type="hidden" name="url" value={url} />
           </div>
           {[
             { name: "name", place: name },
@@ -88,12 +57,19 @@ const EditForm = ({ Updater, Parameter, Prod }) => {
             <select
               id="cars"
               name="category"
-              className="block p-5 w-full rounded-md"
+              className={`block p-5 w-full relative rounded-md ${styles.drop}`}
             >
+              <option className="py-3 text-gray-600 font-bold ">
+                --select--
+              </option>
               {["Clothing", "Electronics", "Beauty", "Phone", "Kitchen"].map(
                 (selectItem) => {
                   return (
-                    <option value={selectItem} className="py-3 ">
+                    <option
+                      key={selectItem}
+                      value={selectItem}
+                      className="py-3 "
+                    >
                       {selectItem}
                     </option>
                   );
@@ -102,7 +78,7 @@ const EditForm = ({ Updater, Parameter, Prod }) => {
             </select>
           </div>
 
-          <Uploader imagine="image" Upload={Loader} image={base} />
+          <Uploader imagine="image" />
           <button className="float-right bg-green-500 my-2 text-white px-4 py-2 ml-4 rounded hover:bg-green-600">
             Update
           </button>

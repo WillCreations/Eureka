@@ -42,11 +42,17 @@ const productList = async ({ searchParams }) => {
                 <div className="flex mr-5 items-center">
                   <div className="mr-3 rounded-md overflow-hidden">
                     <Image
+                      style={{ objectFit: "cover" }}
                       width={50}
                       height={50}
                       objectFit="cover"
-                      src={prod.image}
-                      alt=""
+                      src={prod.alt_image ? prod.alt_image : prod.image}
+                      alt={prod.description}
+                      loading="lazy"
+                      placeholder="blur"
+                      blurDataURL={
+                        prod.alt_image ? prod.alt_image : "/avatar/avatar.svg"
+                      }
                     />
                   </div>
                   <Link href={`/products/${prod._id}`}>
@@ -55,6 +61,7 @@ const productList = async ({ searchParams }) => {
                   <h2>{prod.category}</h2>
                 </div>
                 <form action={deleteProd}>
+                  <input type="hidden" name="url" value={prod.image} />
                   <input type="hidden" name="id" value={prod._id.toString()} />
                   <button className="btn btn-warning">Delete</button>
                 </form>

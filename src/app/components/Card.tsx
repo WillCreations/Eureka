@@ -6,7 +6,7 @@ const Card = ({prod, children}) => {
      <div className='bg-green-700 w-full rounded-md overflow-hidden '
               key={prod._id}
             >
-              <div className='w-full h-[100] relative overflow-hidden'>
+              <div className='w-full h-[250px] bg-white relative overflow-hidden'>
                 <Link href={`/products/${prod._id}`}>
                 <Image
                   style={{ objectFit: "cover" }}
@@ -24,7 +24,7 @@ const Card = ({prod, children}) => {
               </div>
               <div className='flex flex-col p-5'>
               <div>
-                  <h2 className='text-2xl'>{prod.name}</h2>
+                  <h2 className='text-2xl'>{prod.name.slice(0, 15)}</h2>
                   <h2 >{prod.category}</h2>
               </div>
 

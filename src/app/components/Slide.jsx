@@ -1,30 +1,29 @@
 "use client";
 import * as styles from "@/app/Styles/index.module.css";
 import Image from "next/image";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 const Slide = ({ Prod }) => {
   const [butt, setButt] = useState();
+  const [active, setActive] = useState("");
   const containerRef = useRef();
   const thumbsRef = useRef();
 
   let Time = 2000;
   let runTime;
 
-  const changer = (type) => {
+  const changer = (type, active) => {
     const items = document.querySelectorAll(".selected");
     const thumbs = document.querySelectorAll(".thumb");
 
     if (type === "next") {
+      if (active) {
+        setActive("active");
+      }
       console.log("next");
       setButt(styles.next);
-      const contain = document.querySelector("Styles_items__0wFaC");
-      console.log(containerRef.current, "kpali");
-      console.log(thumbsRef.current, "kpali-2");
       containerRef.current.appendChild(items[0]);
       thumbsRef.current.appendChild(thumbs[0]);
-      console.log(items, " domitems");
-      console.log(thumbs, " domitems-2");
     } else {
       console.log("prev");
       setButt(styles.prev);
@@ -36,8 +35,37 @@ const Slide = ({ Prod }) => {
       setButt("");
     }, Time);
   };
+
+  const AutoSlider = () => {
+    const interval = setInterval(() => {
+      changer("next");
+      const nexter = document.getElementById("next");
+      console.log(nexter, "nexter");
+      if (nexter.classList.contains("active")) {
+        clearInterval(interval);
+      }
+    }, 10000);
+  };
+  useEffect(() => {
+    AutoSlider();
+  }, []);
+
+  // useEffect(() => {
+  //   const autoCheck = () => {
+  //     setTimeout(() => {
+  //       if (!butt) {
+  //         AutoSlider();
+  //       }
+  //     }, 30000);
+  //   };
+
+  //   autoCheck();
+  // }, [butt]);
+
   return (
-    <div className={`relative inset-0 ${butt} md:px-28 mt-32 `}>
+    <div
+      className={`relative inset-0 ${butt}  lg:px-28 mt-32 overflow-hidden `}
+    >
       <div className="text-2xl my-5 font-semibold text-blue-300 text-center">
         Our Products
       </div>
@@ -58,10 +86,19 @@ const Slide = ({ Prod }) => {
                   height={500}
                 />
                 <div className="absolute top-10 left-10">
-                  <h2>{p.name}</h2>
-                  <h2>{p.price}</h2>
-                  <h2>{p.category}</h2>
-                  <h2>{p.description}</h2>
+                  <h2 className="text-5xl capitalize font-black text-green-500 mb-3">
+                    {p.name}
+                  </h2>
+                  <h2 className="text-xl inline-block font-bold bg-white text-green-500 rounded-md  px-5 py-2">
+                    {p.price}
+                  </h2>
+
+                  <h2 className="text-xl bg-black py-2 px-2 h-28 mt-3 rounded-md shadow-md">
+                    <span className="text-3xl block font-black  capitalize text-yellow-500">
+                      {p.category}
+                    </span>
+                    {p.description}
+                  </h2>
                 </div>
               </div>
             </div>
@@ -112,21 +149,22 @@ const Slide = ({ Prod }) => {
         })}
       </div>
       <div
-        className={`${styles.arrow} absolute z-[50] flex gap-2 items-center left-28 bottom-10`}
+        className={`${styles.arrow} absolute z-[50] flex gap-2 items-center left-[9.5rem] bottom-10`}
       >
         <div
           onClick={() => {
             changer("prev");
           }}
-          className="bg-black px-5 py-2 cursor-pointer rounded-sm"
+          className="bg-black px-5  arrow-next py-2 cursor-pointer rounded-sm"
         >
           Prev
         </div>
         <div
           onClick={() => {
-            changer("next");
+            changer("next", true);
           }}
-          className="bg-black px-5 py-2 cursor-pointer rounded-sm"
+          id="next"
+          className={`bg-black px-5 py-2 ${active} cursor-pointer rounded-sm`}
         >
           Next
         </div>

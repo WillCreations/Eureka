@@ -19,6 +19,7 @@ const update = async ({ params }) => {
             Updater={updateProduct}
             Parameter={params.prodId}
             Prod={format}
+            url={image}
         />
 
     )

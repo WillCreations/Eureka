@@ -4,8 +4,10 @@ import Product from "../../(Engine)/models/productSchema";
 import Link from 'next/link'
 import { options } from "@/app/api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
-import Image from "next/image"
-import BuyButton from "@/app/components/BuyButton"
+import Image from "next/image";
+import BuyButton from "@/app/components/BuyButton";
+import CompGrid from"@/app/components/CompGrid"
+
 
 
 
@@ -14,8 +16,12 @@ const ProductDetails = async ({ params }) => {
   const session = await getServerSession(options)
   await connectToDb();
   const cluster = await Product.findOne({ _id: Object(params.prodId) })
+  
   const { _id, name, description, category, price, image, stock } = cluster
-
+  const cate = await Product.find({ category: category })
+  const catego = cate.filter((cat) => {return cat._id !== _id })
+  console.log("thiscate: ", catego.length)
+  console.log("products in this category: ", cate.length)
   const prime = [
     {
       _id: _id.toString(),
@@ -27,8 +33,14 @@ const ProductDetails = async ({ params }) => {
       stock
     }
   ]
+// const arrayone = [...cate]
+//   const transCluster = { ...cluster }
+   
+const arrayone = JSON.stringify(cate)
+  const transCluster = JSON.stringify(cluster)
 
-
+  console.log("arrayone: ", arrayone)
+  console.log("transCluster: ",  transCluster)
  
 
   return (
@@ -95,6 +107,8 @@ const ProductDetails = async ({ params }) => {
           />
         </div>
       </div>
+
+      <CompGrid prodo={arrayone} cluster={transCluster} />
      
     </div>
   )

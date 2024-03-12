@@ -2,54 +2,35 @@
 import Uploader from "@/app/components/Uploader";
 import { useState, useEffect } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { BsFillCaretDownFill } from "react-icons/bs";
+import * as styles from "@/app/Styles/index.module.css";
 
 const ProductForm = ({ Action, button, count }) => {
-  const [base64, setBase64] = useState();
   const [isLoading, setIsLoading] = useState(false);
-
-  const Loader = (e) => {
-    e.preventDefault();
-    console.log("hey");
-    const reader = new FileReader();
-    console.log(reader);
-    reader.readAsDataURL(e.target.files[0]);
-    reader.onload = () => {
-      console.log(reader.result, "result");
-      setBase64(reader.result);
-    };
-  };
+  // const [error, setError] = useState("");
 
   useEffect(() => {
     setIsLoading(false);
   }, [count]);
 
   const Netflix = async (formData) => {
-    setIsLoading(true);
     try {
-      console.log(formData, "onSubmit");
-      const { name, category, price, description, slug } =
-        Object.fromEntries(formData);
-
-      const form = {
-        name,
-        category,
-        price,
-        description,
-        slug,
-        image: base64,
-        stock: 1,
-      };
-
-      Action(form);
+      Action(formData);
     } catch (error) {
       setIsLoading(false);
-      console.log(error);
+      // setError(error.message);
+      console.log("error: ", error);
     }
+  };
+
+  const Drop = () => {
+    const dropper = document.querySelector("select span");
+    dropper.style.rotate = "90degree";
   };
 
   return (
     <form className="my-5 pb-5" action={Netflix}>
-      {["name", "description", "category", "price", "slug"].map((one) => {
+      {["name", "description", "price", "slug"].map((one) => {
         return (
           <div className="my-5 " key={one}>
             <label className="capitalize">{one}</label>
@@ -62,8 +43,33 @@ const ProductForm = ({ Action, button, count }) => {
           </div>
         );
       })}
+      <div className="relative">
+        <label>Category</label>
+        <select
+          id="cars"
+          name="category"
+          onClick={() => {
+            Drop();
+          }}
+          className={`block p-5 w-full relative rounded-md ${styles.drop}`}
+        >
+          <option className="py-3 font-bold ">--select--</option>
+          {["Clothing", "Electronics", "Beauty", "Phone", "Kitchen"].map(
+            (selectItem) => {
+              return (
+                <option key={selectItem} value={selectItem} className="py-3 ">
+                  {selectItem}
+                </option>
+              );
+            }
+          )}
+          <span className="absolute text-white top-50 right-0">
+            {<BsFillCaretDownFill />}
+          </span>
+        </select>
+      </div>
 
-      <Uploader imagine="image" Upload={Loader} image={base64} />
+      <Uploader imagine="image" />
       <button className="flex items-center float-right bg-green-500 my-2 text-white px-10 py-3 ml-4 rounded hover:bg-green-600">
         {isLoading && (
           <div className="mr-2 animate-spin">
@@ -72,6 +78,7 @@ const ProductForm = ({ Action, button, count }) => {
         )}
         {button}
       </button>
+      {/* <div>{error}</div> */}
     </form>
   );
 };

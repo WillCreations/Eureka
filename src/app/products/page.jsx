@@ -54,7 +54,20 @@ const Products = ({ searchParams }) => {
           <Loading />
         </Grid>
       </Suspense>
-      <div className="fixed bg-green-500 bottom-1 right-1 ">whatsapp</div>
+      <div className="fixed bg-yellow-500 text-black bottom-20 rounded-full px-5 py-3 right-10 hover:bg-black hover:text-yellow-500 transition cursor-pointer ">
+        w
+      </div>
+      <div
+        onClick={() => {
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+          });
+        }}
+        className="fixed bg-green-500 text-black bottom-5 rounded-full px-5 py-3 right-10 hover:bottom-3 active:bottom-5 transition cursor-pointer "
+      >
+        x
+      </div>
     </div>
   );
 };

@@ -11,6 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbutton from "./components/Navbutton";
 import Slide from "@/app/components/Slide";
+import Round from "@/app/components/Round";
 
 export default async function Home() {
   await connectToDb();
@@ -90,7 +91,11 @@ export default async function Home() {
           </Link>
         </div>
       </div>
-
+      <div className="flex justify-center my-28 items-center">
+        {[25, 50, 60, 80, 90, 100].map((p) => {
+          return <Round key={p} perc={p} />;
+        })}
+      </div>
       <div className="my-5 px-10 md:px-28"></div>
       <div className={`px-10 md:px-28 mt-32`}>
         <h2 className="text-2xl my-5 font-semibold text-blue-300 text-center">

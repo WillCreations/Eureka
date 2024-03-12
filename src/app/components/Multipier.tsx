@@ -40,11 +40,11 @@ const Multipier = ({ SingleProd, Quant, disabler }) => {
   return (
       <div className='flex flex-col justify-between '>
           <div className='flex items-center '>
-              <button disabled={!disabler && true}  className='btn btn-success rounded-l-btn ' onClick={() => { HandleReducer() }}>-</button>
+              <button disabled={!disabler && true}  className="bg-yellow-500 text-black px-5 py-3 disabled:bg-gray-200 disabled:text-gray-300  rounded-l-btn" onClick={() => { HandleReducer() }}>-</button>
               <span className="px-5">{stock}</span>
-              <button disabled={!disabler && true} className='btn btn-success rounded-r-btn' onClick={() => { HandleIncrease() }}>+</button>
+              <button disabled={!disabler && true} className="bg-yellow-500 text-black px-5 py-3 disabled:bg-gray-200 disabled:text-gray-300   rounded-r-btn" onClick={() => { HandleIncrease() }}>+</button>
           </div>
-          <div  className='text-2xl mt-5'>Sum: ${feedback}</div>
+          <div  className='text-xl mt-5'>Sum: <span className="text-green-500  text-2xl font-bold">${feedback}</span></div>
           
     </div>
   )

@@ -15,6 +15,12 @@
     animation-play-state: paused;
 }
 
+.drop{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+
+}
 
 .slide2 {
     border: top 100px;
@@ -265,14 +271,31 @@ border-radius: 0;}
     
 }
 
-/* .prev .thumbnails {
-    transform: translateX(7rem);
-    animation: transformThumb .5s linear 1 forwards
+.RoundContainer{
+position:  relative;
 }
 
-@keyframes transformThumb {
-    to {
-        transform: translateX(0)
+.RoundContainer svg circle{
+    fill: none;
+    stroke-dasharray: 322;
+    stroke-width: 15px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    animation: growBorder 3s linear  forwards
+  
+}
+
+.RoundContainer svg{
+  position: absolute;
+  top: 0;
+  left:0;
+    
+}
+
+/* @keyframes growBorder {
+    to{
+       stroke: rgb(34 197 94);
+    
     }
 } */
 
