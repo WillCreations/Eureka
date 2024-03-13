@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const portfolio = () => {
   return (
-    <div className="min-h-screen my-5 px-10 md:px-28">
+    <div className="min-h-screen my-5 px-10 md:px-28 text-white">
       <div className="grid md:grid-cols-2 mt-5">
         <div>
           <h1 className="Header">About Me</h1>

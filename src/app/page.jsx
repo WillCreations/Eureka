@@ -99,9 +99,13 @@ export default async function Home() {
           </Link>
         </div>
       </div>
-      <div className="flex justify-center my-28 items-center">
+      <div className="mx-10 md:mx-28 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 my-28 ">
         {[25, 50, 60, 80, 90, 100].map((p) => {
-          return <Round key={p} perc={p} />;
+          return (
+            <div key={p} className="flex justify-center items-center">
+              <Round perc={p} />
+            </div>
+          );
         })}
       </div>
       <div className="my-5 px-10 md:px-28"></div>

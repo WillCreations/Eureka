@@ -20,7 +20,7 @@ const Profile = async ({ params }) => {
   console.log(session, "session in user details page");
 
   return (
-    <div className="mx-10 min-h-screen">
+    <div className="mx-10 min-h-screen text-white">
       <div className="flex justify-between items-center rounded-md text-xl py-2 bg-gray-800 text-white px-10">
         <p>Profile</p>
       </div>

@@ -33,7 +33,7 @@ const Products = ({ searchParams }) => {
     Fetcher: Fetcher,
   };
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen text-white">
       <div className="hidden md:block">
         <div className="mx-10 md:mx-10 flex justify-between items-center ">
           <h1 className=" text-2xl font-extrabold text-green-500 flex-1">
