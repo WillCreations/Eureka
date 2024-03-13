@@ -9,7 +9,7 @@ const update = async ({ params }) => {
     
     connectToDb()
     const cluster = await Product.findById(params.prodId)
-    const { name, category, price, description, image, slug } = cluster
+    const { name, category, price, description, image, slug, destroy } = cluster
     const format = {
          name, category, price, description, image, slug
     }
@@ -20,6 +20,7 @@ const update = async ({ params }) => {
             Parameter={params.prodId}
             Prod={format}
             url={image}
+            cloud={destroy}
         />
 
     )

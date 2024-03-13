@@ -61,6 +61,7 @@ const productList = async ({ searchParams }) => {
                   <h2>{prod.category}</h2>
                 </div>
                 <form action={deleteProd}>
+                  <input type="hidden" name="cloud" value={prod.destroy} />
                   <input type="hidden" name="url" value={prod.image} />
                   <input type="hidden" name="id" value={prod._id.toString()} />
                   <button className="btn btn-warning">Delete</button>

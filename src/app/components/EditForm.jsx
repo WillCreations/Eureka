@@ -5,7 +5,7 @@ import { useState } from "react";
 import Image from "next/image";
 import * as styles from "@/app/Styles/index.module.css";
 
-const EditForm = ({ Updater, Parameter, Prod, url }) => {
+const EditForm = ({ Updater, Parameter, Prod, url, cloud }) => {
   const { name, category, price, description, image, slug } = Prod;
 
   const Netflix = async (formData) => {
@@ -32,6 +32,9 @@ const EditForm = ({ Updater, Parameter, Prod, url }) => {
           </div>
           <div className="my-5 w-full">
             <input className="p-5" type="hidden" name="url" value={url} />
+          </div>
+          <div className="my-5 w-full">
+            <input className="p-5" type="hidden" name="cloud" value={cloud} />
           </div>
           {[
             { name: "name", place: name },

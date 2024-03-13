@@ -7,21 +7,33 @@ import path from "path"
 import { v2 as cloudinary } from "cloudinary"
 import fs from "fs";
 
+
+cloudinary.config({
+    cloud_name: "deelyafti",
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+    secure: true
+})
+
+
 export const updateProduct = async (formData) => {
     "use server"
     console.log(formData, "Formage")
 
-    const { id, name, category, price, description, slug, image, url } = Object.fromEntries(formData);
+    const { id, name, category, price, description, slug, image, url, cloud } = Object.fromEntries(formData);
         
 
     console.log(image, "na me wan enter")
     console.log(name, "hdhdhdhjd")
     console.log(slug, "sluggggg")
+    console.log(cloud, "cloud")
  
 
     try {
 
         connectToDb()
+        let clouding
+        let alt
       
             let newName = "/prodimage/" + Date.now() + path.extname(image.name)
              const pathname = join("public", newName)
@@ -33,12 +45,21 @@ export const updateProduct = async (formData) => {
             const buffer = Buffer.from(imagebyte)
             console.log("buffer: ", buffer)
             fs.writeFileSync(pathname, buffer)
-             // const result = await cloudinary.uploader.upload(newName)
-            // console.log('result', result.secure_url)
+        
+        
+      
             if (image.name === 'undefined') {
                 newName = ''
+                clouding = ""
+                alt =""
                  
-            } 
+            } else {
+                const result = await cloudinary.uploader.upload(cloudUrl)
+                console.log('result', result)
+                console.log('result', result.secure_url)
+                clouding = result.public_id
+                alt = result.secure_url
+            }
         
 
         const updateFields = {
@@ -48,7 +69,8 @@ export const updateProduct = async (formData) => {
                  description,
                  slug,
                  image: newName,
-                 alt_image: newName
+                alt_image: alt,
+                 destroy: clouding
             };
             
 
@@ -60,9 +82,11 @@ export const updateProduct = async (formData) => {
         
             console.log(updateFields, "fields")
         await Product.findByIdAndUpdate(id, updateFields)
+       
         
-        
-        if (image.name !== 'undefined') {
+        if (image.name !== 'undefined' && url !== "" && cloud !== "") {
+            console.log("unlink")
+            cloudinary.uploader.destroy(cloud)
             fs.unlinkSync(`./public${url}`)
          }
         

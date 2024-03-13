@@ -26,6 +26,8 @@ export const addProduct = async (formData) => {
 
         connectToDb();
         console.log('loader', cloudinary.uploader);
+        let clouding;
+        let alt;
 
         (async function Run() {
 
@@ -38,6 +40,7 @@ export const addProduct = async (formData) => {
             console.log(imagebyte, "imagebyte")
             const buffer = Buffer.from(imagebyte)
             console.log("buffer: ", buffer)
+            fs.writeFileSync(pathname, buffer)
             let cate = category
             if (category === "--select--") {
                  cate = ""
@@ -45,14 +48,16 @@ export const addProduct = async (formData) => {
 
              if (image.name === "undefined") {
                  newName = ""
+             } else {
+                 const result = await cloudinary.uploader.upload(cloudUrl)
+                 console.log('result', result.secure_url)
+                 clouding = result.public_id
+                 alt = result.secure_url
             }
 
-            // await writeFile(pathname, buffer)
-            fs.writeFileSync(pathname, buffer)
             
-            // const result = await cloudinary.uploader.upload(newName)
-            // console.log('result', result.secure_url)
             console.log(`cate: ${cate} - newName: ${newName}`)
+            
             const product = new Product({
                 name,
                 category: cate,
@@ -60,8 +65,8 @@ export const addProduct = async (formData) => {
                 description,
                 slug,
                 image: newName,
-                alt_image:newName,
-                // alt_image: result.secure_url,
+                alt_image: alt,
+                destroy: clouding,
                 stock: 1
             });
 

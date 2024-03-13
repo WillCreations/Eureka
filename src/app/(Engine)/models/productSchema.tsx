@@ -30,6 +30,11 @@ const ProductSchema = new Schema({
         type: String,
         required: [true, 'alternative image']
     },
+    
+    destroy: {
+        type: String,
+        required: [true, 'destroy image']
+    },
 
     slug: {
         type: String,
