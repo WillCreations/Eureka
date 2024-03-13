@@ -10,7 +10,7 @@ import path from "path"
 
 export const addUser = async (formData) => {
     "use server"
-    const {  username, email, phone, address, picture, password } =
+    const {  username, email, phone, address, picture, password, base64 } =
        Object.fromEntries(formData)
 
         console.log(username, "na me wan enter")
@@ -18,7 +18,7 @@ export const addUser = async (formData) => {
     try {
 
         connectToDb();
-       
+       let clouding
         (async function Run() {
 
             let newName = "/userimage/" + Date.now() + path.extname(picture.name)
@@ -36,16 +36,27 @@ export const addUser = async (formData) => {
                 console.log(hashed, "hashed")
             }
 
-             if (picture.name === "undefined") {
-                 newName = ""
-            }
+            if (base64) {
+                const result = await cloudinary.uploader.upload(base64)
+                 newName = result.secure_url
+                clouding = result.public_id
+            } else {
 
-           
-            fs.writeFileSync(pathname, buffer)
+                if (picture.name === "undefined") {
+                    newName = ""
+                } else {
+                    fs.writeFileSync(pathname, buffer)
             
-            // const result = await cloudinary.uploader.upload(newName)
-            // console.log('result', result.secure_url)
-            console.log(`password: ${password} - newName: ${newName}`)
+                    const result = await cloudinary.uploader.upload(cloudUrl)
+                    console.log('result', result.secure_url)
+                    newName = result.secure_url
+                     clouding = result.public_id
+                    
+                    console.log(`password: ${password} - newName: ${newName}`)
+                }
+            }
+           
+           
             
             const user = new User({
                 name: username,
@@ -54,6 +65,7 @@ export const addUser = async (formData) => {
                 picture: newName,
                 image: newName,
                 address,
+                destroy: clouding,
                 password: hashed
             });
 

@@ -22,7 +22,7 @@ const Card = ({prod, children}) => {
         </Link>
         <div className='absolute text-green-500  shadow-md font-extrabold bg-white  rounded-md top-1 left-1 px-5 py-2'>{prod.price}</div>
               </div>
-              <div className='flex flex-col p-5'>
+              <div className='flex text-white flex-col p-5'>
               <div>
                   <h2 className='text-2xl'>{prod.name.slice(0, 15)}</h2>
                   <h2 >{prod.category}</h2>

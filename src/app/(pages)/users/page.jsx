@@ -59,6 +59,8 @@ const UserList = async ({ searchParams }) => {
                   <button className="btn btn-info mr-2">View</button>
                 </Link>
                 <form action={deleteUser}>
+                  <input type="hidden" name="url" value={user.picture} />
+                  <input type="hidden" name="cloud" value={user.destroy} />
                   <input type="hidden" name="id" value={user._id.toString()} />
                   <button className="btn btn-warning">Delete</button>
                 </form>

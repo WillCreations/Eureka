@@ -9,9 +9,16 @@ import fs from "fs";
 import { join } from "path"
 import path from "path"
 
+cloudinary.config({
+    cloud_name: "deelyafti",
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+    secure: true
+})
+
 export const updateUser = async (formData) => {
     "use server"
-    const { id, username, email, phone, address, picture,url, password } =
+    const { id, username, email, phone, address, picture,url, password, cloud, base64 } =
        Object.fromEntries(formData)
 
         console.log(username, "na me wan enter")
@@ -23,6 +30,7 @@ export const updateUser = async (formData) => {
     try {
 
         connectToDb();
+        let clouding
        
         (async function Run() {
 
@@ -42,29 +50,35 @@ export const updateUser = async (formData) => {
             }
             
             
-            fs.writeFileSync(pathname, buffer)
             
-            
-            if (picture.name === "undefined") {
+            if (base64) {
+                const result = await cloudinary.uploader.upload(base64)
+                clouding = result.public_id
+                newName = result.secure_url
+            } else {
+                   if (picture.name === "undefined") {
                  newName = ""
-             } 
-                 
+                   } else {
+                       fs.writeFileSync(pathname, buffer)
+                       const result = await cloudinary.uploader.upload(cloudUrl)
+                       clouding = result.public_id
+                       newName = result.secure_url
+                       console.log(`password: ${password} - newName: ${newName}`)
+             }
+                
+              
+           }
             
-
-           
-           
             
-            // const result = await cloudinary.uploader.upload(newName)
-            // console.log('result', result.secure_url)
-            console.log(`password: ${password} - newName: ${newName}`)
             
               const updateFields = {
             name: username,
             email,
             phone,
             address,
-                  picture: newName,
+            picture: newName,
             image: newName,
+            destroy: clouding,
             password: hashed
         };
 
@@ -78,9 +92,17 @@ export const updateUser = async (formData) => {
            console.log(updateFields, "wetin i return")
             await User.findByIdAndUpdate(id, updateFields)
 
-            if (picture.name !== "undefined") {
+
+            if (base64) {
+                cloudinary.uploader.destroy(cloud)
+                
+            } else {
+                if (picture.name !== "undefined") {
+                    cloudinary.uploader.destroy(cloud)
                 fs.unlinkSync(`./public${url}`)
             }
+            }
+            
 
 
         })()

@@ -54,13 +54,14 @@ export const updateProduct = async (formData) => {
             alt = result.secure_url
            clouding = result.public_id
         } else{
-            fs.writeFileSync(pathname, buffer)
+            
             if (image.name === 'undefined') {
                 newName = ''
                 clouding = ""
                 alt =""
                  
             } else {
+                fs.writeFileSync(pathname, buffer)
                 const result = await cloudinary.uploader.upload(cloudUrl)
                 console.log('result', result)
                 console.log('result', result.secure_url)
