@@ -15,7 +15,9 @@ import Round from "@/app/components/Round";
 
 export default async function Home() {
   await connectToDb();
-  const Prod = [
+  const Prod = await Product.find();
+  const prodSend = JSON.stringify(Prod);
+  const Crod = [
     {
       name: "package 1",
       image: "/Package 01.png",
@@ -49,11 +51,11 @@ export default async function Home() {
   const session = await getServerSession(options);
   return (
     <div className="min-h-screen">
-      <div className="bg-blue-500 text-white px-10 md:px-28 py-20 h-auto md:grid grid-cols-2">
-        <div className="flex flex-col justify-between">
+      <div className="bg-blue-500 text-white px-10 md:px-28 py-20 h-auto md:gap-5 md:grid grid-cols-2">
+        <div className="flex flex-col  justify-start">
           <div>
             <h1 className="text-4xl font-extrabold">Welcome to Eureka Tech</h1>
-            <p className="text-justify">
+            <p className="text-justify text-sm mt-3">
               Are you ready to elevate your online presence to the next level?
               Look no further! At Eureka, we specialize in delivering top-notch
               services across a spectrum of digital domains. From full-stack web
@@ -61,32 +63,38 @@ export default async function Home() {
               experiences, compelling brand identities, and everything in
               between, we've got you covered
             </p>
-            <p className="mt-2">Start building your Dream Brand Today!</p>
-            <p>
-              Meet{" "}
-              <span className="text-black font-bold">Princewill Igwe.</span>
+            <p className="mt-2 text-sm">
+              Start building your Dream Brand Today!
             </p>
-            <Typo />
+            <div className="my-5">
+              <p>
+                Meet{" "}
+                <span className="text-black text-2xl font-extrabold ">
+                  Princewill Igwe.
+                </span>
+              </p>
+              <Typo />
+            </div>
           </div>
 
           <Navbutton />
         </div>
-        <div className="w-full flex justify-end">
+        <div className="w-full flex items-end justify-end">
           <Link href="/portfolio">
             <div
-              className={` ${styles.cover} flex items-center justify-center w-60 shadow hover:shadow-2xl hover:scale-105 relative cursor-pointer hover:-rotate-6 transition h-60 overflow-hidden mt-14 md:mt-0 rounded-md`}
+              className={` ${styles.cover} flex items-end justify-center hover:scale-90  md:hover:scale-105 md:active:scale-90 w-full h-[500px] shadow hover:shadow-2xl  relative cursor-pointer hover:-rotate-6 transition overflow-hidden mt-14 md:mt-0 rounded-md`}
             >
               <Image
-                className="translate-y-5"
-                src="/prince.jpg"
-                width={500}
-                height={500}
+                className="object-contain top translate-y-5"
+                src="/me.png"
+                width={1000}
+                height={1000}
                 alt="Igwe Princewill"
               />
-              <h1 className=" absolute p-1 rounded-md bg-black z-20 text-5xl font-extrabold">
+              <h1 className=" absolute p-1 rounded-md bg-black z-[5] text-5xl font-extrabold">
                 Portfolio
               </h1>
-              <div className="absolute  z-10 opacity-1  bg-green-700 top-0 bottom-0  w-full h-full"></div>
+              <div className="absolute  z-10 opacity-1  bg-black top-0 bottom-0  w-full h-full"></div>
             </div>
           </Link>
         </div>
@@ -143,14 +151,14 @@ export default async function Home() {
                   />
                 </div>
 
-                <h4 className="text-xl">{unit.tag}</h4>
-                <p className="text-sm text-justify">{unit.para}</p>
+                <h4 className="text-xl font-extrabold">{unit.tag}</h4>
+                <p className="text-xs text-justify">{unit.para}</p>
               </div>
             );
           })}
         </div>
       </div>
-      <Slide Prod={Prod} />
+      <Slide Prod={prodSend} />
       <div className="my-5 px-10 md:px-28 mt-32">
         <h2 className="text-2xl my-5 font-semibold text-blue-300 text-center ">
           Why Choose us

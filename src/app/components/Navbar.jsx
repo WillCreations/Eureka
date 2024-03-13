@@ -107,14 +107,18 @@ const Navbar = () => {
             >
               <div className="flex justify-center rounded-full overflow-hidden w-6 h-6">
                 <Image
-                  src={user?.picture || "/next.svg"}
+                  src={
+                    session?.user.image
+                      ? session?.user.image
+                      : session?.user.picture || "/next.svg"
+                  }
                   alt={"profile picture"}
                   className="object-cover"
                   width={20}
                   height={10}
                 />
               </div>
-              <Link href={`/users/${session?.user.name}`}>
+              <Link href={`/users/${session?.user.email}`}>
                 <span className="ml-2">{session?.user.name}</span>
               </Link>
             </li>

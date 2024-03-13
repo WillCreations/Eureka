@@ -5,10 +5,10 @@ const Loading = () => {
   return (
     <div>
       <div className="mx-10 md:mx-28 grid gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {[...Array(10)].map((p) => {
+        {[...Array(10)].map((p, index) => {
           return (
             <div
-              key={p}
+              key={index}
               className="animate-pulse h-auto w-[400] rounded-md overflow-hidden bg-gray-600"
             >
               <div className="w-full h-64  rounded-md bg-gray-900 animate-pulse"></div>

@@ -3,61 +3,75 @@ import User from '../models/user';
 import { connectToDb } from '../mongodb/database';
 import bcrypt from 'bcrypt' 
 import { redirect } from 'next/navigation';
+import { v2 as cloudinary } from "cloudinary"
+import fs from "fs";
+import { join } from "path"
+import path from "path"
 
 export const addUser = async (formData) => {
     "use server"
     const {  username, email, phone, address, picture, password } =
-       formData
+       Object.fromEntries(formData)
 
         console.log(username, "na me wan enter")
 
     try {
 
-        connectToDb()
-        console.log(password, "password")
-        if (password) {
-            const hashed = await bcrypt.hash(password, 10)
-            console.log(hashed, "hashed")
+        connectToDb();
+       
+        (async function Run() {
 
-             const user = new User({
-            name: username,
-            email,
-            phone,
-            picture,
-            address,
-            password: hashed
-        });
+            let newName = "/userimage/" + Date.now() + path.extname(picture.name)
+            const pathname = join("public", newName)
+            const cloudUrl = `./${pathname}`
+            console.log('cloudUrl', cloudUrl)
+            console.log("image: ",  picture)
+            const imagebyte = await picture.arrayBuffer()
+            console.log(imagebyte, "imagebyte")
+            const buffer = Buffer.from(imagebyte)
+            console.log("buffer: ", buffer)
+            let hashed = password
+            if (password) {
+                hashed = await bcrypt.hash(password, 10)
+                console.log(hashed, "hashed")
+            }
 
-             Object.entries(user).forEach(([key, value]) => {                  
-                if (value === "" || undefined ) {
-                 delete user[key]
-                } 
-              })
-        
-                user.save()
-        } else {
+             if (picture.name === "undefined") {
+                 newName = ""
+            }
+
+           
+            fs.writeFileSync(pathname, buffer)
+            
+            // const result = await cloudinary.uploader.upload(newName)
+            // console.log('result', result.secure_url)
+            console.log(`password: ${password} - newName: ${newName}`)
+            
             const user = new User({
                 name: username,
                 email,
                 phone,
-                picture,
+                picture: newName,
+                image: newName,
                 address,
-                password
+                password: hashed
             });
-            
-            
-            Object.entries(user).forEach(([key, value]) => {
+
+             Object.entries(user).forEach(([key, value]) => {
                 if (value === "" || undefined ) {
                  delete user[key]
                 } 
               })
-            
-          
-        
-            console.log(user, "wetin i return")
-        user.save()
 
-        }
+
+            console.log(user, "wetin i return")
+            user.save()
+
+
+        })()
+      
+
+        
 
         
        

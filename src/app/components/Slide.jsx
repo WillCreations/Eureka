@@ -8,6 +8,7 @@ const Slide = ({ Prod }) => {
   const [active, setActive] = useState("");
   const containerRef = useRef();
   const thumbsRef = useRef();
+  const Product = JSON.parse(Prod);
 
   let Time = 2000;
   let runTime;
@@ -27,8 +28,8 @@ const Slide = ({ Prod }) => {
     } else {
       console.log("prev");
       setButt(styles.prev);
-      containerRef.current.prepend(items[Prod.length - 1]);
-      thumbsRef.current.prepend(thumbs[Prod.length - 1]);
+      containerRef.current.prepend(items[Product.length - 1]);
+      thumbsRef.current.prepend(thumbs[Product.length - 1]);
     }
     clearTimeout(runTime);
     runTime = setTimeout(() => {
@@ -73,7 +74,7 @@ const Slide = ({ Prod }) => {
         ref={containerRef}
         className={`${styles.items} h-[80vh] box-border relative`}
       >
-        {Prod.map((p, index) => {
+        {Product.map((p, index) => {
           return (
             <div key={index} className="absolute item  selected inset-0">
               <div className="h-full w-full  relative overflow-hidden">
@@ -93,7 +94,7 @@ const Slide = ({ Prod }) => {
                     {p.price}
                   </h2>
 
-                  <h2 className="text-xl bg-black py-2 px-2 h-28 mt-3 rounded-md shadow-md">
+                  <h2 className="text-sm font- bg-black py-2 px-2 h-28 mt-3 rounded-md shadow-md">
                     <span className="text-3xl block font-black  capitalize text-yellow-500">
                       {p.category}
                     </span>
@@ -107,49 +108,53 @@ const Slide = ({ Prod }) => {
       </div>
       <div
         ref={thumbsRef}
-        className={`${styles.thumbnails} z-10 absolute left-[50%] w-fit flex-shrink-0 bottom-1 overflow-hidden flex gap-2 items-center`}
+        className={`${styles.thumbnails} z-[5] absolute left-[50%] w-fit flex-shrink-0 bottom-1 overflow-hidden flex gap-2 items-center`}
       >
-        {Prod.slice(Prod.length - (Prod.length - 1)).map((p, index) => {
-          return (
-            <div
-              key={index}
-              className="w-28 h-32 thumb rounded-md relative overflow-hidden "
-            >
-              <Image
-                style={{ objectFit: "cover" }}
-                className="w-full h-full absolute"
-                src={p.image}
-                width={200}
-                height={200}
-              />
-              <div className="absolute right-1 left-1 bottom-1">
-                <h2>{p.name}</h2>
+        {Product.slice(Product.length - (Product.length - 1)).map(
+          (p, index) => {
+            return (
+              <div
+                key={index}
+                className="w-28 h-32 thumb rounded-md relative overflow-hidden "
+              >
+                <Image
+                  style={{ objectFit: "cover" }}
+                  className="w-full h-full absolute"
+                  src={p.image}
+                  width={200}
+                  height={200}
+                />
+                <div className="absolute right-1 left-1 bottom-1">
+                  <h2>{p.name}</h2>
+                </div>
               </div>
-            </div>
-          );
-        })}
-        {Prod.slice(0, Prod.length - (Prod.length - 1)).map((p, index) => {
-          return (
-            <div
-              key={index}
-              className="w-28 h-32 thumb rounded-md relative overflow-hidden "
-            >
-              <Image
-                style={{ objectFit: "cover" }}
-                className="w-full h-full absolute"
-                src={p.image}
-                width={200}
-                height={200}
-              />
-              <div className="absolute right-1 left-1 bottom-1">
-                <h2>{p.name}</h2>
+            );
+          }
+        )}
+        {Product.slice(0, Product.length - (Product.length - 1)).map(
+          (p, index) => {
+            return (
+              <div
+                key={index}
+                className="w-28 h-32 thumb rounded-md relative overflow-hidden "
+              >
+                <Image
+                  style={{ objectFit: "cover" }}
+                  className="w-full h-full absolute"
+                  src={p.image}
+                  width={200}
+                  height={200}
+                />
+                <div className="absolute right-1 left-1 bottom-1">
+                  <h2>{p.name}</h2>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          }
+        )}
       </div>
       <div
-        className={`${styles.arrow} absolute z-[50] flex gap-2 items-center left-[9.5rem] bottom-10`}
+        className={`${styles.arrow} absolute z-[5] flex gap-2 items-center left-[2.5rem] md:left-[9.5rem] bottom-10`}
       >
         <div
           onClick={() => {

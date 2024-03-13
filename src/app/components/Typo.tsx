@@ -20,7 +20,7 @@ const Typo = () => {
 
   return (
       <div>
-          <p>A <span className="text text-green-300 font-extrabold text-2xl"></span></p>
+          <p> <span className="text text-green-300 font-extrabold text-2xl"></span></p>
       </div>
   )
 }

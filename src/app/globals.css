@@ -31,7 +31,43 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+@layer {
 
+  .GroupOne {
+  
+      @apply bg-white flex flex-col m-5 p-5 rounded-md gap-2 justify-between text-black col-span-3
+    }
+
+  .Group{
+    
+      @apply bg-white flex sm:flex-col lg:flex-row m-5 p-5 rounded-md gap-1 justify-between  text-black col-span-3 sm:col-span-1 
+    }
+
+        .Skill {
+          @apply bg-green-100 p-5 rounded-md flex md:flex-col justify-between 
+        }
+
+        
+  }
+  
+
+  .roundBox{
+    @apply flex justify-center items-center
+  }
+.Inner {
+  @apply grid-cols-1 grid lg:grid-cols-5 md:grid-cols-3 justify-between gap-5
+}
+
+.Header{
+  @apply text-green-500 text-2xl text-center
+}
+.Heading {
+  @apply text-lg font-extrabold
+}
+
+.subHeading {
+  @apply text-sm font-bold
+}
 
 /* width */
 ::-webkit-scrollbar {

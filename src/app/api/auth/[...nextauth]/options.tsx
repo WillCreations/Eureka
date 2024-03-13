@@ -77,13 +77,17 @@ export const options = {
             if (user) {
                 console.log(user.name, " callbaack user") 
                
-                if (user.phone) {
+            
                     token.phone = user.phone
-                }
+                
+                    token.picture = user.picture
+               
+                    token.image = user.image
+                
                    
-                if (user._id) {
+                
                     token.id = user._id.toString()
-                }
+                
                   
                 
             }
@@ -98,6 +102,8 @@ export const options = {
             if (token) {
                 session.user.phone = token.phone
                 session.user.id = token.id
+                session.user.image = token.image
+                session.user.picture = token.picture
                 
             }
 

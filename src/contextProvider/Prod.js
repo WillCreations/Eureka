@@ -10,6 +10,7 @@ const ProductCart = createContext({
   Remove: (Id) => {},
   Bool: (Id) => {},
   QuantHandle: (item, value) => {},
+  index: (s) => {},
   feeder: 0,
 });
 
@@ -18,6 +19,7 @@ export const ProductCartProvider = (props) => {
   const [cartWheels, setcartWheels] = useState([]);
   const [summer, setSummer] = useState();
   const [fed, setFed] = useState({ feeder: "" });
+  const [indexing, setIndexing] = useState(-1);
 
   useEffect(() => {
     const checker = () => {
@@ -95,6 +97,20 @@ export const ProductCartProvider = (props) => {
     });
   };
 
+  const indexa = (s) => {
+    let result;
+    cartWheels.forEach((p, index) => {
+      console.log(p, index, "cart index");
+
+      if (p._id === s) {
+        console.log("index in global: ", index);
+        result = index;
+      }
+    });
+    console.log("result: ", result);
+    return result;
+  };
+
   const context = {
     Cart: cartWheels,
     CartNumber: cartWheels.length,
@@ -103,6 +119,7 @@ export const ProductCartProvider = (props) => {
     Remove: RemoveHandler,
     Bool: Booleanator,
     QuantHandle: HandleQuantity,
+    index: indexa,
     feeder: fed,
   };
   return (

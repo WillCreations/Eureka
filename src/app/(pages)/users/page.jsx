@@ -33,6 +33,7 @@ const UserList = async ({ searchParams }) => {
           </div>
         </div>
         {user.map((user) => {
+          console.log("user: ", user.email);
           return (
             <div
               className="flex justify-between items-center my-5"
@@ -54,7 +55,7 @@ const UserList = async ({ searchParams }) => {
                 <h2>{user.address}</h2>
               </div>
               <div className="flex">
-                <Link href={`/users/${user.name}`}>
+                <Link href={`/users/${user.email}`}>
                   <button className="btn btn-info mr-2">View</button>
                 </Link>
                 <form action={deleteUser}>

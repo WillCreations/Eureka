@@ -337,8 +337,12 @@ position:  relative;
 }
 
 .cover h1{
-    transform: translateY(-300%);
+    transform: translateY(-200%);
     transition: transform 2s 1s;
+}
+
+.cover img{
+    transform: translateY(30%);
 }
 
 .cover:hover div {

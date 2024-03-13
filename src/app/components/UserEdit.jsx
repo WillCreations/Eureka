@@ -6,43 +6,16 @@ import { MdVisibility } from "react-icons/md";
 import { MdVisibilityOff } from "react-icons/md";
 
 const UserEdit = ({ Updater, parameter, Use }) => {
-  const [base, setBase] = useState("");
   const [show, setShow] = useState(false);
   const [pass, setPass] = useState("password");
   const [error, setError] = useState("");
   const { name, email, address, phone, picture } = Use;
 
-  const Loader = (e) => {
-    e.preventDefault();
-    console.log("hey");
-    const reader = new FileReader();
-    console.log(reader);
-    reader.readAsDataURL(e.target.files[0]);
-    reader.onload = () => {
-      console.log(reader.result, "result");
-      setBase(reader.result);
-    };
-  };
-
   const Netflix = async (formData) => {
     try {
       console.log(formData, "onSubmit");
-      const { id, username, email, address, phone, password } =
-        Object.fromEntries(formData);
 
-      console.log(base, "base10 kor");
-
-      const form = {
-        id,
-        username,
-        email,
-        address,
-        phone,
-        picture: base,
-        password,
-      };
-
-      const response = await Updater(form);
+      const response = await Updater(formData);
       if (response) {
         console.log(response);
       }
@@ -76,6 +49,9 @@ const UserEdit = ({ Updater, parameter, Use }) => {
           <div className="my-5 w-full">
             <input className="p-5" type="hidden" name="id" value={parameter} />
           </div>
+          <div className="my-5 w-full">
+            <input className="p-5" type="hidden" name="url" value={picture} />
+          </div>
           {[
             { name: "username", place: name },
             { name: "email", place: email },
@@ -107,7 +83,7 @@ const UserEdit = ({ Updater, parameter, Use }) => {
             );
           })}
           <div>{error}</div>
-          <Uploader imagine="picture" Upload={Loader} image={base} />
+          <Uploader imagine="picture" />
 
           <button className="float-right bg-green-500 my-2 text-white px-4 py-2 ml-4 rounded hover:bg-green-600">
             update

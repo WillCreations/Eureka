@@ -9,7 +9,11 @@ import { uploader } from "@/app/(Engine)/actions/uploader";
 
 const Profile = async ({ params }) => {
   await connectToDb();
-  const cluster = await User.findOne({ name: params.profile });
+
+  const newEmail = params.profile.replace("%40", "@");
+
+  const cluster = await User.findOne({ email: newEmail });
+
   const { name, _id, email, address, picture, phone } = cluster;
 
   const session = await getServerSession(options);
@@ -24,7 +28,7 @@ const Profile = async ({ params }) => {
         {" "}
         {session?.user.name === params.profile
           ? "Hello! " + session?.user.name
-          : params.profile + "'s profile"}
+          : name + "'s profile"}
       </h1>
 
       <div className="flex py-5 items-center ">

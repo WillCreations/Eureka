@@ -3,7 +3,6 @@ import Product from '../models/productSchema';
 import { connectToDb } from '../mongodb/database';
 import { redirect } from 'next/navigation';
 import { v2 as cloudinary } from "cloudinary"
-import { writeFile } from "fs/promises";
 import fs from "fs";
 import { join } from "path"
 import path from "path"

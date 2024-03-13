@@ -4,35 +4,67 @@ import { connectToDb } from '../mongodb/database';
 import bcrypt from 'bcrypt' 
 import { redirect } from 'next/navigation';
 import { NextResponse } from 'next/server';
+   import { v2 as cloudinary } from "cloudinary"
+import fs from "fs";
+import { join } from "path"
+import path from "path"
 
 export const updateUser = async (formData) => {
     "use server"
-    const { id, username, email, phone, address, picture, password, password2 } =
-       formData;
+    const { id, username, email, phone, address, picture,url, password } =
+       Object.fromEntries(formData)
 
         console.log(username, "na me wan enter")
 
+ 
+
+
+
     try {
 
-        connectToDb()
-        console.log(password, "password")
-        // if (password2) {
-        //     if (password !== password2) {
-        //         throw new Error("passwords don't match")
-        //     }
-        // }
-        
+        connectToDb();
+       
+        (async function Run() {
 
-        if (password) {
-            const hashed = await bcrypt.hash(password, 10)
-            console.log(hashed, "hashed")
+            let newName = "/userimage/" + Date.now() + path.extname(picture.name)
+            const pathname = join("public", newName)
+            const cloudUrl = `./${pathname}`
+            console.log('cloudUrl', cloudUrl)
+            console.log("image: ",  picture)
+            const imagebyte = await picture.arrayBuffer()
+            console.log(imagebyte, "imagebyte")
+            const buffer = Buffer.from(imagebyte)
+            console.log("buffer: ", buffer)
+            let hashed = password
+            if (password) {
+                hashed = await bcrypt.hash(password, 10)
+                console.log(hashed, "hashed")
+            }
+            
+            
+            fs.writeFileSync(pathname, buffer)
+            
+            
+            if (picture.name === "undefined") {
+                 newName = ""
+             } 
+                 
+            
 
-            const updateFields = {
+           
+           
+            
+            // const result = await cloudinary.uploader.upload(newName)
+            // console.log('result', result.secure_url)
+            console.log(`password: ${password} - newName: ${newName}`)
+            
+              const updateFields = {
             name: username,
             email,
             phone,
             address,
-            picture,
+                  picture: newName,
+            image: newName,
             password: hashed
         };
 
@@ -41,32 +73,17 @@ export const updateUser = async (formData) => {
                  delete updateFields[key]
                 } 
               })
-        
-            await User.findByIdAndUpdate(id, updateFields)
-        } else {
-            const updateFields = {
-                name: username,
-                email,
-                phone,
-                address,
-                picture,
-                password
-            };
-            
-            
-            Object.entries(updateFields).forEach(([key, value]) => {
-                if (value === "" || undefined ) {
-                 delete updateFields[key]
-                } 
-              })
-            
-          
-        
-            console.log(updateFields, "wetin i return")
+
+
+           console.log(updateFields, "wetin i return")
             await User.findByIdAndUpdate(id, updateFields)
 
-        }
+            if (picture.name !== "undefined") {
+                fs.unlinkSync(`./public${url}`)
+            }
 
+
+        })()
         
        
 
@@ -75,8 +92,8 @@ export const updateUser = async (formData) => {
         throw new Error(" failed to Update User Info")
     }
  
-    revalidatePath(`/users/${username}`);
-    redirect(`/users/${username}`);
+    revalidatePath(`/users/${email}`);
+    redirect(`/users/${email}`);
 
 }
 
