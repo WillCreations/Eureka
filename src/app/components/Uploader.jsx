@@ -19,6 +19,7 @@ const Uploader = ({ imagine }) => {
 
   return (
     <div className="my-5 ">
+      <input name="base64" type="hidden" value={base64} />
       <label>Image</label>
       <div className="mb-5 flex rounded-md justify-between items-center text-black bg-white py-1 px-4">
         <input

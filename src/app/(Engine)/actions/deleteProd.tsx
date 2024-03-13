@@ -18,12 +18,13 @@ export const deleteProd = async (formData) => {
         Object.fromEntries(formData);
     console.log("url: ", url)
 
-    fs.unlinkSync(`./public${url}`)
-    cloudinary.uploader.destroy(cloud)
-        
-    console.log(formData, "formData")
+    // fs.unlinkSync(`./public${url}`)
+  
     
     try {
+          cloudinary.uploader.destroy(cloud)
+        
+    console.log(formData, "formData")
         await connectToDb()
         await Product.findByIdAndDelete(id)
     } catch (error) {

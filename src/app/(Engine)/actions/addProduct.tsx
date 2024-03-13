@@ -17,7 +17,7 @@ cloudinary.config({
 
 export const addProduct = async (formData) => {
     "use server"
-    const { name, category, price, description, slug, image } =
+    const { name, category, price, description, slug, image, base64 } =
            Object.fromEntries(formData);
 
     console.log(name, "na me wan enter")
@@ -40,20 +40,28 @@ export const addProduct = async (formData) => {
             console.log(imagebyte, "imagebyte")
             const buffer = Buffer.from(imagebyte)
             console.log("buffer: ", buffer)
-            fs.writeFileSync(pathname, buffer)
+            
             let cate = category
             if (category === "--select--") {
                  cate = ""
             }
 
-             if (image.name === "undefined") {
+            if (base64) {
+              const result = await cloudinary.uploader.upload(base64)
+                console.log('result', result.secure_url)
+                newName= result.secure_url
+                 clouding = result.public_id
+                 alt = result.secure_url
+            } else {
+                if (image.name === "undefined") {
                  newName = ""
-             } else {
+                } else {
+                    fs.writeFileSync(pathname, buffer)
                  const result = await cloudinary.uploader.upload(cloudUrl)
                  console.log('result', result.secure_url)
                  clouding = result.public_id
                  alt = result.secure_url
-            }
+            }}
 
             
             console.log(`cate: ${cate} - newName: ${newName}`)

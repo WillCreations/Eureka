@@ -20,13 +20,15 @@ export const updateProduct = async (formData) => {
     "use server"
     console.log(formData, "Formage")
 
-    const { id, name, category, price, description, slug, image, url, cloud } = Object.fromEntries(formData);
+    const { id, name, category, price, description, slug, image, url, cloud, base64 } = Object.fromEntries(formData);
         
 
     console.log(image, "na me wan enter")
     console.log(name, "hdhdhdhjd")
     console.log(slug, "sluggggg")
     console.log(cloud, "cloud")
+     console.log(base64, "base64")
+ 
  
 
     try {
@@ -44,10 +46,15 @@ export const updateProduct = async (formData) => {
             console.log(imagebyte, "imagebyte")
             const buffer = Buffer.from(imagebyte)
             console.log("buffer: ", buffer)
+            
+        
+        if (base64) {
+            const result = await cloudinary.uploader.upload(base64)
+            newName = result.secure_url
+            alt = result.secure_url
+           clouding = result.public_id
+        } else{
             fs.writeFileSync(pathname, buffer)
-        
-        
-      
             if (image.name === 'undefined') {
                 newName = ''
                 clouding = ""
@@ -59,7 +66,7 @@ export const updateProduct = async (formData) => {
                 console.log('result', result.secure_url)
                 clouding = result.public_id
                 alt = result.secure_url
-            }
+            }}
         
 
         const updateFields = {
@@ -83,12 +90,17 @@ export const updateProduct = async (formData) => {
             console.log(updateFields, "fields")
         await Product.findByIdAndUpdate(id, updateFields)
        
-        
-        if (image.name !== 'undefined' && url !== "" && cloud !== "") {
+        if (base64) {
+            cloudinary.uploader.destroy(cloud)
+         } else {
+
+            if (image.name !== 'undefined' && url !== "" && cloud !== "") {
             console.log("unlink")
             cloudinary.uploader.destroy(cloud)
             fs.unlinkSync(`./public${url}`)
          }
+         }
+        
         
            
        
