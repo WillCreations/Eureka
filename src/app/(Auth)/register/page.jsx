@@ -113,7 +113,7 @@ const Register = () => {
                     {p.name === "name" ? "username" : p.name}
                   </label>
                   <input
-                    className={`p-5  w-full rounded-md ${style.input}`}
+                    className={`p-5 text-black bg-gray-200 w-full rounded-md ${style.input}`}
                     type={p.type}
                     placeholder={p.name}
                     value={data[p.name]}

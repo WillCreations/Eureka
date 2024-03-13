@@ -125,7 +125,7 @@ const Login = ({ setEmail }) => {
           <div className="my-5 w-full">
             <label>Email</label>
             <input
-              className={`p-5 w-full rounded-md ${border.email}`}
+              className={`p-5 w-full text-black bg-gray-200 rounded-md ${border.email}`}
               type="text"
               placeholder="@example.com"
               value={data.email}
@@ -142,7 +142,7 @@ const Login = ({ setEmail }) => {
           <div className="mt-5 w-full relative">
             <label>Password</label>
             <input
-              className={`p-5 w-full rounded-md ${border.password}`}
+              className={`p-5 w-full text-black bg-gray-200 rounded-md ${border.password}`}
               type={`${pass}`}
               placeholder="Password"
               value={data.password}
