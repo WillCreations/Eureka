@@ -22,7 +22,7 @@ const Forgot = () => {
     }
 
     return ( 
-        <div className='h-screen'>
+        <div className='h-screen text-white'>
         <ForgotProvider>
             <Navigator/>
         </ForgotProvider >

@@ -50,8 +50,8 @@ export default async function Home() {
 
   const session = await getServerSession(options);
   return (
-    <div className="min-h-screen">
-      <div className="bg-blue-500 text-white px-10 md:px-28 py-20 h-auto md:gap-5 md:grid grid-cols-2">
+    <div className="min-h-screen text-white">
+      <div className="bg-blue-500  px-10 md:px-28 py-20 h-auto md:gap-5 md:grid grid-cols-2">
         <div className="flex flex-col  justify-start">
           <div>
             <h1 className="text-4xl font-extrabold">Welcome to Eureka Tech</h1>

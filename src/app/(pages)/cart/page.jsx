@@ -105,7 +105,7 @@ const Cart = () => {
   //  const handleFlutterPayment = useFlutterwave(config);
 
   return (
-    <div className=" mx-6">
+    <div className="min-h-screen text-white mx-6">
       <div className="flex flex-col w-full">
         <div className="flex md:mx-5 justify-between items-center">
           <h1 className=" hidden md:block  text-2xl font-extrabold text-green-500 flex-1">
