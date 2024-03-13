@@ -1,6 +1,6 @@
 "use client";
 import SearchBar from "@/app/components/SearchBar";
-
+import Link from "next/link";
 import Category from "@/app/components/Category";
 import AltCategory from "@/app/components/AltCategory";
 import { Suspense } from "react";
@@ -54,9 +54,11 @@ const Products = ({ searchParams }) => {
           <Loading />
         </Grid>
       </Suspense>
-      <div className="fixed bg-yellow-500 text-black bottom-20 rounded-full px-5 py-3 right-10 hover:bg-black hover:text-yellow-500 transition cursor-pointer ">
-        w
-      </div>
+      <Link href="https://wa.me/qr/OCNXFD5QJOYXE1">
+        <div className="fixed bg-yellow-500 text-black bottom-20 rounded-full px-5 py-3 right-10 hover:bg-black hover:text-yellow-500 transition cursor-pointer ">
+          w
+        </div>
+      </Link>
       <div
         onClick={() => {
           window.scrollTo({
