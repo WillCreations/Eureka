@@ -35,11 +35,10 @@ export const updateProduct = async (formData) => {
             fs.writeFileSync(pathname, buffer)
              // const result = await cloudinary.uploader.upload(newName)
             // console.log('result', result.secure_url)
-            if (image.name !== 'undefined') {
-                 fs.unlinkSync(`./public${url}`)
-            } else {
-               newName = ''
-            }
+            if (image.name === 'undefined') {
+                newName = ''
+                 
+            } 
         
 
         const updateFields = {
@@ -63,7 +62,9 @@ export const updateProduct = async (formData) => {
         await Product.findByIdAndUpdate(id, updateFields)
         
         
-        
+        if (image.name !== 'undefined') {
+            fs.unlinkSync(`./public${url}`)
+         }
         
            
        
