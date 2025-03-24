@@ -24,17 +24,29 @@ export const ProductCartProvider = (props) => {
   useEffect(() => {
     const checker = () => {
       console.log(session?.user, "session");
+
       const oldsession = localStorage.getItem("session");
       const storedCart = localStorage.getItem("cart");
-      const old = JSON.parse(oldsession);
-      console.log(old, "old");
-      console.log(storedCart, "storedCart");
+      if (oldsession) {
+        const olduser = JSON.parse(oldsession);
+        if (storedCart) {
+          const persist = JSON.parse(storedCart);
+          localStorage.getItem("session");
+          console.log("current: ", session?.user.email);
+          console.log("old: ", olduser.email);
+          console.log("storedCart: ", storedCart);
 
-      if (session?.user) {
-        if (storedCart && session?.user.email === old.email) {
-          setcartWheels(JSON.parse(storedCart));
-        } else {
-          localStorage.removeItem("cart");
+          if (session?.user) {
+            console.log("Persist Loaded");
+            localStorage.setItem("session", JSON.stringify(session?.user));
+
+            if (persist && session?.user.email === olduser.email) {
+              setcartWheels(persist);
+            } else {
+              console.log("cart deleted");
+              localStorage.removeItem("cart");
+            }
+          }
         }
       }
     };

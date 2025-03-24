@@ -17,12 +17,12 @@ const productList = async ({ searchParams }) => {
   const { count, products } = await fetchproduct(q, page);
   const session = await getServerSession(options);
   console.log(count, "countererererer");
-  if (session?.user.email !== "admin@gmail.com") {
+  if (!session?.user.admin) {
     redirect("/");
   }
 
   return (
-    <div className="mx-10  flex flex-col gap-10 md:flex-row">
+    <div className="mx-10  flex flex-col gap-10 md:flex-row text-white">
       <div className=" my-10 md:flex-1 px-10 md:px-0">
         <div className="flex flex-col ">
           <div className="flex justify-between items-center rounded-md text-xl py-2 bg-white text-green-950 px-10">

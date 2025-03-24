@@ -17,6 +17,11 @@ const UserSchema = new Schema({
         type: String,
         required: [true, "password is required"]
     },
+     
+    admin: {
+        type: Boolean,
+        required:[true, "Admin is required"]
+    },
 
     picture: {
         type: String,

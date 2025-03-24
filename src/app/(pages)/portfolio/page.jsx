@@ -1,11 +1,14 @@
-import React from "react";
 import Round from "@/app/components/Round";
 import Link from "next/link";
+import PortNav from "@/app/components/PortNav";
+import Carousel from "@/app/components/Carousel";
 
 const portfolio = () => {
   return (
     <div className="min-h-screen my-5 px-10 md:px-28 text-white">
-      <div className="grid md:grid-cols-2 mt-5">
+      <PortNav />
+      <Carousel />
+      <div id="About" className="grid md:grid-cols-2 mt-5">
         <div>
           <h1 className="Header">About Me</h1>
           <h2 className="font-extrabold text-2xl text-blue-200">
@@ -27,7 +30,7 @@ const portfolio = () => {
         </div>
         <div></div>
       </div>
-      <div className="mt-10">
+      <div id="Portfolio" className="mt-10">
         <h1 className="Header">Portfolio</h1>
         <div className="grid md:grid-cols-2">
           <div>
@@ -84,7 +87,7 @@ const portfolio = () => {
           <div></div>
         </div>
       </div>
-      <div className="mt-10">
+      <div id="Skills" className="mt-10">
         <h1 className="Header">Skills</h1>
         <ul className="grid grid-cols-3">
           <li className="GroupOne">
@@ -189,7 +192,7 @@ const portfolio = () => {
           </li>
         </ul>
       </div>
-      <div className="mt-10">
+      <div id="Contact" className="mt-10">
         <h1 className="Header">Contact</h1>
         <p>
           Ready to collaborate or have a project in mind? Feel free to reach out

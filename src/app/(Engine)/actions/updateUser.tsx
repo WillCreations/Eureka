@@ -18,7 +18,7 @@ cloudinary.config({
 
 export const updateUser = async (formData) => {
     "use server"
-    const { id, username, email, phone, address, picture,url, password, cloud, base64 } =
+    const { id, username, email, phone, address, picture,url, password, cloud,admin } =
        Object.fromEntries(formData)
 
         console.log(username, "na me wan enter")
@@ -26,11 +26,18 @@ export const updateUser = async (formData) => {
  
 
 
-
     try {
 
         connectToDb();
         let clouding
+        let base64 = "";
+        let adminuser;
+        if (admin === "on") {
+            adminuser = true
+        } else {
+            adminuser = false
+        };
+
        
         (async function Run() {
 
@@ -79,7 +86,8 @@ export const updateUser = async (formData) => {
             picture: newName,
             image: newName,
             destroy: clouding,
-            password: hashed
+                  password: hashed,
+            admin: adminuser
         };
 
              Object.entries(updateFields).forEach(([key, value]) => {                  

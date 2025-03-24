@@ -10,15 +10,23 @@ import path from "path"
 
 export const addUser = async (formData) => {
     "use server"
-    const {  username, email, phone, address, picture, password, base64 } =
+    const {  username, email, phone, address, picture, password, admin } =
        Object.fromEntries(formData)
 
-        console.log(username, "na me wan enter")
+    console.log(username, "na me wan enter")
+    console.log(admin, "admin")
 
     try {
 
         connectToDb();
-       let clouding
+        let clouding;
+        let base64 = "";
+        let adminuser;
+        if (admin === "on") {
+            adminuser = true
+        } else {
+            adminuser = false
+        };
         (async function Run() {
 
             let newName = "/userimage/" + Date.now() + path.extname(picture.name)
@@ -66,7 +74,8 @@ export const addUser = async (formData) => {
                 image: newName,
                 address,
                 destroy: clouding,
-                password: hashed
+                password: hashed,
+                admin: adminuser
             });
 
              Object.entries(user).forEach(([key, value]) => {

@@ -20,9 +20,9 @@ export const updateProduct = async (formData) => {
     "use server"
     console.log(formData, "Formage")
 
-    const { id, name, category, price, description, slug, image, url, cloud, base64 } = Object.fromEntries(formData);
+    const { id, name, category, price, description, slug, image, url, cloud } = Object.fromEntries(formData);
         
-
+let base64 = ""
     console.log(image, "na me wan enter")
     console.log(name, "hdhdhdhjd")
     console.log(slug, "sluggggg")
