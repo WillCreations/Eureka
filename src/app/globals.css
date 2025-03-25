@@ -35,12 +35,12 @@ body {
 
   .GroupOne {
   
-      @apply bg-white flex flex-col m-5 p-5 rounded-md gap-2 justify-between text-black col-span-3
+      @apply bg-white flex flex-col p-5 rounded-md gap-2 justify-between text-black col-span-3
     }
 
   .Group{
     
-      @apply bg-white flex sm:flex-col lg:flex-row m-5 p-5 rounded-md gap-1 justify-between  text-black col-span-3 sm:col-span-1 
+      @apply bg-white flex sm:flex-col lg:flex-row  p-5 rounded-md gap-5 justify-between  text-black col-span-3 sm:col-span-1 
     }
 
         .Skill {
@@ -59,7 +59,7 @@ body {
 }
 
 .Header{
-  @apply text-green-500 text-2xl text-center
+  @apply text-green-300 text-2xl text-center font-extrabold
 }
 .Heading {
   @apply text-lg font-extrabold

@@ -69,7 +69,7 @@ export default async function Home() {
             <div className="my-5">
               <p>
                 Meet{" "}
-                <span className="text-black text-2xl font-extrabold ">
+                <span className="text-black text-2xl font-black ">
                   Princewill Igwe.
                 </span>
               </p>
@@ -99,7 +99,7 @@ export default async function Home() {
           </Link>
         </div>
       </div>
-      <div className="mx-10 md:mx-28 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 my-28 ">
+      <div className="mx-10 gap-10 md:mx-28 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 my-28 ">
         {[25, 50, 60, 80, 90, 100].map((p) => {
           return (
             <div key={p} className="flex justify-center items-center">
@@ -110,45 +110,51 @@ export default async function Home() {
       </div>
       <div className="my-5 px-10 md:px-28"></div>
       <div className={`px-10 md:px-28 mt-32`}>
-        <h2 className="text-2xl my-5 font-semibold text-blue-300 text-center">
+        <h2 className="text-2xl my-5 font-semibold text-green-300 text-center">
           Our Services
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
           {[
             {
               tag: "Full Stack Web Development",
+              image: "/avatar/web.svg",
               para: "Our expert team brings your digital vision to life with custom-built websites and web applications tailored to your specific needs. With proficiency in a variety of programming languages and frameworks, we ensure your online presence stands out in the crowded digital landscape",
             },
             {
               tag: "Graphic Designs",
+              image: "/avatar/graphics.svg",
               para: "Captivate your audience with visually stunning graphics crafted by our talented designers. Whether it's logos, illustrations, infographics, or any other graphical elements, we infuse creativity and innovation into every design to make your brand shine.",
             },
             {
               tag: "UI/UX Design",
+              image: "/avatar/UI.svg",
               para: "User experience is paramount in today's digital world. Our UI/UX experts design intuitive interfaces that not only engage users but also enhance usability and satisfaction, resulting in higher conversions and customer retention.",
             },
             {
               tag: "Brand Identity and Logo Design",
+              image: "/avatar/brand.svg",
               para: "Your brand is more than just a logo - it's the essence of your business. Let us help you create a memorable brand identity that resonates with your audience and sets you apart from the competition. From logos to brand guidelines, we ensure consistency across all touchpoints",
             },
             {
               tag: "Motion Graphics",
+              image: "/avatar/motion.svg",
               para: "Bring your brand to life with dynamic motion graphics that capture attention and leave a lasting impression. Our skilled animators create visually compelling animations and videos that communicate your message effectively across various platforms.",
             },
             {
               tag: "Magazine and Book Design",
+              image: "/avatar/books.svg",
               para: "Impress your readers with visually stunning magazine layouts and book designs. From cover to cover, we blend creativity with functionality to create publications that engage and inspire.",
             },
           ].map((unit) => {
             return (
               <div
                 key={unit.tag}
-                className={`bg-white rounded-md text-black p-5 ${styles.Service}`}
+                className={`bg-green-300 rounded-md text-black p-5 ${styles.Service}`}
               >
-                <div className="flex justify-center my-5">
+                <div className="flex justify-center  h-40 w-full overflow-hidden py-10 my-5">
                   <Image
                     className="block text-center"
-                    src="/avatar/avatar.svg"
+                    src={unit.image}
                     width={100}
                     height={100}
                     alt={unit.tag}
@@ -162,12 +168,20 @@ export default async function Home() {
           })}
         </div>
       </div>
-      <Slide Prod={prodSend} />
+
+      <div className="mt-32">
+        <div className="text-2xl font-black my-5 text-green-300 text-center">
+          Our Products
+        </div>
+        <Slide Prod={prodSend} />
+      </div>
       <div className="my-5 px-10 md:px-28 mt-32">
-        <h2 className="text-2xl my-5 font-semibold text-blue-300 text-center ">
-          Why Choose us
+        <h2 className="text-2xl my-5 font-semibold text-green-300 text-center ">
+          Why Choose Us
         </h2>
-        <p className={`text-justify ${styles.SlideIn}`}>
+        <p
+          className={`text-justify lg:text-center text-base ${styles.SlideIn}`}
+        >
           At Eureka, we are committed to delivering excellence in every project
           we undertake. Our team of seasoned professionals combines technical
           expertise with creative flair to deliver results that exceed
@@ -177,16 +191,18 @@ export default async function Home() {
         </p>
       </div>
       <div className="my-5 px-10 md:px-28 mt-32">
-        <h2 className="text-2xl my-5 font-semibold text-blue-300 text-center">
+        <h2 className="text-2xl my-5 font-semibold text-green-300 text-center">
           Testimonials
         </h2>
-        <p className="text-center">
+        <p className="text-justify lg:text-center text-base">
           Don't take our word for it, here's what our customers have to say
           about us
         </p>
-        <div></div>
-        <div></div>
-        <div></div>
+        <div className="grid grid-cols-6 gap-5 my-5 w-full">
+          {[...Array(6)].map(() => {
+            return <div className="w-40 h-40 rounded-full bg-green-300 "></div>;
+          })}
+        </div>
       </div>
       {/* <Slider Prod={Prod} /> */}
       {/* <div

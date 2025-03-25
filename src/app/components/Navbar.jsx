@@ -8,6 +8,7 @@ import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { IoClose } from "react-icons/io5";
 import * as styles from "@/app/Styles/index.module.css";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
   const [touch, setTouch] = useState("hidden");
@@ -16,6 +17,7 @@ const Navbar = () => {
   const { data: session } = useSession();
   const router = useRouter();
   const [user, setUser] = useState();
+  const Pathname = usePathname();
 
   const Pixel = async () => {
     const response = await fetch(`/api/user?search=${session?.user.name}`);
@@ -52,13 +54,24 @@ const Navbar = () => {
   console.log(session?.user.name, "user");
 
   return (
-    <div className="md:flex sticky top-0 left-0 z-10 w-full bg-black justify-between block md:py-8 md:items-Start  pb-0">
+    <div className="md:flex md:px-28 px-10 sticky top-0 left-0 z-10 w-full bg-black justify-between block md:py-8 md:items-Start  pb-0">
       <div className="flex sticky py-8 md:py-0 bg-black z-10 w-full md:w-fit justify-between items-center">
-        <h1 className="mx-10 my-2 font-bold text-2xl text-blue-300">Eureka</h1>
+        <div className="flex  my-2 items-center">
+          <div className="flex mr-2 mb-2  items-center">
+            <Image
+              src={"avatar/brandlogo.svg"}
+              alt={"Eureka logo"}
+              className="object-cover"
+              width={20}
+              height={10}
+            />
+          </div>
+          <h1 className="p-0 font-bold text-2xl text-blue-300">Eureka</h1>
+        </div>
 
         <div
           onClick={Toggler}
-          className="md:hidden h-full flex items-center cursor-pointer mx-4 pr-10 text-2xl hover:text-white text-blue-300 relative"
+          className="md:hidden h-full flex items-center cursor-pointer  text-2xl hover:text-white text-blue-300 relative"
         >
           {isOpen ? <IoClose /> : <FaBars />}
           {!session || Num === 0 ? null : (
@@ -76,25 +89,40 @@ const Navbar = () => {
       >
         {session ? (
           <ul
-            className={`md:flex w-full h-screen items-center py-5 md:py-0 md:pr-10  text-sm text-black  md:h-fit md:text-white bg-white  md:bg-black `}
+            className={`md:flex w-full h-screen items-center py-5 md:py-0   text-sm text-black  md:h-fit md:text-white bg-white  md:bg-black `}
           >
             <li
               onClick={Toggler}
-              className="mx-10 my-2 md:mx-6 active:text-blue-500 active:border-b-2 active:border-solid active:border-blue-500 hover:text-blue-300"
+              className={`${
+                Pathname === "/"
+                  ? "text-green-300 border-solid border-b-2 border-green-300"
+                  : null
+              } mx-10 my-2 md:mx-6  pb-2  hover:text-green-300`}
             >
               <Link href="/">Home </Link>
             </li>
             <li
               onClick={Toggler}
-              className="mx-10 my-2 md:mx-6  hover:text-blue-300"
+              className={`${
+                Pathname === "/products"
+                  ? "text-green-300 border-solid border-b-2 border-green-300"
+                  : null
+              } mx-10 my-2 md:mx-6  pb-2  hover:text-green-300`}
             >
               <Link href="/products">Products </Link>
             </li>
             <li
               onClick={Toggler}
-              className="mx-10 my-2 md:mx-6 relative hover:text-blue-300"
+              className={`${
+                Pathname === "/cart"
+                  ? "text-green-300 border-solid border-b-2 border-green-300"
+                  : null
+              } mx-10 my-2 md:mx-6 relative  pb-2  hover:text-green-300`}
             >
-              <Link href="/cart"> {cartIcon} </Link>
+              <Link href="/cart" className="flex items-center flex-nowrap">
+                <div className="mr-1">Cart </div>
+                <FaCartShopping />
+              </Link>
               {Num === 0 ? null : (
                 <span className="text-sm bg-red-900 text-white py-1 px-2 rounded md:absolute left-5 bottom-2">
                   {Num}
@@ -103,7 +131,7 @@ const Navbar = () => {
             </li>
             <li
               onClick={Toggler}
-              className="mx-10 my-2 md:mx-6 flex items-center"
+              className={`mx-10 my-2 md:mx-6 flex items-center`}
             >
               <div className="flex justify-center rounded-full overflow-hidden w-6 h-6">
                 <Image

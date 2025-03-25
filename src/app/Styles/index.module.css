@@ -89,7 +89,6 @@
     from{
         transform: translateX(-100%);
         opacity: 0;
-       
         filter: blur(50px);
         
     }
@@ -97,7 +96,6 @@
     to {
         transform: translateX(0%);
         opacity: 1;
-        
         filter: blur(0px);
     }
 }
@@ -116,7 +114,6 @@
    transform: translateY(50px);
    filter: blur(20px);
    opacity: 0;
-  
    animation: showContent 0.5s 1s  linear 1 forwards;
 }
 
@@ -216,7 +213,7 @@ border-radius: 0;}
             height: 8rem;
             position: absolute;
             left: 50%;
-            bottom: 0.25rem;
+            bottom: 5%;
             border-radius: 0.375rem;
     }
 }

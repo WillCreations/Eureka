@@ -2,6 +2,7 @@ import Round from "@/app/components/Round";
 import Link from "next/link";
 import PortNav from "@/app/components/PortNav";
 import Carousel from "@/app/components/Carousel";
+import Image from "next/image";
 
 const portfolio = () => {
   return (
@@ -15,11 +16,15 @@ const portfolio = () => {
             Hey! I'm Princewill Igwe
           </h2>
           <p>
-            A seasoned professional with expertise in both front-end and
-            back-end development, coupled with a keen eye for graphic and motion
-            design. With a strong foundation in computer science and design
-            principles, I strive to deliver solutions that are not only
-            functional but also visually compelling.
+            A Highly skilled seasoned professional with expertise in creating
+            and implementing innovative web solutions. Proficient in front-end
+            and back-end technologies, with a strong foundation in full-stack
+            development. Versatile in collaborating with cross-functional teams
+            to drive project success. Passionate about staying up-to-date with
+            the latest industry trends and technologies. possessing a keen eye
+            for graphic and motion design. With a strong foundation in computer
+            science and design principles, I strive to deliver solutions that
+            are not only functional but also visually compelling.
           </p>
 
           <Link href="/cv.docx" download="Princewill Igwe.pdf">
@@ -33,19 +38,67 @@ const portfolio = () => {
       <div id="Portfolio" className="mt-10">
         <h1 className="Header">Portfolio</h1>
         <div className="grid md:grid-cols-2">
-          <div>
+          <div className="md:col-span-2 ">
             <h2>Web Development Projects</h2>
-            <ul>
-              <li>
-                1. Project Name: [Project 1] Description: Brief description of
-                the project highlighting technologies used, challenges overcome,
-                and outcomes achieved. Link: [Link to project/demo]
-              </li>
-              <li>
-                2. Project Name: [Project 2] Description: Brief description of
-                the project highlighting technologies used, challenges overcome,
-                and outcomes achieved. Link: [Link to project/demo]
-              </li>
+            <ul className="w-full grid grid-cols-3 gap-5">
+              {[
+                {
+                  project: "Saint Silas & Ethel",
+                  description:
+                    "A school web application, built with Next js, React js, Tailwind, Mongo Db, Cloudinary. Using Next 14 proved quite challenging, however I was able to write both backend and frontend code in one application.",
+                  link: "www.saintsilas&ethel.com",
+                  decoy: "www.saintsilas&ethel.com",
+                  image: "/projects/Eureka.PNG",
+                },
+                {
+                  project: "Workout",
+                  description:
+                    "A chat & workout log application built with a MERN Stack (Mongo Db, Express js, React js, Node js) and Websocket. Building a chat apllication requires real time messaging which I was able to achieve using web sockets.",
+                  link: "www.workout.com",
+                  decoy: "www.workout.com",
+                  image: "/projects/Eureka.PNG",
+                },
+                {
+                  project: "Eureka",
+                  description:
+                    "An e-commerce web application that doubles as business website, built with Next js, React js, Tailwind,  Mongo Db, Cloudinary. Using Next 14 proved quite challenging,  however I was able to write both backend and frontend code in  one application.",
+                  link: "www.eureka.com",
+                  decoy: "www.eureka.com",
+                  image: "/projects/Eureka.PNG",
+                },
+              ].map((p, index) => {
+                return (
+                  <li
+                    key={index}
+                    className="col-span-full lg:col-span-1  my-5 border-solid border-b-4 border-rounded- border-green-300 "
+                  >
+                    <div className="rounded-md overflow-hidden">
+                      <Image
+                        className="object-contain"
+                        src={p.image}
+                        width={1000}
+                        height={1000}
+                        alt={p.project}
+                      />
+                    </div>
+                    <div className="my-5">
+                      <div>
+                        <span className="text-green-300 font-semibold text-md lg:text-xl">
+                          {p.project}
+                        </span>
+                      </div>{" "}
+                      <div className="italic text-base text-gray-400">
+                        <p> {p.description}</p>
+                      </div>{" "}
+                      <div>
+                        <Link href={p.link} className="text-blue-300">
+                          {p.decoy}
+                        </Link>
+                      </div>
+                    </div>
+                  </li>
+                );
+              })}
             </ul>
           </div>
           <div></div>
@@ -89,7 +142,7 @@ const portfolio = () => {
       </div>
       <div id="Skills" className="mt-10">
         <h1 className="Header">Skills</h1>
-        <ul className="grid grid-cols-3">
+        <ul className="grid my-5 gap-10 grid-cols-3">
           <li className="GroupOne">
             <h3 className="Heading">Web Development: </h3>
             <ul className="Inner">
