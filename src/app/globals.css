@@ -43,6 +43,14 @@ body {
       @apply bg-white flex sm:flex-col lg:flex-row  p-5 rounded-md gap-5 justify-between  text-black col-span-3 sm:col-span-1 
     }
 
+
+.projectList{
+  @apply my-5 text-gray-500 italic 
+}
+
+    .subHeader{
+      @apply bg-green-300 text-gray-900 rounded-b-md rounded-r-md px-5 py-2 w-fit
+    }
         .Skill {
           @apply bg-green-100 p-5 rounded-md flex md:flex-col justify-between 
         }
@@ -67,6 +75,12 @@ body {
 
 .subHeading {
   @apply text-sm font-bold
+}
+
+
+
+.appear:hover .appearObj {
+  opacity: 1;
 }
 
 /* width */

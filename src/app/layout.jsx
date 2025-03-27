@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { ProductCartProvider } from "../contextProvider/Prod";
+import { CarouselContextProvider } from "../contextProvider/CarouselContextProvider";
 import Provider from "../contextProvider/Provider";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -18,9 +19,11 @@ export default function RootLayout({ children }) {
       <Provider>
         <body className={inter.className}>
           <ProductCartProvider>
-            <Navbar />
-            {children}
-            <Footer />
+            <CarouselContextProvider>
+              <Navbar />
+              {children}
+              <Footer />
+            </CarouselContextProvider>
           </ProductCartProvider>
         </body>
       </Provider>

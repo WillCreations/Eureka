@@ -51,8 +51,8 @@ export default async function Home() {
   const session = await getServerSession(options);
   return (
     <div className="min-h-screen text-white">
-      <div className="bg-blue-500  px-10 md:px-28 py-20 h-auto md:gap-5 md:grid grid-cols-2">
-        <div className="flex flex-col  justify-start">
+      <div className="bg-blue-500  px-10 lg:px-28  h-auto md:gap-5 md:grid grid-cols-2">
+        <div className="flex flex-col py-20  justify-start">
           <div>
             <h1 className="text-4xl font-extrabold">Welcome to Eureka Tech</h1>
             <p className="text-justify text-sm mt-3">
@@ -79,7 +79,7 @@ export default async function Home() {
 
           <Navbutton />
         </div>
-        <div className="w-full flex items-end justify-end">
+        <div className="w-full flex items-end justify-center md:justify-end">
           <Link href="/portfolio">
             <div
               className={` ${styles.cover} flex items-end justify-center hover:scale-90  md:hover:scale-105 md:active:scale-90 w-full h-[500px] shadow hover:shadow-2xl  relative cursor-pointer hover:-rotate-6 transition overflow-hidden mt-14 md:mt-0 rounded-md`}
@@ -87,19 +87,19 @@ export default async function Home() {
               <Image
                 className="object-contain top translate-y-5"
                 src="/me.png"
-                width={1000}
-                height={1000}
+                width={500}
+                height={500}
                 alt="Igwe Princewill"
               />
-              <h1 className=" absolute p-1 rounded-md bg-black z-[5] text-5xl font-extrabold">
-                Portfolio
+              <h1 className=" absolute px-10 py-5 w-full text center rounded-md bg-black z-[5] text-5xl font-extrabold">
+                <span className="text-green-300">l</span> Portfolio
               </h1>
               <div className="absolute  z-10 opacity-1  bg-black top-0 bottom-0  w-full h-full"></div>
             </div>
           </Link>
         </div>
       </div>
-      <div className="mx-10 gap-10 md:mx-28 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 my-28 ">
+      <div className="mx-10 gap-10 lg:mx-28 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 my-28 ">
         {[25, 50, 60, 80, 90, 100].map((p) => {
           return (
             <div key={p} className="flex justify-center items-center">
@@ -108,8 +108,8 @@ export default async function Home() {
           );
         })}
       </div>
-      <div className="my-5 px-10 md:px-28"></div>
-      <div className={`px-10 md:px-28 mt-32`}>
+      <div className="my-5 px-10 lg:px-28"></div>
+      <div className={`px-10 lg:px-28 mt-32`}>
         <h2 className="text-2xl my-5 font-semibold text-green-300 text-center">
           Our Services
         </h2>
@@ -175,7 +175,7 @@ export default async function Home() {
         </div>
         <Slide Prod={prodSend} />
       </div>
-      <div className="my-5 px-10 md:px-28 mt-32">
+      <div className="my-5 px-10 lg:px-28 mt-32">
         <h2 className="text-2xl my-5 font-semibold text-green-300 text-center ">
           Why Choose Us
         </h2>
@@ -190,7 +190,7 @@ export default async function Home() {
           strategy, we have the skills and experience to help you succeed.
         </p>
       </div>
-      <div className="my-5 px-10 md:px-28 mt-32">
+      <div className="my-5 px-10 lg:px-28 mt-32">
         <h2 className="text-2xl my-5 font-semibold text-green-300 text-center">
           Testimonials
         </h2>

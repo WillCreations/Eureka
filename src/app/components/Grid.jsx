@@ -88,7 +88,7 @@ const Grid = ({ cateSearch, allSearch, q, clear, children }) => {
     return <div> {children}</div>;
   } else {
     return (
-      <div className="mx-10 md:mx-28 grid gap-5 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div className="px-10 lg:px-28 grid gap-5 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {produce.map((Prod) => {
           return (
             <Card key={Prod._id} prod={Prod}>

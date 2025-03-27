@@ -112,7 +112,7 @@ const Slide = ({ Prod }) => {
             return (
               <div
                 key={index}
-                className="w-28 h-32 shadow-md thumb rounded-md relative overflow-hidden "
+                className={`w-28 ${styles.thumb} h-32 shadow-md thumb rounded-md relative overflow-hidden `}
               >
                 <Image
                   style={{ objectFit: "cover" }}
@@ -121,7 +121,9 @@ const Slide = ({ Prod }) => {
                   width={200}
                   height={200}
                 />
-                <div className="absolute shadow-md right-1 left-1 bottom-1">
+                <div
+                  className={`absolute ${styles.thumbTooltip} px-5 py-3 bg-black hidden text-gray-300 italic shadow-md right-0 left-0 bottom-4`}
+                >
                   <h2>{p.name}</h2>
                 </div>
               </div>
@@ -133,7 +135,7 @@ const Slide = ({ Prod }) => {
             return (
               <div
                 key={index}
-                className="w-28 h-32 thumb rounded-md relative overflow-hidden "
+                className={`w-28 ${styles.thumb} h-32 shadow-md thumb rounded-md relative overflow-hidden `}
               >
                 <Image
                   style={{ objectFit: "cover" }}
@@ -142,7 +144,9 @@ const Slide = ({ Prod }) => {
                   width={200}
                   height={200}
                 />
-                <div className="absolute right-1 left-1 bottom-1">
+                <div
+                  className={`absolute ${styles.thumbTooltip}  px-5 py-3 bg-black hidden text-gray-300 italic shadow-md right-0 left-0 bottom-4`}
+                >
                   <h2>{p.name}</h2>
                 </div>
               </div>

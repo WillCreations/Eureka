@@ -54,8 +54,8 @@ const Navbar = () => {
   console.log(session?.user.name, "user");
 
   return (
-    <div className="md:flex md:px-28 px-10 sticky top-0 left-0 z-10 w-full bg-black justify-between block md:py-8 md:items-Start  pb-0">
-      <div className="flex sticky py-8 md:py-0 bg-black z-10 w-full md:w-fit justify-between items-center">
+    <div className="md:flex  sticky z-[100] top-0 left-0  w-full bg-black justify-between block md:py-8 md:items-Start  pb-0">
+      <div className="flex sticky lg:pl-28 px-10 md:pr-0 py-8 md:py-0 bg-black z-10 w-full md:w-fit justify-between items-center">
         <div className="flex  my-2 items-center">
           <div className="flex mr-2 mb-2  items-center">
             <Image
@@ -85,7 +85,7 @@ const Navbar = () => {
       <div
         className={` ${styles.first}  ${
           isOpen ? styles.ul : styles.ulReverse
-        } absolute md:relative w-full md:w-fit `}
+        } absolute md:pr-10 lg:pr-28 md:relative w-full md:w-fit `}
       >
         {session ? (
           <ul
@@ -163,7 +163,7 @@ const Navbar = () => {
           </ul>
         ) : (
           <ul
-            className={`md:flex items-center  h-screen py-5 md:py-0 md:pr-10 md:h-fit text-sm text-black md:text-white bg-white md:bg-black w-full`}
+            className={`md:flex items-center  h-screen py-5 md:py-0  md:h-full text-sm text-black md:text-white bg-white md:bg-black w-full`}
           >
             <li>
               <Link href="/login">

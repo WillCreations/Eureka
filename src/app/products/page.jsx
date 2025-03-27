@@ -8,6 +8,7 @@ import Load from "@/app/loading";
 import Loading from "@/app/components/Loading";
 import Grid from "@/app/components/Grid";
 import React, { useState } from "react";
+import Image from "next/image";
 
 const Products = ({ searchParams }) => {
   const q = searchParams?.q || "";
@@ -34,8 +35,8 @@ const Products = ({ searchParams }) => {
   };
   return (
     <div className="min-h-screen text-white">
-      <div className="hidden md:block">
-        <div className="mx-10 md:mx-10 flex justify-between items-center ">
+      <div className="hidden mx-10 lg:mx-28 md:block">
+        <div className=" flex justify-between items-center ">
           <h1 className=" text-2xl font-extrabold text-green-500 flex-1">
             Products
           </h1>
@@ -55,8 +56,15 @@ const Products = ({ searchParams }) => {
         </Grid>
       </Suspense>
       <Link href="https://wa.me/qr/OCNXFD5QJOYXE1">
-        <div className="fixed bg-yellow-500 text-black bottom-20 rounded-full px-5 py-3 right-10 hover:bg-black hover:text-yellow-500 transition cursor-pointer ">
-          w
+        <div className="fixed bg-green-500  bottom-20 rounded-full p-3 right-10 h-14 w-14 flex justify-center items-center  overflow-hidden transition cursor-pointer ">
+          <Image
+            style={{ objectFit: "contain" }}
+            className="transition-transform hover:scale-110"
+            src="/whatsapp.png"
+            alt="whatsapp"
+            width={50}
+            height={50}
+          />
         </div>
       </Link>
       <div
@@ -66,9 +74,16 @@ const Products = ({ searchParams }) => {
             behavior: "smooth",
           });
         }}
-        className="fixed bg-green-500 text-black bottom-5 rounded-full px-5 py-3 right-10 hover:bottom-3 active:bottom-5 transition cursor-pointer "
+        className="fixed bg-yellow-500 bottom-5 rounded-full p-3 right-10 hover:bottom-3 active:bottom-5  h-14 w-14 flex justify-center items-center  overflow-hidden transition cursor-pointer "
       >
-        x
+        <Image
+          style={{ objectFit: "contain" }}
+          className="transition-transform rotate-90 hover:scale-110"
+          src="/arrow.png"
+          alt="whatsapp"
+          width={50}
+          height={50}
+        />
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ import React from "react";
 const Category = ({ FetchFilter, Fetcher }) => {
   return (
     <div>
-      <ul className="flex justify-between py-10 px-10">
+      <ul className="flex justify-between py-10 ">
         <li>
           <button
             className="btn btn-ghost"
