@@ -3,7 +3,7 @@ import { connectToDb } from "../mongodb/database";
 
 export const fetchproduct = async (q, page) => {
   const regex = new RegExp(q, "i");
-
+  console.log({ q, page });
   const ITEM_PER_PAGE = 5;
 
   try {

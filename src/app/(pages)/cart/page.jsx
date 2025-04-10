@@ -18,7 +18,7 @@ const Cart = () => {
   const router = useRouter();
   const { data: session } = useSession();
   const [showSpinner, setShowSpinner] = useState(false);
-  const [checkout, setCheckout] = useState("text-green-500");
+  const [checkout, setCheckout] = useState("text-green-300");
 
   const HandleCheckout = async () => {
     const stripe = await getStripe();
@@ -105,62 +105,64 @@ const Cart = () => {
   //  const handleFlutterPayment = useFlutterwave(config);
 
   return (
-    <div className="min-h-screen text-white mx-6">
-      <div className="flex flex-col w-full">
-        <div className="flex md:mx-5 justify-between items-center">
-          <h1 className=" hidden md:block  text-2xl font-extrabold text-green-500 flex-1">
-            Shopping Cart
+    <div className="min-h-screen text-white ">
+      <div className="flex mx-10 lg:mx-28 flex-col">
+        <div className="flex  justify-between items-center">
+          <h1 className=" hidden md:block  text-4xl font-extrabold text-green-300 flex-1">
+            Cart
           </h1>
-          <h1 className="  w-full md:w-40 bg-white px-2 text-black py-2 rounded-md ">
-            <span className=" block text-center text-2xl text-green-700 font-extrabold">
-              {total}
+          <h1 className="  w-full md:w-40 bg-[#121212] px-5 text-black py-5 rounded-md ">
+            <span className=" block text-center text-4xl text-green-300 font-extrabold">
+              ${total}
             </span>
-            <p className="text-center">Sub Total</p>
+            <p className="text-center text-gray-300">Sub Total</p>
           </h1>
         </div>
       </div>
-      <div className="w-full grid md:grid-cols-2">
+      <div className=" mx-10 lg:mx-28 gap-5 my-5 grid grid-cols-1 lg:grid-cols-2">
         {produce.map((prod) => {
           return (
-            <div
-              className="my-5 md:mx-5 bg-gray-900 rounded-md px-5"
-              key={prod._id}
-            >
+            <div className="  bg-[#121212] rounded-md px-5" key={prod._id}>
               <div className="my-5  flex justify-between items-center">
-                <div className="grid grid-cols-3 w-full">
-                  <div className="my-5 mr-10 col-span-1">
-                    <div className="rounded-md  overflow-hidden ">
-                      <Image
-                        src={prod.image}
-                        alt={prod.description}
-                        height={200}
-                        width={200}
-                        className="object-cover"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col justify-between xl:flex-row col-span-2">
-                    <div className="py-5 pr-5 mr-10">
-                      <h2>{prod.name}</h2>
-                      <h2>{prod.category}</h2>
-                      <h1 className="text-2xl">#{prod.price}</h1>
-                      <div className="mt-5">
-                        <Multipier
-                          SingleProd={prod}
-                          Quant={HandleQuant}
-                          disabler={parallax.Bool(prod._id)}
+                <div className="grid grid-cols-1 w-full">
+                  <div className="grid gap-5 grid-cols-2 p-5 w-full">
+                    <div className=" col-span-1">
+                      <div className="rounded-md flex justify-center items-center bg-white w-full h-60 lg:h-64 overflow-hidden ">
+                        <Image
+                          src={prod.image}
+                          alt={prod.description}
+                          height={1000}
+                          width={1000}
+                          className="object-cover"
                         />
                       </div>
                     </div>
-                    <div className="flex justify-end items-end ml-5 my-5">
-                      <CartButton
-                        SingleProd={prod}
-                        show={parallax.Bool(prod._id) ? "Remove" : "Add"}
-                        AddHandler={HandleAdd}
-                        colour="bg-red-700"
-                      />
+                    <div className="flex flex-col justify-between xl:flex-row col-span-1">
+                      <div className="flex-col justify-between items-between ">
+                        <div>
+                          <h2 className="text-2xl text-green-300 font-bold">
+                            {prod.name}
+                          </h2>
+                          <h2>{prod.category}</h2>
+                          <h1 className="text-2xl">${prod.price}</h1>
+                        </div>
+                        <div className="mt-5">
+                          <Multipier
+                            SingleProd={prod}
+                            Quant={HandleQuant}
+                            disabler={parallax.Bool(prod._id)}
+                          />
+                        </div>
+                      </div>
                     </div>
+                  </div>
+                  <div className="flex justify-center p-5 text-white items-end ">
+                    <CartButton
+                      SingleProd={prod}
+                      show={parallax.Bool(prod._id) ? "Remove" : "Add"}
+                      AddHandler={HandleAdd}
+                      colour="bg-black"
+                    />
                   </div>
                 </div>
               </div>
@@ -168,9 +170,9 @@ const Cart = () => {
           );
         })}
       </div>
-      <div className="flex mt-5 flex-col justify-start items-Start mx-5">
+      <div className="my-5 grid grid-cols-1 sm:grid-cols-2 gap-5 justify-start items-Start mx-10 lg:mx-28">
         <button
-          className="btn btn-ghost "
+          className="hover:bg-gray-300 rounded-xl hover:text-black text-gray-300 bg-[#121212] col-span-1 "
           // onClick={() => {
           //   handleFlutterPayment({
           //       callback: (response) => {
@@ -190,7 +192,7 @@ const Cart = () => {
         </button>
 
         <button
-          className={`hover:bg-green-500 mt-3 active:scale-95 active:bg-green-700 ${checkout} active:text-black flex items-center justify-center hover:text-black  transition-all w-full rounded-lg py-3  border-solid border-green-500 border-2`}
+          className={`hover:bg-green-300 col-span-1 active:scale-95 active:bg-green-500 ${checkout} active:text-black flex items-center justify-center hover:text-black  transition-all w-full rounded-lg py-3  border-solid border-green-300 border-2`}
           onClick={() => {
             startSpinner(), HandleCheckout();
           }}

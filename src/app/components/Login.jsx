@@ -56,12 +56,14 @@ const Login = ({ setEmail }) => {
         setMessage({ ...message, password: "" });
         setBorder({ ...border, password: "" });
         setSuccess(true);
+        setShowing(false);
         setTimeout(() => {
           router.push("/");
         }, 3000);
       }
     } else {
       setShowing(true);
+      setSuccess(false);
       setMessage({ ...message, email: "Enter Valid Email" });
       setBorder({ ...border, email: "border-solid border-2 border-red-500" });
     }
@@ -108,12 +110,12 @@ const Login = ({ setEmail }) => {
       <div className="w-2/3 md:w-2/5 my-5">
         <div className="my-5">
           <div className="my-5">
-            <p className="text-green-500 text-center text-2xl font-extrabold">
+            <p className="text-green-300 text-center text-4xl font-extrabold">
               Login
             </p>
           </div>
           <button
-            className="btn btn-primary w-full rounded-md"
+            className="bg-[#3b3b3b] text-gray-300 py-5 w-full rounded-lg"
             onClick={() => {
               signIn("google");
             }}
@@ -123,9 +125,9 @@ const Login = ({ setEmail }) => {
         </div>
         <form className="my-5 pb-5" onSubmit={Logger}>
           <div className="my-5 w-full">
-            <label>Email</label>
+            <label className="text-green-300">Email</label>
             <input
-              className={`p-5 w-full text-black bg-gray-200 rounded-md ${border.email}`}
+              className={`p-5 w-full text-gray-400 bg-[#121212] rounded-md ${border.email}`}
               type="text"
               placeholder="@example.com"
               value={data.email}
@@ -140,9 +142,9 @@ const Login = ({ setEmail }) => {
             )}
           </div>
           <div className="mt-5 w-full relative">
-            <label>Password</label>
+            <label className="text-green-300">Password</label>
             <input
-              className={`p-5 w-full text-black bg-gray-200 rounded-md ${border.password}`}
+              className={`p-5 w-full text-gray-400 bg-[#121212] rounded-md ${border.password}`}
               type={`${pass}`}
               placeholder="Password"
               value={data.password}
@@ -169,12 +171,12 @@ const Login = ({ setEmail }) => {
             Forgot password?
           </div>
           <div
-            className={`flex align-center  ${
+            className={`flex flex-col align-center  ${
               showing || success ? "justify-between" : "justify-end"
             } items-center`}
           >
             {showing ? (
-              <div className="text-red-500 border-2 border-red-500 border-solid py-2 px-5 bg-red-300 rounded-md ">
+              <div className="text-red-500 border-2 border-red-500 border-solid py-5 px-5 w-full bg-red-300 rounded-md ">
                 <p>
                   <span> or please </span>
                   <Link href="/register">
@@ -186,14 +188,12 @@ const Login = ({ setEmail }) => {
             ) : null}
 
             {success ? (
-              <div>
-                <p className="text-green-600  border-2 border-green-600 border-solid py-2 px-5 bg-green-300 rounded-md">
-                  Login Successful
-                </p>
+              <div className="text-green-600  border-2 border-green-600 border-solid py-5 px-5 w-full bg-green-300 rounded-md">
+                <p className="text-center w-full">Login Successful</p>
               </div>
             ) : null}
 
-            <button className="float-right bg-green-500 my-2 text-white px-4 py-2 ml-4 rounded hover:bg-green-600">
+            <button className="w-full bg-green-300 my-2 text-black px-4 py-5  rounded-lg hover:bg-green-600">
               Login
             </button>
           </div>

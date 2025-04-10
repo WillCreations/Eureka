@@ -22,30 +22,60 @@ const productList = async ({ searchParams }) => {
   }
 
   return (
-    <div className="mx-10  flex flex-col gap-10 md:flex-row text-white">
-      <div className=" my-10 md:flex-1 px-10 md:px-0">
-        <div className="flex flex-col ">
-          <div className="flex justify-between items-center rounded-md text-xl py-2 bg-white text-green-950 px-10">
-            <h2>List of Products</h2>
+    <div className="mx-10 lg:mx-28  grid grid-cols-1">
+      <div className="col-span-1 my-10 md:flex-1">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between">
+          <div className=" text-4xl py-2 font-bold  text-green-300 ">
+            <h2>BroadSheet</h2>
           </div>
           <div className="mt-5 w-1/2">
             <SearchBar placeholder="Search User..." />
           </div>
         </div>
-        <div className="h-80 overflow-scroll my-10 pr-3 ">
+
+        <div className="grid-cols-12 grid gap-2 justify-between items-center my-5">
+          <div className="flex col-span-3 lg:col-span-1 rounded-tl-lg rounded-bl-lg px-5 py-3 w-full bg-[#121212]  items-center">
+            <div className="  text-center  w-full ">Image</div>
+          </div>
+
+          <div className=" bg-[#121212] w-full py-3 px-5 text-center capitalize   col-span-5 lg:col-span-4">
+            <h1>Name</h1>
+          </div>
+
+          <div className=" capitalize bg-[#121212] w-full py-3 px-5 text-center hidden lg:block  col-span-3 lg:col-span-2">
+            <h2>Category</h2>
+          </div>
+          <div className="capitalize bg-[#121212] w-full py-3 px-5 text-center hidden lg:block lg:col-span-2">
+            <h2>Price</h2>
+          </div>
+          <div className=" capitalize bg-[#121212] w-full py-3 px-5 text-center hidden lg:block lg:col-span-1">
+            <h2>Stock</h2>
+          </div>
+
+          <div className=" col-span-2 lg:col-span-1">
+            <div className=" bg-[#121212] text-center w-full px-5 py-3 text-white">
+              Action
+            </div>
+          </div>
+          <div className=" col-span-2 lg:col-span-1">
+            <div className=" rounded-tr-lg text-center rounded-br-lg bg-[#121212] w-full px-5 py-3 text-gray-300">
+              Action
+            </div>
+          </div>
+        </div>
+        <div className="h-80 overflow-scroll my-5  ">
           {products.map((prod) => {
             return (
               <div
-                className="flex justify-between p-2 rounded-md hover:bg-gray-900 items-center my-2"
+                className="grid-cols-12 grid gap-2 justify-between items-center my-2"
                 key={prod._id}
               >
-                <div className="flex mr-5 items-center">
-                  <div className="mr-3 rounded-md overflow-hidden">
+                <div className="col-span-3 flex items-center lg:col-span-1">
+                  <div className="h-20 rounded-md overflow-hidden">
                     <Image
+                      width={200}
+                      height={200}
                       style={{ objectFit: "cover" }}
-                      width={50}
-                      height={50}
-                      objectFit="cover"
                       src={prod.alt_image ? prod.alt_image : prod.image}
                       alt={prod.description}
                       loading="lazy"
@@ -55,16 +85,40 @@ const productList = async ({ searchParams }) => {
                       }
                     />
                   </div>
-                  <Link href={`/products/${prod._id}`}>
-                    <h1 className="mr-5">{prod.name}</h1>
-                  </Link>
+                </div>
+
+                <div className="  w-full py-3 px-5  capitalize flex items-center  col-span-5 lg:col-span-4">
+                  <h1 className="mr-5">{prod.name}</h1>
+                </div>
+
+                <div className=" capitalize  w-full py-3 px-5  items-center hidden lg:flex  col-span-3 lg:col-span-2">
                   <h2>{prod.category}</h2>
                 </div>
-                <form action={deleteProd}>
+
+                <div className=" capitalize w-full py-3 px-5  items-center hidden lg:flex lg:col-span-2">
+                  <h2>${prod.price}</h2>
+                </div>
+                <div className=" capitalize w-full py-3 px-5  items-center hidden lg:flex lg:col-span-1">
+                  <h2>{prod.stock} Units</h2>
+                </div>
+                <div className=" col-span-2 flex items-center lg:col-span-1">
+                  <Link className="w-full" href={`/products/${prod._id}`}>
+                    <button className="rounded-lg bg-green-300 w-full px-5 py-3 text-black">
+                      View
+                    </button>
+                  </Link>
+                </div>
+
+                <form
+                  className="flex items-center col-span-2 lg:col-span-1"
+                  action={deleteProd}
+                >
                   <input type="hidden" name="cloud" value={prod.destroy} />
                   <input type="hidden" name="url" value={prod.image} />
                   <input type="hidden" name="id" value={prod._id.toString()} />
-                  <button className="btn btn-warning">Delete</button>
+                  <button className="rounded-lg bg-[#121212] w-full px-5 py-3 text-gray-300">
+                    Delete
+                  </button>
                 </form>
               </div>
             );
@@ -73,8 +127,8 @@ const productList = async ({ searchParams }) => {
 
         <Pagination Count={count} />
       </div>
-      <div className="mx-10 md:mx-0 my-10 flex flex-col  md:flex-1">
-        <div className="flex justify-between items-center rounded-md text-xl py-2 bg-white text-green-950 px-10">
+      <div className=" my-10 col-span-1 flex flex-col  md:flex-1">
+        <div className=" text-2xl font-bold  text-green-300 ">
           Add New Product
         </div>
         <ProductForm Action={addProduct} button="Add" count={count} />

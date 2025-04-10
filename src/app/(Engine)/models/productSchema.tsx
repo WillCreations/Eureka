@@ -1,53 +1,54 @@
-import { Schema, model, models } from "mongoose"
+import { Schema, model, models } from "mongoose";
 
-
-const ProductSchema = new Schema({
+const ProductSchema = new Schema(
+  {
     name: {
-        type: String,
-        required: [true, "is required"],
+      type: String,
+      required: [true, "is required"],
     },
     description: {
-        type: String,
-        required: [true, "email is required"],
+      type: String,
+      required: [true, "email is required"],
     },
 
     price: {
-        type: Number,
-        required: [true, "password is required"]
+      type: Number,
+      required: [true, "password is required"],
     },
 
     category: {
-        type: String,
-        required: [true, "product category"],
-        enum: ["Clothing", "Beauty", "Kitchen", "Phone", "Electronics"]
+      type: String,
+      required: [true, "product category"],
+      enum: ["Clothing", "Beauty", "Kitchen", "Phone", "Electronics"],
     },
 
     image: {
-        type: String,
-        required: [true, " product image"]
+      type: String,
+      required: [true, " product image"],
     },
 
     alt_image: {
-        type: String,
-        required: [true, 'alternative image']
+      type: String,
+      required: [true, "alternative image"],
     },
-    
+
     destroy: {
-        type: String,
-        required: [true, 'destroy image']
+      type: String,
+      required: [true, "destroy image"],
     },
 
     slug: {
-        type: String,
-        required: [true, "product slug"]
+      type: String,
+      required: [true, "product slug"],
     },
 
     stock: {
-        type: Number,
-        required:[true, "product unit"]
-    }
-    
-}, { timestamps: true })
+      type: Number,
+      required: [true, "product unit"],
+    },
+  },
+  { timestamps: true }
+);
 
 console.log("Hey prod Schema");
 

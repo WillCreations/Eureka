@@ -31,8 +31,6 @@ const ProductDetails = async ({ params }) => {
       stock,
     },
   ];
-  // const arrayone = [...cate]
-  //   const transCluster = { ...cluster }
 
   const arrayone = JSON.stringify(cate);
   const transCluster = JSON.stringify(cluster);
@@ -42,28 +40,28 @@ const ProductDetails = async ({ params }) => {
 
   return (
     <div className="min-h-screen box-border m-1 lg:px-28 px-10 pb-96">
-      <div className="flex justify-between items-center rounded-md text-xl py-2 bg-gray-800 text-white px-10">
-        <h2>ProductDetails</h2>
+      <div className="flex justify-between items-center rounded-md py-2  ">
+        <h2 className="text-4xl text-green-300 font-bold">Product Details</h2>
         <div>
-          {session?.user.email === "admin@gmail.com" && (
+          {session?.user.admin && (
             <Link href={`/products/${params.prodId}/edit`}>
-              <button className=" text-sm  bg-green-600 py-1 px-5  rounded-md">
+              <button className=" text-sm  bg-[#121212] py-3 px-5  text-gray-300 rounded-lg">
                 Edit
               </button>
             </Link>
           )}
         </div>
       </div>
-      <div className="flex flex-col lg:flex-row md:justify-between bg-white rounded-md px-2 my-5 text-black">
-        <div className="flex flex-col md:flex-row md:items-start ">
-          <div className="sm:flex justify-center md:flex-2 mt-5  md:mt-10 ">
-            <div className=" relative rounded-md w-full shadow-2xl overflow-hidden h-auto sm:h-60 sm:w-60 ">
+      <div className="flex flex-col  md:justify-between bg-[#121212] rounded-md p-10 my-5 text-black">
+        <div className="grid gap-5 grid-cols-1 md:grid-cols-2 md:items-start ">
+          <div className=" w-full  md:col-span-1   ">
+            <div className=" relative rounded-md w-full shadow-2xl overflow-hidden  ">
               <Image
-                className="object-cover object-end"
+                style={{ objectFit: "cover" }}
                 src={image}
                 alt={description}
-                height={500}
-                width={500}
+                height={1000}
+                width={1000}
               />
               <h3 className="absolute text-white bg-green-700 top-2 py-1 px-2 rounded-sm left-2 items-center">
                 ${price}
@@ -71,28 +69,26 @@ const ProductDetails = async ({ params }) => {
             </div>
           </div>
 
-          <div className="md:flex md:flex-col md:flex-1 p-5">
-            <div>
-              <h1 className="md:pl-5 text-3xl font-bold text-green-800 pt-7">
-                {name}
-              </h1>
+          <div className="md:flex py-5 md:p-5 md:flex-col md:col-span-1 ">
+            <div className="md:p-5">
+              <h1 className=" text-3xl font-bold text-green-300 ">{name}</h1>
               <div className="h-28">
-                <h3 className="md:pl-5 py-2 text-sm font-thin">
-                  {description}
-                </h3>
+                <h3 className=" text-sm text-white font-thin">{description}</h3>
               </div>
             </div>
 
-            <div className="md:ml-5 my-5 pr-5">
+            <div className="md:p-5 text-white">
               <BuyButton prod={prime} />
             </div>
           </div>
         </div>
-        <div className="flex  px-5 lg:flex-col my-5 justify-between items-center lg:items-end">
-          <button className="font-bold text-white text-sm bg-green-600 py-3 px-5 lg:mt-3 rounded-md">
+        <div className="flex gap-5  sm:flex-row flex-col my-5 justify-between items-center lg:items-end">
+          <button className="font-bold w-full sm:w-fit text-black text-md bg-green-300 py-3 px-5 lg:mt-3 rounded-md">
             {category}
           </button>
-          <Box prod={prime[0]} />
+          <div className=" w-full sm:w-fit">
+            <Box prod={prime[0]} />
+          </div>
         </div>
       </div>
 

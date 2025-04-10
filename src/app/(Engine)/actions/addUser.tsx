@@ -1,109 +1,91 @@
-import { revalidatePath } from 'next/cache';
-import User from '../models/user';
-import { connectToDb } from '../mongodb/database';
-import bcrypt from 'bcrypt' 
-import { redirect } from 'next/navigation';
-import { v2 as cloudinary } from "cloudinary"
+import { revalidatePath } from "next/cache";
+import User from "../models/user";
+import { connectToDb } from "../mongodb/database";
+import bcrypt from "bcrypt";
+import { redirect } from "next/navigation";
+import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
-import { join } from "path"
-import path from "path"
+import { join } from "path";
+import path from "path";
 
-export const addUser = async (formData) => {
-    "use server"
-    const {  username, email, phone, address, picture, password, admin } =
-       Object.fromEntries(formData)
+export const addUser = async (formData, formData2) => {
+  "use server";
+  const { name, email, phone, address, code, password } =
+    Object.fromEntries(formData);
+  const { base64, pictureFile, admin } = Object.fromEntries(formData2);
+  const { NODE_ENV } = process.env;
+  console.log(name, "na me wan enter");
+  console.log(admin, "admin");
 
-    console.log(username, "na me wan enter")
-    console.log(admin, "admin")
+  try {
+    connectToDb();
+    let clouding;
+    let newName;
+    let hashed;
+    let phoneNum;
 
-    try {
-
-        connectToDb();
-        let clouding;
-        let base64 = "";
-        let adminuser;
-        if (admin === "on") {
-            adminuser = true
-        } else {
-            adminuser = false
-        };
-        (async function Run() {
-
-            let newName = "/userimage/" + Date.now() + path.extname(picture.name)
-            const pathname = join("public", newName)
-            const cloudUrl = `./${pathname}`
-            console.log('cloudUrl', cloudUrl)
-            console.log("image: ",  picture)
-            const imagebyte = await picture.arrayBuffer()
-            console.log(imagebyte, "imagebyte")
-            const buffer = Buffer.from(imagebyte)
-            console.log("buffer: ", buffer)
-            let hashed = password
-            if (password) {
-                hashed = await bcrypt.hash(password, 10)
-                console.log(hashed, "hashed")
-            }
-
-            if (base64) {
-                const result = await cloudinary.uploader.upload(base64)
-                 newName = result.secure_url
-                clouding = result.public_id
-            } else {
-
-                if (picture.name === "undefined") {
-                    newName = ""
-                } else {
-                    fs.writeFileSync(pathname, buffer)
-            
-                    const result = await cloudinary.uploader.upload(cloudUrl)
-                    console.log('result', result.secure_url)
-                    newName = result.secure_url
-                     clouding = result.public_id
-                    
-                    console.log(`password: ${password} - newName: ${newName}`)
-                }
-            }
-           
-           
-            
-            const user = new User({
-                name: username,
-                email,
-                phone,
-                picture: newName,
-                image: newName,
-                address,
-                destroy: clouding,
-                password: hashed,
-                admin: adminuser
-            });
-
-             Object.entries(user).forEach(([key, value]) => {
-                if (value === "" || undefined ) {
-                 delete user[key]
-                } 
-              })
-
-
-            console.log(user, "wetin i return")
-            user.save()
-
-
-        })()
-      
-
-        
-
-        
-       
-
-    } catch (error) {
-        console.log(error)
-        throw new Error(" failed to add new User")
+    if (NODE_ENV === "development") {
+      if (pictureFile.name) {
+        newName = "/userimage/" + Date.now() + path.extname(pictureFile.name);
+        const pathname = join("public", newName);
+        const cloudUrl = `./${pathname}`;
+        console.log("cloudUrl", cloudUrl);
+        console.log("image: ", pictureFile);
+        const imagebyte = await pictureFile.arrayBuffer();
+        console.log(imagebyte, "imagebyte");
+        const buffer = Buffer.from(imagebyte);
+        console.log("buffer: ", buffer);
+        fs.writeFileSync(pathname, buffer);
+      }
     }
- 
-    revalidatePath(`/users`);
-    redirect(`/users/`);
 
-}
+    if (password) {
+      hashed = await bcrypt.hash(password, 10);
+      console.log(hashed, "hashed");
+    }
 
+    const user = new User({
+      name,
+      email,
+      phone: phoneNum,
+      countryCode: code,
+      picture: newName,
+      image: newName,
+      address,
+      destroy: clouding,
+      password: hashed,
+      admin,
+    });
+
+    Object.entries(user).forEach(([key, value]) => {
+      if (value === "" || undefined) {
+        delete user[key];
+      }
+    });
+
+    console.log(user, "wetin i return");
+    user.save();
+
+    if (NODE_ENV === "production") {
+      const result = await cloudinary.uploader.upload(base64);
+
+      await User.findByIdAndUpdate(user._id, {
+        image: result.secure_url,
+        destroy: result.public_id,
+      });
+
+      clouding = result.public_id;
+
+      cloudinary.uploader.destroy(user.destroy);
+    }
+
+    return true;
+  } catch (error) {
+    console.log(error);
+    throw new Error(" failed to add new User");
+    return false;
+  }
+
+  revalidatePath(`/users`);
+  redirect(`/users`);
+};

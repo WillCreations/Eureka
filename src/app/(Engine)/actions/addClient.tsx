@@ -4,18 +4,24 @@ import { connectToDb } from "../mongodb/database";
 
 export const addClient = async (formData) => {
   "use server";
-  const { name, email, phone, message } = Object.fromEntries(formData);
+  const { firstName, lastName, email, code, phone, message } =
+    Object.fromEntries(formData);
 
-  console.log({ name, email, phone, message });
+  console.log({ firstName, lastName, email, code, phone, message });
+
+  const Joined = `${code}${phone}`;
+  console.log({ Joined });
 
   try {
     connectToDb();
 
     const user = new Client({
-      name,
+      firstName,
+      lastName,
       email,
-      phone,
+      phone: Joined,
       message,
+      read: false,
     });
 
     Object.entries(user).forEach(([key, value]) => {

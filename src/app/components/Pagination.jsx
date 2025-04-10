@@ -25,7 +25,7 @@ const Pagination = ({ Count }) => {
   return (
     <div className="flex justify-between">
       <button
-        className="flex items-center float-right disabled:bg-green-950 disabled:text-gray-500 bg-green-500 my-2 text-white px-10 py-3  rounded hover:bg-green-600"
+        className="flex items-center float-right disabled:bg-green-950 disabled:text-gray-500 bg-green-300 my-2 text-black px-10 py-3  rounded hover:bg-green-600"
         disabled={!hasPrev}
         onClick={() => {
           HandlePageChange("Prev");
@@ -33,11 +33,11 @@ const Pagination = ({ Count }) => {
       >
         Prev
       </button>
-      <div className="px-10 py-1 flex items-center rounded-md font-extrabold bg-white text-black">
+      <div className="px-10 py-3 flex items-center rounded-md font-semibold my-2 bg-[#121212] text-green-300">
         {`${page} of ${Math.ceil(pageTotal)}`}
       </div>
       <button
-        className="flex items-center float-right disabled:bg-green-950 disabled:text-gray-500 bg-green-500 my-2 text-white px-10 py-3  rounded hover:bg-green-600"
+        className="flex items-center float-right disabled:bg-green-950 disabled:text-gray-500 bg-green-300 my-2 text-black px-10 py-3  rounded hover:bg-green-600"
         disabled={!hasNext}
         onClick={() => {
           HandlePageChange("Next");

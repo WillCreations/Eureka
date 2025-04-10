@@ -1,95 +1,308 @@
 "use client";
-import Uploader from "@/app/components/Uploader";
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import { MdVisibility } from "react-icons/md";
-import { MdVisibilityOff } from "react-icons/md";
+import { Codes, CountryCoder } from "@/CountryCodes";
 
-const UserEdit = ({ Updater, parameter, Use }) => {
-  const [show, setShow] = useState(false);
-  const [pass, setPass] = useState("password");
-  const [error, setError] = useState("");
-  const { name, email, address, phone, picture } = Use;
+import { useRouter } from "next/navigation";
+import Uploader from "@/app/components/Uploader";
+import { signOut, useSession } from "next-auth/react";
+import { useState, useEffect } from "react";
+import { MdVisibility } from "react-icons/md";
+import {
+  MdVisibilityOff,
+  MdOutlineIncompleteCircle,
+  MdOutlineToggleOn,
+  MdOutlineToggleOff,
+} from "react-icons/md";
+import * as style from "@/app/Styles/index.module.css";
+
+const UserEdit = ({ Updater, Use }) => {
+  const router = useRouter();
+
+  const [loading, setLoading] = useState(false);
+  const { data: session } = useSession();
+  const [pictureFile, setPictureFile] = useState();
+  const [show, setShow] = useState({
+    password: false,
+    password2: false,
+  });
+  const [focused, setFocused] = useState({
+    name: "false",
+    email: "false",
+    address: "false",
+    phone: "false",
+    picture: "false",
+    password: "false",
+    password2: "false",
+  });
+  const [pass, setPass] = useState({
+    password: "password",
+    password2: "password",
+  });
+  const [message, setMessage] = useState({
+    error: "",
+    success: "",
+  });
+  const [base64, setBase64] = useState("");
+
+  const { _id, name, admin, email, address, countryCode, phone, picture } = Use;
+  const [details, setDetails] = useState({
+    name,
+    email,
+    address,
+    phone,
+    picture,
+    countryCode,
+    password: "",
+    password2: "",
+    admin,
+  });
+
+  const handleSignout = () => {
+    signOut({ redirect: false });
+    router.push("/login");
+  };
 
   const Netflix = async (formData) => {
     try {
-      console.log(formData, "onSubmit");
+      setLoading(true);
+      setMessage({ ...message, error: "", success: "" });
 
-      const response = await Updater(formData);
-      if (response) {
+      const { password, password2 } = details;
+      if (password !== password2) {
+        throw new Error("passwords dont match");
+      }
+
+      const formData2 = new FormData();
+
+      formData2.append("pictureFile", pictureFile);
+      formData2.append("admin", details.admin);
+      formData2.append("base64", base64);
+      formData2.append("picture", picture);
+
+      const response = await Updater(formData, formData2);
+
+      if (response.ok) {
         console.log(response);
+        setLoading(false);
+        setMessage({ ...message, error: "" });
+        setMessage({ ...message, success: response.message });
+        setTimeout(() => {
+          setMessage({ ...message, success: "" });
+
+          if (session?.user.email === response.redirect) {
+            
+            router.push(`/users/${response.redirect}`);
+          } else {
+            handleSignout();
+          }
+        }, 3000);
+      } else {
+        throw new Error(response.message);
       }
     } catch (error) {
-      setError(error.message);
+      setLoading(false);
+      setMessage({ ...message, error: error.message });
+      setTimeout(() => {
+        setMessage({ ...message, error: "" });
+      }, 3000);
     }
   };
-  const shower = (e) => {
-    e.preventDefault();
-    if (!show) {
-      setShow(true);
-      setPass("text");
-    } else {
-      setShow(false);
-      setPass("password");
-    }
+
+  const onChangeHandler = (e) => {
+    setDetails({ ...details, [e.target.name]: e.target.value });
   };
+
+  const inputs = [
+    {
+      name: "name",
+      placeholder: details.name,
+      label: "User Name",
+      error: "Enter Name ",
+      type: "text",
+      pattern: `^[a-zA-Z0-9].{2,16}$`,
+    },
+    {
+      name: "email",
+      placeholder: details.email,
+      label: "Email",
+      error: "enter valid email ",
+      type: "text",
+      pattern: `*@*\.com$`,
+    },
+    {
+      name: "address",
+      placeholder: details.address,
+      label: "Address",
+      error: "enter valid address ",
+      type: "text",
+      pattern: `^[a-zA-Z0-9].{2,500}$`,
+    },
+    {
+      name: "phone",
+      placeholder: details.phone,
+      label: "Phone No.",
+      error: "enter valid number",
+      type: "text",
+      pattern: `^[0-9].{0,11}$`,
+    },
+    {
+      name: "password",
+      placeholder: details.password,
+      label: "New Password",
+      error:
+        "password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one special character !@#$%^&* and one digit",
+      type: pass.password,
+      pattern: `^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*].{8,20}$`,
+    },
+    {
+      name: "password2",
+      placeholder: details.password2,
+      label: "Confirm Password",
+      error: "Passwords don't match ",
+      type: pass.password2,
+      pattern: details.password,
+    },
+  ];
 
   return (
-    <div className="flex flex-col w-full items-center justify-start">
-      <div className="my-5 flex justify-between rounded-md text-xl py-2 w-4/5 bg-gray-800 text-white px-10">
-        <p className="text-white">Update Profile</p>
+    <div className=" mx-10 lg:mx-28">
+      <div className="my-5 flex justify-start rounded-md  text-white ">
+        <p className="text-green-300 text-4xl font-bold">Update Profile</p>
       </div>
-      <div className="flex flex-col lg:flex-row justify-between my-5 bg-gray-900 py-5 px-10 mx-10 md:w-4/5 rounded-md">
-        <div className="w-1/2 my-3 mr-10">
-          <div className="mt-5 mr-14 rounded-md overflow-hidden w-full">
-            <Image src={picture} alt={name} width={100} height={100} />
-          </div>
-        </div>
-        <form className=" pb-5 w-full" action={Netflix}>
-          <div className="my-5 w-full">
-            <input className="p-5" type="hidden" name="id" value={parameter} />
-          </div>
-          <div className="my-5 w-full">
-            <input className="p-5" type="hidden" name="url" value={picture} />
-          </div>
-          {[
-            { name: "username", place: name },
-            { name: "email", place: email },
-            { name: "address", place: address },
-            { name: "phone", place: phone },
-            { name: "password", place: "password" },
-          ].map((one) => {
-            return (
-              <div key={one.name} className="my-5 relative">
-                <label className="capitalize">{one.name}</label>
-                <input
-                  className="p-5 w-full rounded-md"
-                  type={one.place === "password" ? `${pass}` : "text"}
-                  name={one.name}
-                  placeholder={one.place}
-                />
 
-                {one.name === "password" && (
-                  <div
-                    className="absolute right-0 top-1/2 mx-5 p-2 rounded-full hover:bg-gray-800"
-                    onClick={(e) => {
-                      shower(e);
-                    }}
-                  >
-                    {!show ? <MdVisibility /> : <MdVisibilityOff />}
-                  </div>
-                )}
+      <form
+        className="grid w-full grid-cols-2 gap-10 lg:flex-row justify-between my-5 bg-[#121212] py-5 px-10  rounded-md"
+        action={Netflix}
+      >
+        <div className="w-full col-span-2 lg:col-span-1 my-3 mr-10">
+          <Uploader
+            picture={picture ? picture : "/personHead.svg"}
+            imagine="picture"
+            setPictureFile={setPictureFile}
+            base64={base64}
+            setBase64={setBase64}
+          />
+
+          <input className="p-5" type="hidden" name="id" value={_id} />
+        </div>
+
+        <div className=" pb-5 w-full col-span-2 lg:col-span-1">
+          {inputs.map((p) => {
+            return (
+              <div
+                key={p.name}
+                className=" grid grid-cols-6 my-5 items-center gap-5 relative h-fit"
+              >
+                <label className="capitalize col-span-2">{p.label}</label>
+                <div className=" col-span-4">
+                  {p.name !== "phone" && (
+                    <input
+                      className={`p-5 bg-black w-full text-gray-400 rounded-md col-span-5 ${style.input}`}
+                      type={p.type}
+                      name={p.name}
+                      value={p.placeholder}
+                      pattern={p.pattern}
+                      onChange={onChangeHandler}
+                      onBlur={(e) => {
+                        setFocused({ ...focused, [e.target.name]: "true" });
+                      }}
+                      focused={focused[p.name]}
+                    />
+                  )}
+                  {p.name === "phone" ? (
+                    <div className="relative grid gap-3 grid-cols-6 w-full">
+                      <select
+                        className="p-5 col-span-2 bg-black text-gray-400  block rounded-md"
+                        name="code"
+                      >
+                        <option value="">
+                          {`${CountryCoder(countryCode)} : ${countryCode}`}
+                        </option>
+                        ;
+                        {Codes?.map((opt, index) => {
+                          return (
+                            <option
+                              key={index}
+                              value={opt?.dial_code}
+                            >{`${opt?.name} : ${opt?.dial_code}`}</option>
+                          );
+                        })}
+                      </select>
+                      <input
+                        className={`p-5 bg-black w-full text-gray-400 rounded-md col-span-4 ${style.input}`}
+                        type={p.type}
+                        name={p.name}
+                        value={p.placeholder}
+                        pattern={p.pattern}
+                        onChange={onChangeHandler}
+                        onBlur={(e) => {
+                          setFocused({ ...focused, [e.target.name]: "true" });
+                        }}
+                        focused={focused[p.name]}
+                      />
+                    </div>
+                  ) : null}
+                  {(p.name === "password" || p.name === "password2") && (
+                    <div
+                      className="absolute right-0 top-[30%] flex items-center"
+                      onClick={(e) => {
+                        if (!show[p.name]) {
+                          setShow({ ...show, [p.name]: true });
+                          setPass({ ...pass, [p.name]: "text" });
+                        } else {
+                          setShow({ ...show, [p.name]: false });
+                          setPass({ ...pass, [p.name]: "password" });
+                        }
+                      }}
+                    >
+                      <span className=" mx-5 p-2 rounded-full text-white hover:bg-gray-800">
+                        {!show[p.name] ? <MdVisibility /> : <MdVisibilityOff />}
+                      </span>
+                    </div>
+                  )}
+                  <span className="text-red-500 border-2 my-2 h-40 border-red-500 border-solid py-2 px-5 bg-red-300 rounded-md hidden ">
+                    {p.error}
+                  </span>
+                </div>
               </div>
             );
           })}
-          <div>{error}</div>
-          <Uploader imagine="picture" />
+          {session?.user.admin && (
+            <div className=" grid grid-cols-6 my-5 justify-center items-center gap-5 relative h-fit">
+              <label className="capitalize col-span-2">Admin</label>
+              <div className=" col-span-4">
+                <div
+                  onClick={() => {
+                    setDetails({ ...details, admin: !details.admin });
+                  }}
+                  className={`text-6xl ${
+                    details.admin ? "text-green-300" : "text-gray-500"
+                  }   `}
+                >
+                  {details.admin ? (
+                    <MdOutlineToggleOn />
+                  ) : (
+                    <MdOutlineToggleOff />
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+          {message.error !== "" && (
+            <div className="text-red-500 border-2 my-2  border-red-500 border-solid p-5 w-full bg-red-300 rounded-md">
+              {message.error}
+            </div>
+          )}
+          {message.success !== "" && (
+            <div className="text-green-500 border-2 my-2  border-green-500 border-solid p-5 w-full bg-green-300 rounded-md">
+              {message.success}
+            </div>
+          )}
 
-          <button className="float-right bg-green-500 my-2 text-white px-4 py-2 ml-4 rounded hover:bg-green-600">
-            update
+          <button className="w-full text-black bg-green-300 my-2  px-4 py-5 rounded-md hover:bg-green-600">
+            {loading ? <MdOutlineIncompleteCircle /> : "update"}
           </button>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   );
 };

@@ -4,10 +4,22 @@ import { useState, useEffect } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { BsFillCaretDownFill } from "react-icons/bs";
 import * as styles from "@/app/Styles/index.module.css";
+import * as style from "@/app/Styles/index.module.css";
 
 const ProductForm = ({ Action, button, count }) => {
   const [isLoading, setIsLoading] = useState(false);
-  // const [error, setError] = useState("");
+  const [error, setError] = useState("");
+  const [pictureFile, setPictureFile] = useState();
+  const [base64, setBase64] = useState("");
+  const [details, setDetails] = useState({
+    name: "",
+    price: 0,
+    slug: "",
+    stock: 0,
+    description: "",
+    image: "",
+    admin: false,
+  });
 
   useEffect(() => {
     setIsLoading(false);
@@ -15,10 +27,13 @@ const ProductForm = ({ Action, button, count }) => {
 
   const Netflix = async (formData) => {
     try {
-      Action(formData);
+      const formData2 = new FormData();
+      formData2.append("pictureFile", pictureFile);
+      formData2.append("base64", base64);
+      await Action(formData, formData2);
     } catch (error) {
       setIsLoading(false);
-      // setError(error.message);
+      setError(error.message);
       console.log("error: ", error);
     }
   };
@@ -28,57 +43,131 @@ const ProductForm = ({ Action, button, count }) => {
     dropper.style.rotate = "90degree";
   };
 
-  return (
-    <form className="my-5 pb-5" action={Netflix}>
-      {["name", "description", "price", "slug"].map((one) => {
-        return (
-          <div className="my-5 " key={one}>
-            <label className="capitalize">{one}</label>
-            <input
-              className="p-5 w-full rounded-md"
-              type="text"
-              name={one}
-              placeholder={one}
-            />
-          </div>
-        );
-      })}
-      <div className="relative">
-        <label>Category</label>
-        <select
-          id="cars"
-          name="category"
-          onClick={() => {
-            Drop();
-          }}
-          className={`block p-5 w-full relative rounded-md ${styles.drop}`}
-        >
-          <option className="py-3 font-bold ">--select--</option>
-          {["Clothing", "Electronics", "Beauty", "Phone", "Kitchen"].map(
-            (selectItem) => {
-              return (
-                <option key={selectItem} value={selectItem} className="py-3 ">
-                  {selectItem}
-                </option>
-              );
-            }
-          )}
-          <span className="absolute text-white top-50 right-0">
-            {<BsFillCaretDownFill />}
-          </span>
-        </select>
-      </div>
+  const onChangeHandler = (e) => {
+    setDetails({ ...details, [e.target.name]: e.target.value });
+  };
 
-      <Uploader imagine="image" />
-      <button className="flex items-center float-right bg-green-500 my-2 text-white px-10 py-3 ml-4 rounded hover:bg-green-600">
-        {isLoading && (
-          <div className="mr-2 animate-spin">
-            <AiOutlineLoading3Quarters />{" "}
-          </div>
-        )}
-        {button}
-      </button>
-      {/* <div>{error}</div> */}
+  const inputs = [
+    {
+      name: "name",
+      placeholder: details.name,
+      label: "Name",
+      error: "Enter product name ",
+      type: "text",
+      pattern: `^[a-zA-Z0-9].{2,16}$`,
+    },
+    {
+      name: "slug",
+      placeholder: details.slug,
+      label: "Slug",
+      error: "Enter product slug ",
+      type: "text",
+      pattern: `^[a-zA-Z0-9].{2,16}$`,
+    },
+    {
+      name: "price",
+      placeholder: details.price,
+      label: "Price",
+      error: "enter valid price ",
+      type: "number",
+      pattern: `^[0-9].{2,500}$`,
+    },
+    {
+      name: "stock",
+      placeholder: details.stock,
+      label: "Stock",
+      error: "enter valid address ",
+      type: "number",
+      pattern: `^[0-9].{2,500}$`,
+    },
+  ];
+  return (
+    <form
+      className="grid w-full grid-cols-2 gap-10 lg:flex-row justify-between my-5 bg-[#121212] py-5 px-10 rounded-md"
+      action={Netflix}
+    >
+      <Uploader
+        picture="/productModel.svg"
+        setPictureFile={setPictureFile}
+        base64={base64}
+        setBase64={setBase64}
+        imagine="image"
+      />
+
+      <div className=" pb-5 w-full col-span-2 lg:col-span-1">
+        {inputs.map((one, index) => {
+          return (
+            <div
+              className=" grid grid-cols-6 my-5 items-center gap-5 relative h-fit"
+              key={index}
+            >
+              <label className="capitalize col-span-2">{one.label}</label>
+              <div className=" col-span-4">
+                <input
+                  className={`p-5 bg-black w-full text-gray-300 rounded-md col-span-5 ${style.input}`}
+                  type={one.type}
+                  name={one.name}
+                  value={one.placeholder}
+                  placeholder={one.placeholder}
+                  onChange={onChangeHandler}
+                  pattern={one.pattern}
+                />
+              </div>
+            </div>
+          );
+        })}
+
+        <div className=" grid grid-cols-6 my-5 items-center gap-5 relative h-fit">
+          <label className="capitalize col-span-2">Category</label>
+          <select
+            id="cars"
+            name="category"
+            onClick={() => {
+              Drop();
+            }}
+            className={`block bg-black text-gray-400 col-span-4 p-5 w-full relative rounded-md ${styles.drop}`}
+          >
+            <option value="" className="py-3 font-bold ">
+              Choose Product Category
+            </option>
+            {["Clothing", "Electronics", "Beauty", "Phone", "Kitchen"].map(
+              (selectItem) => {
+                return (
+                  <option key={selectItem} value={selectItem} className="py-3 ">
+                    {selectItem}
+                  </option>
+                );
+              }
+            )}
+
+            <span className="absolute text-white top-50 right-0">
+              {<BsFillCaretDownFill />}
+            </span>
+          </select>
+        </div>
+
+        <div className=" grid grid-cols-6 my-5 items-center gap-5 relative h-fit">
+          <label className="capitalize col-span-2">Description</label>
+          <textarea
+            className={`p-5 bg-black w-full text-gray-300 rounded-md col-span-4 ${style.input}`}
+            rows={5}
+            name="description"
+            placeholder="Product Description..."
+            value={details.description}
+            onChange={onChangeHandler}
+          />
+        </div>
+
+        <div>{error}</div>
+        <button className="flex items-center w-full justify-center bg-green-300 my-2 px-10 py-5 text-black  rounded hover:bg-green-600">
+          {isLoading && (
+            <div className="mr-2 animate-spin">
+              <AiOutlineLoading3Quarters />
+            </div>
+          )}
+          <h1>{button}</h1>
+        </button>
+      </div>
     </form>
   );
 };

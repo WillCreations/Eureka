@@ -28,7 +28,7 @@ const CompGrid = ({ prodo, cluster }) => {
       <h1 className="text-2xl text-green-500 font-extrabold my-5">
         Similar Products
       </h1>
-      <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid sm:grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
         {many.map((p) => {
           if (p._id !== one._id) {
             console.log("see: ", p._id, one._id);
@@ -47,8 +47,8 @@ const CompGrid = ({ prodo, cluster }) => {
                     AddHandler={HandleAdd}
                     colour={
                       parallax.Bool(p._id)
-                        ? "bg-red-700"
-                        : "bg-yellow-500 text-black"
+                        ? "bg-black text-white"
+                        : "bg-green-300 text-black"
                     }
                   />
                 </Card>

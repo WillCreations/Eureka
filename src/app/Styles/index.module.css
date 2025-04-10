@@ -52,6 +52,21 @@
 
 }
 
+.skill:hover .skillName{
+    display: flex;
+    justify-content: center;
+}
+.skill:hover .skillLogo{
+    display: none;
+    rotate: 360deg;
+}
+.skill:hover .skillLogoBlack{
+    display: flex;
+    justify-content: center;
+    rotate: 360deg;
+    scale: 105%
+}
+
 
 .Service {
     scale: .8;
@@ -317,8 +332,8 @@ position:  relative;
 }
 
 .input:invalid[focused="true"] ~ div {
-    top: 0px;
-    bottom: 24px;
+    top: 10%;
+ 
     
 }
 
@@ -373,4 +388,21 @@ position:  relative;
         transform: translateY(0%);
         
     }
+}
+
+.trans{
+    position:relative
+
+}
+
+.trans::after{
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 50px;
+    width: 50px;
+background-color: blueviolet;
+
+
 }

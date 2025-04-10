@@ -70,7 +70,7 @@ const Register = () => {
       <div className="min-h-screen pt-32 w-screen flex justify-center text-white">
         <div className="w-2/3 md:w-2/5 my-5">
           <div className="my-5">
-            <p className="text-green-500 text-center text-2xl font-extrabold">
+            <p className="text-green-300 text-center text-4xl font-extrabold">
               Register
             </p>
           </div>
@@ -109,11 +109,11 @@ const Register = () => {
             ].map((p) => {
               return (
                 <div key={p.name} className="my-5 w-full relative">
-                  <label className="capitalize">
+                  <label className="capitalize text-green-300">
                     {p.name === "name" ? "username" : p.name}
                   </label>
                   <input
-                    className={`p-5 text-black bg-gray-200 w-full rounded-md ${style.input}`}
+                    className={`p-5 text-gray-400 bg-[#121212] w-full rounded-md ${style.input}`}
                     type={p.type}
                     placeholder={p.name}
                     value={data[p.name]}
@@ -148,26 +148,24 @@ const Register = () => {
             })}
 
             <div
-              className={`flex align-center  ${
+              className={`flex flex-col align-center  ${
                 showing || error ? "justify-between" : "justify-end"
               } items-center`}
             >
               {showing ? (
-                <div>
-                  <p className="text-green-600  border-2 border-green-600 border-solid py-2 px-5 bg-green-300 rounded-md">
-                    Registeration Successful
-                  </p>
+                <div className="text-green-600  border-2 border-green-600 border-solid py-5 px-5 w-full bg-green-300 rounded-md">
+                  <p className="text-center w-full">Registeration Successful</p>
                 </div>
               ) : null}
 
               {error && (
                 <div>
-                  <span className="text-red-500 border-2 my-2 border-red-500 border-solid py-2 px-5 bg-red-300 rounded-md ">
+                  <span className="text-red-500 border-2 my-2 border-red-500 border-solid py-5 px-5 w-full bg-red-300 rounded-md ">
                     {error}
                   </span>
                 </div>
               )}
-              <button className="float-right bg-green-500 my-2 text-white px-4 py-2 ml-4 rounded hover:bg-green-600">
+              <button className="w-full bg-green-300 my-2 text-black p-5 rounded-lg hover:bg-green-600">
                 Register
               </button>
             </div>

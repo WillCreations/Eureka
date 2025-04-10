@@ -74,9 +74,9 @@ const Slide = ({ Prod }) => {
         {Product.map((p, index) => {
           return (
             <div key={index} className="absolute item  selected inset-0">
-              <div className="h-full w-full  relative overflow-hidden">
+              <div className="h-full w-full bg-white relative overflow-hidden">
                 <Image
-                  style={{ objectFit: "cover" }}
+                  style={{ objectFit: "contain" }}
                   className="w-full h-full absolute"
                   src={p.image}
                   alt="image"

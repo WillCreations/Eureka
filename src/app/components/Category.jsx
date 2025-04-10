@@ -1,12 +1,16 @@
 import React from "react";
 
-const Category = ({ FetchFilter, Fetcher }) => {
+const Category = ({ FetchFilter, Fetcher, cateSearch }) => {
   return (
     <div>
       <ul className="flex justify-between py-10 ">
-        <li>
+        <li className="text-center">
           <button
-            className="btn btn-ghost"
+            className={`${
+              cateSearch === ""
+                ? "bg-green-300 text-black"
+                : "bg-[#121212] text-white"
+            } w-full rounded-xl p-5 my-2`}
             onClick={() => {
               Fetcher();
             }}
@@ -19,7 +23,11 @@ const Category = ({ FetchFilter, Fetcher }) => {
           (cat) => (
             <li key={cat}>
               <button
-                className="btn btn-ghost"
+                className={`${
+                  cateSearch === cat
+                    ? "bg-green-300 text-black"
+                    : "bg-[#121212] text-white"
+                } w-full rounded-xl p-5 my-2`}
                 onClick={() => {
                   FetchFilter(cat);
                 }}

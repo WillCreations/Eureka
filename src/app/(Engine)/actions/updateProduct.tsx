@@ -1,120 +1,108 @@
-import { revalidatePath } from 'next/cache';
-import Product from '../models/productSchema';
-import { connectToDb } from '../mongodb/database';
-import { redirect } from 'next/navigation';
-import { join } from "path"
-import path from "path"
-import { v2 as cloudinary } from "cloudinary"
+import { revalidatePath } from "next/cache";
+import Product from "../models/productSchema";
+import { connectToDb } from "../mongodb/database";
+import { redirect } from "next/navigation";
+import { join } from "path";
+import path from "path";
+import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
 
-
 cloudinary.config({
-    cloud_name: "deelyafti",
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
-    secure: true
-})
+  cloud_name: "deelyafti",
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+  secure: true,
+});
 
+export const updateProduct = async (formData, formData2) => {
+  "use server";
 
-export const updateProduct = async (formData) => {
-    "use server"
-    console.log(formData, "Formage")
+  const { NODE_ENV } = process.env;
+  const { id, name, category, price, description, slug, stock, image } =
+    Object.fromEntries(formData);
+  const { pictureFile, base64, imageUrl } = Object.fromEntries(formData2);
 
-    const { id, name, category, price, description, slug, image, url, cloud } = Object.fromEntries(formData);
-        
-let base64 = ""
-    console.log(image, "na me wan enter")
-    console.log(name, "hdhdhdhjd")
-    console.log(slug, "sluggggg")
-    console.log(cloud, "cloud")
-     console.log(base64, "base64")
- 
- 
+  console.log({
+    id,
+    name,
+    category,
+    price,
+    description,
+    slug,
+    stock,
+    image,
+    pictureFile,
+    base64,
+  });
 
-    try {
+  try {
+    connectToDb();
+    let clouding;
+    let alt;
+    let newName;
 
-        connectToDb()
-        let clouding
-        let alt
-      
-            let newName = "/prodimage/" + Date.now() + path.extname(image.name)
-             const pathname = join("public", newName)
-            const cloudUrl = `./${pathname}`
-            console.log('cloudUrl', cloudUrl)
-            console.log("image: ",  image)
-            const imagebyte = await image.arrayBuffer()
-            console.log(imagebyte, "imagebyte")
-            const buffer = Buffer.from(imagebyte)
-            console.log("buffer: ", buffer)
-            
-        
-        if (base64) {
-            const result = await cloudinary.uploader.upload(base64)
-            newName = result.secure_url
-            alt = result.secure_url
-           clouding = result.public_id
-        } else{
-            
-            if (image.name === 'undefined') {
-                newName = ''
-                clouding = ""
-                alt =""
-                 
-            } else {
-                fs.writeFileSync(pathname, buffer)
-                const result = await cloudinary.uploader.upload(cloudUrl)
-                console.log('result', result)
-                console.log('result', result.secure_url)
-                clouding = result.public_id
-                alt = result.secure_url
-            }}
-        
+    const product = await Product.findOne({ _id: id });
 
-        const updateFields = {
-                 name,
-                 category,
-                 price,
-                 description,
-                 slug,
-                 image: newName,
-                alt_image: alt,
-                 destroy: clouding
-            };
-            
+    if (NODE_ENV === "production") {
+      const result = await cloudinary.uploader.upload(base64);
 
-             Object.entries(updateFields).forEach(([key, value]) => {                  
-                if (value === "" || value === undefined ||value === "--select--") {
-                 delete updateFields[key]
-                } 
-             })
-        
-            console.log(updateFields, "fields")
-        await Product.findByIdAndUpdate(id, updateFields)
-       
-        if (base64) {
-            cloudinary.uploader.destroy(cloud)
-         } else {
+      await Product.findByIdAndUpdate(id, {
+        image: result.secure_url,
+        destroy: result.public_id,
+      });
 
-            if (image.name !== 'undefined' && url !== "" && cloud !== "") {
-            console.log("unlink")
-            cloudinary.uploader.destroy(cloud)
-            fs.unlinkSync(`./public${url}`)
-         }
-         }
-        
-        
-           
-       
-      
-       
+      clouding = result.public_id;
 
-    } catch (error) {
-        console.log(error)
-        throw new Error(" failed to Update Product Info")
-        };
- 
-    revalidatePath(`/products/${id}`);
-    redirect(`/products/${id}`);
+      cloudinary.uploader.destroy(product.destroy);
+      revalidatePath("/");
+    }
 
-}
+    if (NODE_ENV === "development") {
+      if (pictureFile.name) {
+        newName = "/prodimage/" + Date.now() + path.extname(pictureFile.name);
+        const pathname = join("public", newName);
+        const cloudUrl = `./${pathname}`;
+        console.log("cloudUrl", cloudUrl);
+        console.log("image: ", pictureFile);
+        const imagebyte = await pictureFile.arrayBuffer();
+        console.log(imagebyte, "imagebyte");
+        const buffer = Buffer.from(imagebyte);
+        console.log("buffer: ", buffer);
+        fs.writeFileSync(pathname, buffer);
+        if (imageUrl.includes("/prodimage/")) {
+          fs.unlinkSync(`./public${imageUrl}`);
+        }
 
+        alt = newName;
+        clouding = newName;
+      }
+    }
+
+    const updateFields = {
+      name,
+      category,
+      price,
+      description,
+      slug,
+      stock,
+      image: newName,
+      alt_image: alt,
+      destroy: clouding,
+    };
+
+    Object.entries(updateFields).forEach(([key, value]) => {
+      if (value === "" || value === undefined || value === "--select--") {
+        delete updateFields[key];
+      }
+    });
+
+    console.log(updateFields, "fields");
+    await Product.findByIdAndUpdate(id, updateFields);
+  } catch (error) {
+    console.log(error);
+    throw new Error(" failed to Update Product Info");
+  }
+
+  revalidatePath(`/products/${id}`);
+  redirect(`/products/${id}`);
+};

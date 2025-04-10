@@ -2,7 +2,11 @@ import { Schema, model, models } from "mongoose";
 
 const ClientSchema = new Schema(
   {
-    name: {
+    firstName: {
+      type: String,
+      required: [true, "is required"],
+    },
+    lastName: {
       type: String,
       required: [true, "is required"],
     },
@@ -15,6 +19,9 @@ const ClientSchema = new Schema(
     },
     message: {
       type: String,
+    },
+    read: {
+      type: Boolean,
     },
   },
   { timestamps: true }

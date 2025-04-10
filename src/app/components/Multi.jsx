@@ -31,7 +31,7 @@ const Multi = ({ SingleProd }) => {
   return (
     <div className="flex w-full justify-between items-center ">
       <button
-        className="bg-yellow-500 text-black px-5 py-3 rounded-l-btn "
+        className="bg-green-300 text-black px-5 py-3 rounded-l-btn "
         onClick={() => {
           HandleReducer();
         }}
@@ -40,7 +40,7 @@ const Multi = ({ SingleProd }) => {
       </button>
       <span className="px-5">{last ? stock : prodo[index].stock}</span>
       <button
-        className="bg-yellow-500 text-black px-5 py-3 rounded-r-btn"
+        className="bg-green-300 text-black px-5 py-3 rounded-r-btn"
         onClick={() => {
           HandleIncrease();
         }}

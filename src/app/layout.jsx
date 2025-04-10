@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import { fetchUserDetails } from "@/app/(Engine)/actions/fetchUserDetails";
 import { ProductCartProvider } from "../contextProvider/Prod";
 import { CarouselContextProvider } from "../contextProvider/CarouselContextProvider";
 import Provider from "../contextProvider/Provider";
@@ -20,7 +21,7 @@ export default function RootLayout({ children }) {
         <body className={inter.className}>
           <ProductCartProvider>
             <CarouselContextProvider>
-              <Navbar />
+              <Navbar Action={fetchUserDetails} />
               {children}
               <Footer />
             </CarouselContextProvider>

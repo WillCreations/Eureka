@@ -5,18 +5,16 @@ import ProductCart from "../../contextProvider/Prod";
 import { useRouter } from "next/navigation";
 import Multi from "@/app/components/Multi";
 
-const Grid = ({ cateSearch, allSearch, q, clear, children }) => {
+const Grid = ({ cateSearch, allSearch, q, children }) => {
   const [produce, setProduce] = useState([]);
   const [isLoading, setIsLoading] = useState();
   const router = useRouter();
 
   const Fetcher = async () => {
-    router.refresh;
     setIsLoading(false);
     const response = await fetch("/api/products", { next: { revalidate: 0 } });
     const data = await response.json();
     if (response) {
-      router.refresh;
       setIsLoading(true);
       console.log(isLoading, "Loader");
     }
@@ -33,7 +31,6 @@ const Grid = ({ cateSearch, allSearch, q, clear, children }) => {
 
   useEffect(() => {
     const searchFilter = async () => {
-      router.refresh;
       setIsLoading(false);
       const response = await fetch(`/api/products/search?search=${q}`, {
         next: { revalidate: 0 },
@@ -50,7 +47,7 @@ const Grid = ({ cateSearch, allSearch, q, clear, children }) => {
 
   const FetchFilter = async (cate) => {
     setIsLoading(false);
-    router.refresh;
+
     const response = await fetch(`/api/products/category?category=${cate}`, {
       next: { revalidate: 0 },
     });
@@ -65,7 +62,6 @@ const Grid = ({ cateSearch, allSearch, q, clear, children }) => {
   useEffect(() => {
     if (cateSearch) {
       FetchFilter(cateSearch);
-      clear();
     }
   }, [cateSearch]);
 
@@ -102,7 +98,7 @@ const Grid = ({ cateSearch, allSearch, q, clear, children }) => {
                   colour={
                     parallax.Bool(Prod._id)
                       ? "bg-red-700"
-                      : "bg-yellow-500 text-black"
+                      : "bg-green-300 text-black"
                   }
                 />
               )}

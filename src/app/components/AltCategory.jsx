@@ -18,10 +18,10 @@ const AltCategory = ({ FetchFilter, Fetcher }) => {
 
   return (
     <div className="mb-10">
-      <ul>
+      <ul className="bg-[#121212] rounded-xl p-2">
         <li>
           <button
-            className="w-full btn btn-ghost my-10"
+            className=" text-white w-full rounded-xl p-5 my-3"
             onClick={() => {
               show ? setShow(false) : setShow(true);
             }}
@@ -40,7 +40,7 @@ const AltCategory = ({ FetchFilter, Fetcher }) => {
             ].map((cat) => (
               <li key={cat}>
                 <button
-                  className="btn btn-ghost"
+                  className="bg-black w-full rounded-xl p-5 my-2"
                   onClick={() => {
                     cat !== "All" ? Open(cat) : Default();
                   }}

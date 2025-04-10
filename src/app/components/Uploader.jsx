@@ -1,13 +1,23 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
+import { FaClipboardList } from "react-icons/fa6";
+import { IoClose } from "react-icons/io5";
 
-const Uploader = ({ imagine }) => {
-  const [base64, setBase64] = useState();
+const Uploader = ({ imagine, picture, setPictureFile, base64, setBase64 }) => {
+  const [show, setShow] = useState(false);
+
+  const Shower = () => {
+    setBase64("");
+    setShow(false);
+  };
 
   const Loader = (e) => {
     e.preventDefault();
-    console.log("hey");
+    const file = e.target.files[0];
+
+    console.log({ checkFile1: file });
+    setPictureFile(file);
     const reader = new FileReader();
     console.log(reader);
     reader.readAsDataURL(e.target.files[0]);
@@ -15,35 +25,40 @@ const Uploader = ({ imagine }) => {
       console.log(reader.result, "result");
       setBase64(reader.result);
     };
+    setShow(true);
   };
 
   return (
-    <div className="my-5 ">
-      <input name="base64" type="hidden" value={base64} />
-      <label>Image</label>
-      <div className="mb-5 flex rounded-md justify-between items-center text-black bg-white py-1 px-4">
-        <input
-          className="py-5 w-1/2"
-          type="file"
-          accept="image/*"
-          name={imagine}
-          onChange={(e) => {
-            Loader(e);
-          }}
+    <div className=" relative cursor-pointer w-full col-span-2 lg:col-span-1 my-3 mr-10">
+      <div className=" flex relative justify-center items-center rounded-md overflow-hidden w-full">
+        <Image
+          src={base64 ? base64 : picture}
+          style={{ objectFit: "contain" }}
+          alt="image"
+          width={1000}
+          height={1000}
         />
-        {base64 === "" || base64 === undefined ? (
-          ""
-        ) : (
-          <div className="overflow-hidden h-14 w-14 rounded-md shadow-xl">
-            <Image
-              alt=""
-              width={100}
-              height={100}
-              src={base64}
-              objectFit="cover"
-            />
-          </div>
-        )}
+
+        {!show ? (
+          <input
+            className="p-5 rounded-lg cursor-pointer absolute z-[11] top-10 right-10  opacity-0 bg-white w-20 h-20"
+            type="file"
+            accept="image/*"
+            name={imagine}
+            onChange={(e) => {
+              Loader(e);
+            }}
+          />
+        ) : null}
+
+        <div
+          onClick={() => {
+            Shower();
+          }}
+          className="bg-[#121212] text-green-300 p-5 rounded-lg cursor-pointer  absolute z-[10] top-10 right-10 text-4xl w-20 h-20"
+        >
+          {show ? <IoClose /> : <FaClipboardList />}
+        </div>
       </div>
     </div>
   );
