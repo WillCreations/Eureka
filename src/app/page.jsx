@@ -11,7 +11,9 @@ import Navbutton from "./components/Navbutton";
 import Slide from "@/app/components/Slide";
 import Testimonial from "@/app/components/Testimonial";
 import Contact from "@/app/components/Contact";
+import Accrodion from "@/app/components/Accordion";
 import Round from "@/app/components/Round";
+import Accordion from "@/app/components/Accordion";
 
 export default async function Home() {
   await connectToDb();
@@ -55,7 +57,7 @@ export default async function Home() {
       name: "John Carter",
       image: "/testimonial/01.jpg",
       profession: "Doctor",
-      business: "Omapletx labs",
+      business: "Omaplex Labs",
       comment: "I love this team alot",
     },
     {
@@ -98,7 +100,7 @@ export default async function Home() {
   const session = await getServerSession(options);
   return (
     <div className="min-h-screen text-white">
-      <div className="bg-blue-500  px-10 lg:px-28  h-auto md:gap-5 md:grid grid-cols-2">
+      <div className="bg-[#121212]  px-10 lg:px-28  h-auto md:gap-5 md:grid grid-cols-2">
         <div className="flex flex-col py-20  justify-start">
           <div>
             <h1 className="text-6xl text-green-300 font-extrabold">
@@ -199,7 +201,7 @@ export default async function Home() {
             return (
               <div
                 key={unit.tag}
-                className={`bg-green-300 rounded-md text-black p-5 ${styles.Service}`}
+                className={`bg-black rounded-md text-green-300 border-solid border-2 border-green-300 p-5 ${styles.Service}`}
               >
                 <div className="flex justify-center  h-40 w-full overflow-hidden py-10 my-5">
                   <Image
@@ -211,7 +213,7 @@ export default async function Home() {
                   />
                 </div>
 
-                <h4 className="text-xl font-extrabold">{unit.tag}</h4>
+                <h4 className="text-2xl font-extrabold">{unit.tag}</h4>
                 <p className="text-xs text-justify">{unit.para}</p>
               </div>
             );
@@ -304,6 +306,10 @@ export default async function Home() {
             return <Testimonial key={index} client={c} />;
           })}
         </div>
+      </div>
+
+      <div className="my-5 px-10 lg:px-28 mt-32">
+        <Accordion />
       </div>
       <div className="my-5 px-10 lg:px-28 mt-32">
         <Contact Action={addClient} />

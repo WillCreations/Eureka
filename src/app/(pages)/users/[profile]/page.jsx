@@ -7,6 +7,7 @@ import Image from "next/image";
 import ImageForm from "@/app/components/ImageForm";
 import { uploader } from "@/app/(Engine)/actions/uploader";
 import { CountryCoder } from "@/CountryCodes";
+import DnD from "@/app/components/DnD";
 
 const Profile = async ({ params }) => {
   await connectToDb();
@@ -26,11 +27,11 @@ const Profile = async ({ params }) => {
       <div className=" text-4xl py-5 font-bold  text-green-300 ">
         <p>Profile</p>
       </div>
-      <div className="bg-[#121212] p-5 text-gray-400 rounded-lg">
-        <div className=" grid grid-cols-1 md:grid-cols-5 gap-5 py-5  ">
-          <div className="relative col-span-2 w-full  rounded-md  overflow-hidden h-[300px]  ">
+      <div className="flex flex-col gap-5 bg-[#121212] p-5 text-gray-400 rounded-lg">
+        <div className=" grid grid-cols-1 md:grid-cols-5 gap-5 ">
+          <div className="relative col-span-2 w-full bg-gray-900  rounded-md  overflow-hidden max-h-[500px]  ">
             <Image
-              className="object-contain bg-black w-full h-full"
+              className="object-cover bg-black min-h-full w-full "
               src={picture ? picture : "/personHead.svg"}
               alt={name}
               width="500"
@@ -84,18 +85,18 @@ const Profile = async ({ params }) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-5 gap-5 items-center justify-between">
+        <div className="grid grid-cols-5 gap-5 items-center justify-between ">
           <div className="col-span-3 md:col-span-2">
             {admin && (
               <div>
-                <div className="flex gap-5  justify-between items-center ">
-                  <Link href="/users">
-                    <button className="rounded-lg bg-green-300 text-black font-medium py-3 px-5">
+                <div className="grid grid-cols-2 gap-5  justify-between items-center ">
+                  <Link className="col-span-1" href="/users">
+                    <button className="rounded-lg w-full bg-green-300 text-black font-medium py-5 px-5">
                       Users Log
                     </button>
                   </Link>
-                  <Link href="/product_panel">
-                    <button className="rounded-lg bg-green-300 text-black font-medium py-3 px-5">
+                  <Link className="col-span-1" href="/product_panel">
+                    <button className="rounded-lg w-full bg-green-300 text-black font-medium py-5 px-5">
                       Product Log
                     </button>
                   </Link>
@@ -109,13 +110,15 @@ const Profile = async ({ params }) => {
 
           <div className="col-span-2 md:col-span-3 flex justify-end">
             <Link href={`/users/${session?.user.name}/${_id.toString()}`}>
-              <button className="rounded-lg bg-green-300 text-black font-medium py-3 px-5 my-5">
+              <button className="rounded-lg bg-green-300 text-black font-medium py-5 px-10">
                 Edit
               </button>
             </Link>
           </div>
         </div>
       </div>
+
+      <DnD />
     </div>
   );
 };

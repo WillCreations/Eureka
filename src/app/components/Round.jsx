@@ -24,7 +24,7 @@ const Round = ({ perc }) => {
         }
         return prev - 1;
       });
-    }, 30.5);
+    }, 10);
   }, []);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const Round = ({ perc }) => {
       } else if (counting > 35 && counting < 70) {
         setStroke("yellow");
       } else if (counting > 70 && counting < 100) {
-        setStroke("rgb(34 197 94)");
+        setStroke("#86efac");
       }
     };
 
@@ -56,7 +56,10 @@ const Round = ({ perc }) => {
     <div
       className={`${styles.RoundContainer}  w-32 h-32 flex justify-center items-center text-center`}
     >
-      <h3 className="font-extrabold text-xl">{`${counting}%`}</h3>
+      <h3
+        className={` font-extrabold  text-2xl`}
+        style={{ color: stroke }}
+      >{`${counting}%`}</h3>
 
       <Circle off={offSet} stroke={stroke} />
     </div>

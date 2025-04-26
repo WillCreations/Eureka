@@ -59,7 +59,7 @@ export const updateUser = async (formData, formData2) => {
       const convert = converter(nameExists._id);
 
       if (convert !== id) {
-        throw new Error("Username already exists");
+        throw new Error("Username already exists with another user");
       }
     }
 
@@ -67,7 +67,7 @@ export const updateUser = async (formData, formData2) => {
       const convert = converter(emailExists._id);
 
       if (convert !== id) {
-        throw new Error("Email already exists");
+        throw new Error("Email already exists with another user");
       }
     }
 

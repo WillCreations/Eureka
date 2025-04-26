@@ -34,7 +34,7 @@ const Box = ({ prod }) => {
   };
 
   return (
-    <div>
+    <div className="w-full">
       <CartButton
         SingleProd={prod}
         show={shower ? "Add to Cart" : "remove"}

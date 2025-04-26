@@ -29,7 +29,7 @@ const CompGrid = ({ prodo, cluster }) => {
         Similar Products
       </h1>
       <div className="grid sm:grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
-        {many.map((p) => {
+        {many.map((p, index) => {
           if (p._id !== one._id) {
             console.log("see: ", p._id, one._id);
             return (
@@ -38,7 +38,7 @@ const CompGrid = ({ prodo, cluster }) => {
                   p.name === one.name &&
                   " border-solid rounded-md border-8 border-yellow-500"
                 }`}
-                key={p}
+                key={index}
               >
                 <Card prod={p}>
                   <CartButton

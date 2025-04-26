@@ -4,14 +4,14 @@ import Link from "next/link";
 const Card = ({ prod, children }) => {
   return (
     <div
-      className="bg-[#121212] w-full rounded-md overflow-hidden "
+      className="bg-[#121212] w-full rounded-lg overflow-hidden "
       key={prod._id}
     >
       <div className="w-full h-[250px] bg-white relative overflow-hidden">
         <Link href={`/products/${prod._id}`}>
           <Image
             style={{ objectFit: "cover" }}
-            className="transition-transform hover:scale-110"
+            className="transition-transform hover:scale-110  "
             src={prod.alt_image ? prod.alt_image : prod.image}
             alt={prod.description}
             width={500}

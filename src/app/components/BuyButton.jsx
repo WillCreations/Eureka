@@ -45,7 +45,7 @@ const BuyButton = ({ prod }) => {
 
       <button
         disabled={!inside && true}
-        className=" mt-5 text-lg text-black bg-green-300 rounded-lg font-semibold px-5 py-3"
+        className=" mt-5 w-full text-lg text-black bg-green-300 rounded-lg font-semibold px-5 py-5"
         onClick={() => {
           HandleCheckout;
         }}

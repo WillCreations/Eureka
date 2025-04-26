@@ -51,7 +51,13 @@ const Multipier = ({ SingleProd, Quant, disabler }) => {
       <div className="text-md text-gray-300 mt-5">
         Unit Sum:
         <br />
-        <span className="text-green-300  text-4xl font-bold">${feedback}</span>
+        <span
+          className={`${
+            !disabler && true ? "text-gray-200" : "text-green-300"
+          } text-4xl font-bold`}
+        >
+          ${feedback}
+        </span>
       </div>
     </div>
   );

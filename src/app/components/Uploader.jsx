@@ -30,10 +30,11 @@ const Uploader = ({ imagine, picture, setPictureFile, base64, setBase64 }) => {
 
   return (
     <div className=" relative cursor-pointer w-full col-span-2 lg:col-span-1 my-3 mr-10">
-      <div className=" flex relative justify-center items-center rounded-md overflow-hidden w-full">
+      <div className=" relative rounded-md overflow-hidden w-full max-h-[650px]">
         <Image
           src={base64 ? base64 : picture}
-          style={{ objectFit: "contain" }}
+          className="w-full min-h-full"
+          style={{ objectFit: "cover" }}
           alt="image"
           width={1000}
           height={1000}

@@ -2,6 +2,10 @@ import { addClient } from "@/app/(Engine)/actions/addClient";
 import PortfolioPage from "@/app/components/PortfolioPage";
 import Client from "@/app/(Engine)/models/clientSchema";
 
+export const metadata = {
+  title: "Princewill Igwe Portfolio",
+};
+
 const portfolio = async () => {
   const inbox = await Client.find({ read: false }).count();
 

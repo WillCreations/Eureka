@@ -11,6 +11,10 @@ import toast from "react-hot-toast";
 import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
+export const metaData = {
+  title: "Shopping Cart",
+};
+
 const Cart = () => {
   const [total, setTotal] = useState(0);
   const parallax = useContext(ProductCart);
@@ -105,9 +109,9 @@ const Cart = () => {
   //  const handleFlutterPayment = useFlutterwave(config);
 
   return (
-    <div className="min-h-screen text-white ">
-      <div className="flex mx-10 lg:mx-28 flex-col">
-        <div className="flex  justify-between items-center">
+    <div className="min-h-screen mx-10 lg:mx-28 text-white ">
+      <div className="flex sticky bg-black py-5 top-[112px] left-0  w-full   flex-col">
+        <div className="flex justify-between items-center">
           <h1 className=" hidden md:block  text-4xl font-extrabold text-green-300 flex-1">
             Cart
           </h1>
@@ -119,7 +123,7 @@ const Cart = () => {
           </h1>
         </div>
       </div>
-      <div className=" mx-10 lg:mx-28 gap-5 my-5 grid grid-cols-1 lg:grid-cols-2">
+      <div className="  gap-5 mb-5 grid grid-cols-1 lg:grid-cols-2">
         {produce.map((prod) => {
           return (
             <div className="  bg-[#121212] rounded-md px-5" key={prod._id}>
@@ -170,9 +174,9 @@ const Cart = () => {
           );
         })}
       </div>
-      <div className="my-5 grid grid-cols-1 sm:grid-cols-2 gap-5 justify-start items-Start mx-10 lg:mx-28">
+      <div className="my-5 grid grid-cols-1 sm:grid-cols-2 gap-5 justify-start items-Start ">
         <button
-          className="hover:bg-gray-300 rounded-xl hover:text-black text-gray-300 bg-[#121212] col-span-1 "
+          className="hover:bg-gray-300 py-5 rounded-xl hover:text-black text-gray-300 bg-[#121212] col-span-1 "
           // onClick={() => {
           //   handleFlutterPayment({
           //       callback: (response) => {
@@ -192,7 +196,7 @@ const Cart = () => {
         </button>
 
         <button
-          className={`hover:bg-green-300 col-span-1 active:scale-95 active:bg-green-500 ${checkout} active:text-black flex items-center justify-center hover:text-black  transition-all w-full rounded-lg py-3  border-solid border-green-300 border-2`}
+          className={`hover:bg-green-300 py-5 col-span-1 active:scale-95 active:bg-green-500 ${checkout} active:text-black flex items-center justify-center hover:text-black  transition-all w-full rounded-lg py-3  border-solid border-green-300 border-2`}
           onClick={() => {
             startSpinner(), HandleCheckout();
           }}

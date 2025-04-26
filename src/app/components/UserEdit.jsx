@@ -56,6 +56,13 @@ const UserEdit = ({ Updater, Use }) => {
     admin,
   });
 
+  const nameRegex = /^([A-Z])[a-z\d]{3,12}$/;
+  const emailRegex = /^([a-z\d\.]+)@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/;
+  const addressRegex = /^([A-Z])[a-zA-Z\d].{5,100}$/;
+  const phoneRegex = /^\d{5,12}$/;
+  const passRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*].{8,20}$/;
+
   const handleSignout = () => {
     signOut({ redirect: false });
     router.push("/login");
@@ -66,9 +73,32 @@ const UserEdit = ({ Updater, Use }) => {
       setLoading(true);
       setMessage({ ...message, error: "", success: "" });
 
-      const { password, password2 } = details;
+      const { password, password2, email, name, address, phone } = details;
+
+      if (name && !nameRegex.test(name)) {
+        throw new Error(
+          "Username must be alphanumeric,must have only the first charcter as caps, and must contain 5-12 characters"
+        );
+      }
+
+      if (email && !emailRegex.test(email)) {
+        throw new Error("Email must be a valid address e.g me@mydomain.com");
+      }
+      if (address && !addressRegex.test(address)) {
+        throw new Error(
+          "Address must be alphanumber betweeen 5-100 characters"
+        );
+      }
+      if (phone && !phoneRegex.test(phone)) {
+        throw new Error("Telephone must be number betweeen 5-12 characters");
+      }
+      if (password && !passRegex.test(password)) {
+        throw new Error(
+          "password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one special character !@#$%^&* and one digit"
+        );
+      }
       if (password !== password2) {
-        throw new Error("passwords dont match");
+        throw new Error("Confirmation Failed");
       }
 
       const formData2 = new FormData();
@@ -88,9 +118,11 @@ const UserEdit = ({ Updater, Use }) => {
         setTimeout(() => {
           setMessage({ ...message, success: "" });
 
-          if (session?.user.email === response.redirect) {
-            
-            router.push(`/users/${response.redirect}`);
+          if (
+            session?.user.email === response.redirect ||
+            response.redirect === ""
+          ) {
+            router.push(`/users/${session?.user.email}`);
           } else {
             handleSignout();
           }
@@ -118,7 +150,7 @@ const UserEdit = ({ Updater, Use }) => {
       label: "User Name",
       error: "Enter Name ",
       type: "text",
-      pattern: `^[a-zA-Z0-9].{2,16}$`,
+      pattern: `^[a-z\d].{5,12}$/i`,
     },
     {
       name: "email",
@@ -126,7 +158,7 @@ const UserEdit = ({ Updater, Use }) => {
       label: "Email",
       error: "enter valid email ",
       type: "text",
-      pattern: `*@*\.com$`,
+      pattern: `^([a-z\d\.]+)@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$`,
     },
     {
       name: "address",
@@ -200,12 +232,12 @@ const UserEdit = ({ Updater, Use }) => {
                       type={p.type}
                       name={p.name}
                       value={p.placeholder}
-                      pattern={p.pattern}
+                      // pattern={p.pattern}
                       onChange={onChangeHandler}
-                      onBlur={(e) => {
-                        setFocused({ ...focused, [e.target.name]: "true" });
-                      }}
-                      focused={focused[p.name]}
+                      // onBlur={(e) => {
+                      //   setFocused({ ...focused, [e.target.name]: "true" });
+                      // }}
+                      // focused={focused[p.name]}
                     />
                   )}
                   {p.name === "phone" ? (
@@ -232,12 +264,12 @@ const UserEdit = ({ Updater, Use }) => {
                         type={p.type}
                         name={p.name}
                         value={p.placeholder}
-                        pattern={p.pattern}
+                        // pattern={p.pattern}
                         onChange={onChangeHandler}
-                        onBlur={(e) => {
-                          setFocused({ ...focused, [e.target.name]: "true" });
-                        }}
-                        focused={focused[p.name]}
+                        // onBlur={(e) => {
+                        //   setFocused({ ...focused, [e.target.name]: "true" });
+                        // }}
+                        // focused={focused[p.name]}
                       />
                     </div>
                   ) : null}
