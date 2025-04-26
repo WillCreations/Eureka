@@ -11,10 +11,6 @@ import toast from "react-hot-toast";
 import { useFlutterwave, closePaymentModal } from "flutterwave-react-v3";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
-export const metadata = {
-  title: "Shopping Cart",
-};
-
 const Cart = () => {
   const [total, setTotal] = useState(0);
   const parallax = useContext(ProductCart);
