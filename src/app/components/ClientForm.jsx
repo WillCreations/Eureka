@@ -11,13 +11,13 @@ const ClientForm = ({ Action }) => {
     <form className="my-5 pb-5 col-span-2 lg:col-span-1" action={Wrapper}>
       <div className="relative gap-3 my-5 grid grid-cols-6">
         <input
-          className="p-5 col-span-3  rounded-md w-full"
+          className="p-5 col-span-3 bg-[#121212] text-gray-400 rounded-md w-full"
           type="text"
           name="firstName"
           placeholder="First Name"
         />
         <input
-          className="p-5 col-span-3  rounded-md w-full"
+          className="p-5 col-span-3 bg-[#121212] text-gray-400 rounded-md w-full"
           type="text"
           name="lastName"
           placeholder="Last Name"
@@ -25,7 +25,7 @@ const ClientForm = ({ Action }) => {
       </div>
       <div className="relative my-5">
         <input
-          className="p-5  rounded-md w-full"
+          className="p-5 bg-[#121212] text-gray-400   rounded-md w-full"
           type="text"
           name="email"
           placeholder="Email"
@@ -34,7 +34,7 @@ const ClientForm = ({ Action }) => {
 
       <div className="relative my-5 grid gap-3 grid-cols-6 w-full">
         <select
-          className="p-5 col-span-2 text-gray-400  block rounded-md"
+          className="p-5 col-span-2 text-gray-400 bg-[#121212] block rounded-md"
           name="code"
         >
           <option value="">Country Code</option>;
@@ -49,7 +49,7 @@ const ClientForm = ({ Action }) => {
         </select>
 
         <input
-          className="p-5 col-span-4 rounded-md"
+          className="p-5 col-span-4 text-gray-400  bg-[#121212] rounded-md"
           type="text"
           name="phone"
           placeholder="Phone"
@@ -58,7 +58,7 @@ const ClientForm = ({ Action }) => {
 
       <div className="relative my-5">
         <textarea
-          className="p-5 rounded-md w-full"
+          className="p-5 text-gray-400 bg-[#121212] rounded-md w-full"
           rows={5}
           name="message"
           placeholder="Message..."

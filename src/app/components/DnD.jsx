@@ -58,7 +58,7 @@ const DnD = () => {
           onSubmit={handleSubmit}
         >
           <input
-            className="col-span-1 text-gray-300 p-5 rounded-md "
+            className="col-span-1 bg-[#121212] text-gray-300 p-5 rounded-md "
             type="text"
             name="title"
             onChange={handleChange}
@@ -66,7 +66,7 @@ const DnD = () => {
             placeholder="Enter Title"
           />
           <select
-            className="col-span-1 text-gray-300 p-5 rounded-md "
+            className="col-span-1 bg-[#121212] text-gray-300 p-5 rounded-md "
             name="stage"
             onChange={handleChange}
           >
