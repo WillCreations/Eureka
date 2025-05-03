@@ -202,7 +202,7 @@ const UserEdit = ({ Updater, Use }) => {
       </div>
 
       <form
-        className="grid w-full grid-cols-2 gap-10 lg:flex-row justify-between my-5 bg-[#121212] py-5 px-10  rounded-md"
+        className="grid w-full text-gray-300 grid-cols-2 gap-10 lg:flex-row justify-between my-5 bg-[#121212] py-5 px-10  rounded-md"
         action={Netflix}
       >
         <div className="w-full col-span-2 lg:col-span-1 my-3 mr-10">

@@ -207,12 +207,13 @@ const Navbar = ({ Action }) => {
               onClick={Toggler}
               className={`${
                 Pathname.startsWith("/users")
-                  ? "text-green-300 bg-black border-solid border-b-2 border-green-300"
+                  ? "text-green-300 bg-black border-solid border-b-2 border-green-300 md:border-b-0"
                   : null
               } px-10 py-5 md:p-0 md:my-2 md:mx-6 flex items-center`}
             >
               <div
-                className={`flex justify-center rounded-full overflow-hidden w-6 h-6`}
+                className={`${
+                Pathname.startsWith("/users") ? "border-2 border-green-300 border-solid":null} flex justify-center rounded-full overflow-hidden w-6 h-6`}
               >
                 <Image
                   src={

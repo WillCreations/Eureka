@@ -49,7 +49,7 @@ const DnD = () => {
   };
   return (
     <div className="my-10">
-      <div className="grid grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div className="col-span-1 text-2xl text-green-300 font-bold mt-5">
           Schedule New Task
         </div>
@@ -80,7 +80,7 @@ const DnD = () => {
           </button>
         </form>
       </div>
-      <div className="grid grid-cols-3 gap-5 my-5 bg-[#121212] p-5 text-gray-400 rounded-lg">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 my-5 bg-[#121212] p-5 text-gray-400 rounded-lg">
         {Stages.map((Stage, index) => {
           return (
             <TaskColumn
