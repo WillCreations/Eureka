@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth/next";
 import { options } from "@/app/api/auth/[...nextauth]/options";
 import Link from "next/link";
 import { connectToDb } from "@/app/(Engine)/mongodb/database";
+import {FaCrown} from "react-icons/fa"
 import User from "@/app/(Engine)/models/user";
 import Image from "next/image";
 import ImageForm from "@/app/components/ImageForm";
@@ -38,9 +39,9 @@ const Profile = async ({ params }) => {
               height="500"
             />
             {admin ? (
-              <h3 className="bg-white font-bold absolute s bottom-5 left-5 px-3 py-1 rounded-md inline text-green-500 shadow-md">
-                admin
-              </h3>
+              <div className="bg-[#121212] flex items-center gap-1 font-bold absolute s bottom-5 left-5 p-3 rounded-md inline text-green-300 shadow-md">
+                <FaCrown/> <span className="text-white">Admin</span>
+              </div>
             ) : null}
           </div>
           <div className="flex col-span-3 flex-col gap-5 justify-between">

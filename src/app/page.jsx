@@ -154,7 +154,7 @@ export default async function Home() {
       <div className="mx-10 gap-10 lg:mx-28 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 my-28 ">
         {[25, 50, 60, 80, 90, 100].map((p) => {
           return (
-            <div key={p} className="flex justify-center items-center">
+            <div key={p} className="flex p-5 bg-[#121212] rounded-2xl justify-center items-center">
               <Round perc={p} />
             </div>
           );
@@ -201,7 +201,7 @@ export default async function Home() {
             return (
               <div
                 key={unit.tag}
-                className={`bg-black rounded-md text-green-300 border-solid border-2 border-green-300 p-5 ${styles.Service}`}
+                className={`bg-[#121212] rounded-2xl text-green-300  p-5 ${styles.Service}`}
               >
                 <div className="flex justify-center  h-40 w-full overflow-hidden py-10 my-5">
                   <Image
@@ -213,7 +213,7 @@ export default async function Home() {
                   />
                 </div>
 
-                <h4 className="text-2xl font-extrabold">{unit.tag}</h4>
+                <h4 className="text-2xl text-white font-extrabold">{unit.tag}</h4>
                 <p className="text-xs text-justify">{unit.para}</p>
               </div>
             );
@@ -233,7 +233,7 @@ export default async function Home() {
                 key={index}
                 className=" col-span-1 w-full flex justify-center items-center"
               >
-                <div className="bg-[#121212]  rounded-2xl px-8 py-10 w-[350px] ">
+                <div className="bg-[#121212]  rounded-2xl px-8 py-10  w-[350px] lg:w-full ">
                   <div className="text-green-300 text-xl font-bold">
                     {Obj.Tag}
                   </div>

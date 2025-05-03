@@ -127,7 +127,7 @@ const UserForm = ({ Action, button }) => {
 
   return (
     <form
-      className="grid w-full grid-cols-2 gap-10 lg:flex-row justify-between my-5 bg-[#121212] py-5 px-10 rounded-md"
+      className="grid w-full grid-cols-2 text-gray-300 gap-10 lg:flex-row justify-between my-5 bg-[#121212] py-5 px-10 rounded-md"
       action={Netflix}
     >
       <Uploader
