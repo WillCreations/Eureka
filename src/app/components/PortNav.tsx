@@ -2,8 +2,8 @@ import React from "react";
 
 const PortNav = ({ aboutRef, projectRef, skillRef, contactRef, Action }) => {
   return (
-    <div className="flex justify-between">
-      <div className="text-4xl text-green-300 font-bold my-10">Portfolio</div>
+    <div className="flex flex-col md:flex-row my-10 justify-between">
+      <div className="text-4xl text-green-300 font-bold my-2">Portfolio</div>
       <div className="flex justify-center items-center">
         {[
           { link: "about", ref: aboutRef },

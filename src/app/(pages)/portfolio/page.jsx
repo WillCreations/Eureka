@@ -120,7 +120,7 @@ const portfolio = async () => {
     {
       name: "VS Code",
       image: "/tech/VSCode.svg",
-      black: "/tech/VS CodeBlk.svg",
+      black: "/tech/VSCodeBlk.svg",
     },
     { name: "Git", image: "/tech/Git.svg", black: "/tech/GitBlk.svg" },
     { name: "Github", image: "/tech/Github.svg", black: "/tech/GithubBlk.svg" },

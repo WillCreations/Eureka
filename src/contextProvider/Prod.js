@@ -57,10 +57,12 @@ export const ProductCartProvider = (props) => {
   const AddHandler = (CartMover) => {
     console.log(cartWheels, "array");
     setcartWheels((prevCart) => {
-      const NewCart = prevCart.concat(CartMover);
+      const altered = { ...CartMover, stock: 1 };
+      console.log({ altered });
+      const NewCart = prevCart.concat(altered);
       localStorage.setItem("cart", JSON.stringify(NewCart));
       localStorage.setItem("session", JSON.stringify(session?.user));
-      return prevCart.concat(CartMover);
+      return prevCart.concat(altered);
     });
   };
 
@@ -76,7 +78,7 @@ export const ProductCartProvider = (props) => {
 
   const HandleQuantity = (item, value) => {
     console.log(item, value);
-    let Ind = -1;
+    let Ind = 0;
     if (value === "Inc") {
       cartWheels.forEach((cart, index) => {
         console.log(index);
@@ -96,7 +98,7 @@ export const ProductCartProvider = (props) => {
       });
 
       const newCart = cartWheels;
-      if (newCart[Ind].stock > 1) {
+      if (newCart[Ind].stock >= 1) {
         newCart[Ind].stock -= 1;
         setcartWheels([...newCart]);
       }

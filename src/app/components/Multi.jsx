@@ -16,13 +16,16 @@ const Multi = ({ SingleProd }) => {
   const HandleReducer = () => {
     Quant(SingleProd, "Dec");
     console.log("stock count: ", prodo[index].stock);
-    if (prodo[index].stock === 1) {
+    if (prodo[index].stock === 0) {
       setLast(true);
     }
+  };
+
+  useEffect(() => {
     if (last) {
       context.Remove(SingleProd._id);
     }
-  };
+  }, [last]);
 
   const HandleIncrease = () => {
     Quant(SingleProd, "Inc");
