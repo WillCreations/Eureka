@@ -1,24 +1,20 @@
 "use client";
 import Image from "next/image";
 import React, { useState, useRef, useEffect } from "react";
-import {motion, useAnimation } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 import { useInView } from "framer-motion";
-
 
 const Accordion = () => {
   const [isActive, setIsActive] = useState(0);
-  const Accordium = useRef(null)
-  const controls = useAnimation()
-const inView = useInView(Accordium, {once: true})
-
-
-
+  const Accordium = useRef(null);
+  const controls = useAnimation();
+  const inView = useInView(Accordium, { once: true });
 
   useEffect(() => {
-    if(inView) {
-      controls.start("visible")
+    if (inView) {
+      controls.start("visible");
     }
-  },[controls, inView])
+  }, [controls, inView]);
 
   const Arrays = [
     {
@@ -58,17 +54,21 @@ const inView = useInView(Accordium, {once: true})
       <div className=" col-span-1 flex flex-col justify-between">
         {Arrays.map((array, index) => {
           return (
-            <motion.div ref={Accordium} initial="hidden" animate={controls} variants={{hidden: {x: -2000}, visible: {x: 0}}} transition={{duration:0.6, ease: "easeInOut"}} className="bg-[#121212] mb-1 lg:mb-0 rounded-lg p-5" key={index}>
+            <div
+              ref={Accordium}
+              className="bg-[#121212] mb-1 lg:mb-0 rounded-lg p-5"
+              key={index}
+            >
               <div
                 className="flex  pb-5 rounded-lg  justify-between items-center cursor-pointer"
                 onClick={() => {
-                 
-                    setIsActive(index);
-                  
+                  setIsActive(index);
                 }}
               >
                 <div>{array.tag}</div>
-                <motion.div initial={{rotate: 0}} animate={{rotate: 360}}>{isActive === index ? "-" : "+"}</motion.div>
+                <motion.div initial={{ rotate: 0 }} animate={{ rotate: 360 }}>
+                  {isActive === index ? "-" : "+"}
+                </motion.div>
               </div>
               <div
                 className={`${
@@ -79,7 +79,7 @@ const inView = useInView(Accordium, {once: true})
               >
                 {array.para}
               </div>
-            </motion.div>
+            </div>
           );
         })}
       </div>
