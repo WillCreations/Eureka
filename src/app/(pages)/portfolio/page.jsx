@@ -119,15 +119,15 @@ const portfolio = async () => {
     { name: "Python", image: "/tech/Python.svg", black: "/tech/PythonBlk.svg" },
     {
       name: "VS Code",
-      image: "/tech/VsCode.svg",
-      black: "/tech/VsCodeBlk.svg",
+      image: "/tech/VSCode.svg",
+      black: "/tech/VS CodeBlk.svg",
     },
     { name: "Git", image: "/tech/Git.svg", black: "/tech/GitBlk.svg" },
     { name: "Github", image: "/tech/Github.svg", black: "/tech/GithubBlk.svg" },
     { name: "Docker", image: "/tech/Docker.svg", black: "/tech/DockerBlk.svg" },
   ];
   return (
-    <div className="min-h-screen my-5 px-10 lg:px-28 text-white">
+    <div className="min-h-screen my-5 px-10 lg:px-28 text-white overflow-hidden">
       <PortfolioPage
         projects={projects}
         picture={picture}

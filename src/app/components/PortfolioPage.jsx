@@ -10,6 +10,7 @@ import Contact from "./Contact";
 import Image from "next/image";
 import ScrollToTop from "@/app/components/ScrollToTop";
 import { useSession } from "next-auth/react";
+import Counter from "@/app/components/Counter";
 
 const PortfolioPage = ({
   projects,
@@ -98,6 +99,23 @@ const PortfolioPage = ({
                 );
               })}
             </div>
+          </div>
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
+            {[
+              { tag: "Years Experience", count: 3 },
+              { tag: "Short Courses", count: 30 },
+              { tag: "Boot Camps", count: 65 },
+              { tag: "Languages & Skill Set", count: 15 },
+            ].map((c, index) => {
+              return (
+                <div
+                  className="col-span-1 bg-[#121212] rounded-2xl"
+                  key={index}
+                >
+                  <Counter total={c.count} tag={c.tag} />
+                </div>
+              );
+            })}
           </div>
         </div>
         <div

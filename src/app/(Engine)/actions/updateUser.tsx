@@ -76,6 +76,7 @@ export const updateUser = async (formData, formData2) => {
 
       await User.findByIdAndUpdate(id, {
         image: result.secure_url,
+        picture: result.secure_url,
         destroy: result.public_id,
       });
 
