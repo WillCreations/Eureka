@@ -5,12 +5,13 @@ import Link from "next/link";
 import PortNav from "@/app/components/PortNav";
 import Carousel from "@/app/components/Carousel";
 import CarouselGrid from "@/app/components/CarouselGrid";
-import * as styles from "@/app/Styles/index.module.css";
+
 import Contact from "./Contact";
 import Image from "next/image";
 import ScrollToTop from "@/app/components/ScrollToTop";
 import { useSession } from "next-auth/react";
 import Counter from "@/app/components/Counter";
+import SubHeader from "@/app/components/SubHeader";
 
 const PortfolioPage = ({
   projects,
@@ -19,6 +20,7 @@ const PortfolioPage = ({
   skills,
   addClient,
   inbox,
+  styles,
 }) => {
   const aboutRef = useRef(null);
   const skillRef = useRef(null);
@@ -56,7 +58,7 @@ const PortfolioPage = ({
 
       <div id="About" ref={aboutRef} className="gap-5 grid md:grid-cols-2 mt-5">
         <div>
-          <h1 className="Header">About Me</h1>
+          <SubHeader tag="About Me" />
           <h2 className="font-extrabold text-6xl my-5 text-blue-200">
             Hey! I'm <br />
             Princewill Igwe
@@ -100,7 +102,7 @@ const PortfolioPage = ({
               })}
             </div>
           </div>
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1  gap-5 xxs:grid-cols-2 lg:grid-cols-4">
             {[
               { tag: "Years Experience", count: 3 },
               { tag: "Short Courses", count: 30 },
@@ -109,7 +111,7 @@ const PortfolioPage = ({
             ].map((c, index) => {
               return (
                 <div
-                  className="col-span-1 bg-[#121212] rounded-2xl"
+                  className={`${styles.Pop} col-span-1 bg-[#121212] rounded-2xl`}
                   key={index}
                 >
                   <Counter total={c.count} tag={c.tag} />
@@ -150,8 +152,8 @@ const PortfolioPage = ({
         </div>
       </div>
       <div id="Project" ref={projectRef} className="mt-28">
-        <h1 className="Header">Projects</h1>
-        <div className="grid md:grid-cols-2">
+        <SubHeader tag="Projects" />
+        <div className="grid md:grid-cols-2 my-10">
           <div className="md:col-span-2 ">
             <h2 className="subHeader">Web Development Projects</h2>
             <ul className="w-full grid grid-cols-3 gap-5">
@@ -197,9 +199,14 @@ const PortfolioPage = ({
           <div></div>
         </div>
         <div className="my-28 items-center grid gap-5 lg:grid-cols-2">
-          <Carousel p={picture} key={0} />
           <div>
-            <h2 className="subHeader">Graphic Design Projects</h2>
+            <h2 className="subHeader lg:hidden">Graphic Design Projects</h2>
+            <Carousel p={picture} key={0} />
+          </div>
+          <div>
+            <h2 className="subHeader hidden lg:block">
+              Graphic Design Projects
+            </h2>
             <div className="projectList">
               <ul>
                 <li>
@@ -241,13 +248,13 @@ const PortfolioPage = ({
         </div>
       </div>
       <div id="Skills" ref={skillRef} className="mt-28">
-        <h1 className="Header">Skills</h1>
+        <SubHeader tag="Skills" />
         <div className="grid md:grid-cols-5 sm:grid-cols-3 grid-cols-2 gap-5 my-10">
           {skills.map((one, index) => {
             return (
               <div
                 key={index}
-                className={`rounded-md relative ${styles?.skill} hover:bg-green-300  flex justify-center p-5 items-center col-span-1  border-solid border-green-300 border-2`}
+                className={`rounded-md relative ${styles?.skill} ${styles?.Pop} hover:bg-green-300  flex justify-center p-5 items-center col-span-1  border-solid border-green-300 border-2`}
               >
                 <div
                   className={`${styles?.skillLogo} w-36 h-36 transition-all py-5 flex justify-center overflow-hidden`}
@@ -282,7 +289,7 @@ const PortfolioPage = ({
             );
           })}
         </div>
-        <ul className="grid my-5 gap-10 grid-cols-3">
+        <ul className="grid my-5 gap-5 grid-cols-3">
           <li className="GroupOne">
             <h3 className="Heading">Web Development: </h3>
             <ul className="Inner">

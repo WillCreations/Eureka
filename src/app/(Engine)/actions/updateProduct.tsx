@@ -66,7 +66,7 @@ export const updateProduct = async (formData, formData2) => {
         console.log("image: ", pictureFile);
         const imagebyte = await pictureFile.arrayBuffer();
         console.log(imagebyte, "imagebyte");
-        const buffer = Buffer.from(imagebyte);
+        const buffer = Buffer.from(imagebyte) as any;
         console.log("buffer: ", buffer);
         fs.writeFileSync(pathname, buffer);
         if (imageUrl.includes("/prodimage/")) {
@@ -77,13 +77,13 @@ export const updateProduct = async (formData, formData2) => {
         clouding = newName;
       }
     }
-
+    const slugg = slug.split(" ").join("_");
     const updateFields = {
       name,
       category,
       price,
       description,
-      slug,
+      slug: slugg,
       stock,
       image: newName,
       alt_image: alt,
@@ -97,12 +97,18 @@ export const updateProduct = async (formData, formData2) => {
     });
 
     console.log(updateFields, "fields");
-    await Product.findByIdAndUpdate(id, updateFields);
-  } catch (error) {
-    console.log(error);
-    throw new Error(" failed to Update Product Info");
-  }
+    const prodd = await Product.findByIdAndUpdate(id, updateFields);
 
-  revalidatePath(`/products/${id}`);
-  redirect(`/products/${id}`);
+    revalidatePath(`/products/${id}`);
+
+    return {
+      ok: true,
+      message: `${prodd.name} updated successfully`,
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      message: error.message,
+    };
+  }
 };

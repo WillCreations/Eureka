@@ -7,21 +7,25 @@ import { signIn, getProviders, useSession } from "next-auth/react";
 import Link from "next/link";
 import RecoveryContext from "@/contextProvider/Recovery";
 import { off } from "process";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import Modal from "@/app/components/Modal";
+import SuccessMessage from "@/app/components/SuccessMessage";
+import ErrorMessage from "@/app/components/ErrorMessage";
+import ConfirmComp from "./ConfirmComp";
 
 const Login = ({ setEmail }) => {
   const router = useRouter();
   const Provider = getProviders();
   const [show, setShow] = useState(false);
-  const [showing, setShowing] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [isError, setIsError] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [message, setMessage] = useState({
-    email: "",
-    password: "",
-  });
-  const [border, setBorder] = useState({
-    email: "",
-    password: "",
-  });
+  const [error, setError] = useState();
+  const [passwordError, setPasswordError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+
   const [pass, setPass] = useState("password");
   const { data: session } = useSession();
   const { setPage, setOtp } = useContext(RecoveryContext);
@@ -30,42 +34,60 @@ const Login = ({ setEmail }) => {
     password: "",
   });
   console.log(session, "pre session in login");
-
+  const clearPassError = () => {
+    setPasswordError(false);
+    setIsError(false);
+    setError("");
+  };
+  const clearEmailError = () => {
+    setEmailError(false);
+    setIsError(false);
+    setError("");
+  };
   const Logger = async (e) => {
     e.preventDefault();
-
-    const response = await fetch(`/api/recovery?search=${data.email}`);
-    const result = await response.json();
-
-    if (result) {
-      const log = await signIn("credentials", {
-        ...data,
-        redirect: false,
-      });
-
-      if (!log.ok) {
-        setShowing(false);
-        setMessage({ ...message, password: "Incorrect Password", email: "" });
-        setBorder({
-          ...border,
-          password: "border-solid border-2 border-red-500",
-          email: "",
-        });
-      } else {
-        console.log(log.ok, "log is ok");
-        setMessage({ ...message, password: "" });
-        setBorder({ ...border, password: "" });
-        setSuccess(true);
-        setShowing(false);
-        setTimeout(() => {
-          router.push("/");
-        }, 3000);
+    setIsLoading(true);
+    try {
+      if (!data.email) {
+        throw new Error("Enter email");
       }
-    } else {
-      setShowing(true);
-      setSuccess(false);
-      setMessage({ ...message, email: "Enter Valid Email" });
-      setBorder({ ...border, email: "border-solid border-2 border-red-500" });
+      if (!data.password) {
+        throw new Error("Enter password");
+      }
+      const response = await fetch(`/api/recovery?search=${data.email}`);
+      const result = await response.json();
+      console.log({ response: response.ok });
+
+      if (!result) {
+        setEmailError(true);
+        throw new Error(
+          `User with email ${data.email} not found please Register`
+        );
+      }
+      if (response.ok) {
+        const log = await signIn("credentials", {
+          ...data,
+          redirect: false,
+        });
+
+        if (!log.ok) {
+          setPasswordError(true);
+          throw new Error("Incorrect password");
+        } else {
+          console.log(log.ok, "log is ok");
+
+          setSuccess(`${result.name} signed in successfully`);
+          setIsOpen(true);
+
+          setTimeout(() => {
+            router.push("/");
+          }, 3000);
+        }
+      }
+    } catch (error) {
+      setIsLoading(false);
+      setError(error.message);
+      setIsError(true);
     }
   };
 
@@ -81,33 +103,41 @@ const Login = ({ setEmail }) => {
   };
 
   const SendOtp = async () => {
-    const response = await fetch(`/api/recovery?search=${data.email}`);
+    try {
+      const response = await fetch(`/api/recovery?search=${data.email}`);
 
-    const result = await response.json();
-    if (result) {
-      const OTP = Math.floor(Math.random() * 9000 + 1000);
-      setOtp(OTP);
-      setEmail(data.email);
-      const response = await fetch("/api/recovery", {
-        method: "POST",
-        body: JSON.stringify({
-          OTP,
-          recepient_Email: data.email,
-        }),
-      });
+      const result = await response.json();
+      if (result) {
+        const OTP = Math.floor(Math.random() * 9000 + 1000);
+        setOtp(OTP);
+        setEmail(data.email);
+        const response = await fetch("/api/recovery", {
+          method: "POST",
+          body: JSON.stringify({
+            OTP,
+            recepient_Email: data.email,
+          }),
+        });
 
-      setPage((prev) => {
-        return "otp";
-      });
-    } else {
-      setMessage({ ...message, email: "Enter Valid Email" });
-      setBorder({ ...border, email: "border-solid border-2 border-red-500" });
+        setPage((prev) => {
+          return "otp";
+        });
+      } else {
+        throw new Error("Enter Valid Email");
+      }
+    } catch (error) {
+      setError(error.message);
+      setIsError(true);
     }
+  };
+
+  const RegisterUser = () => {
+    router.push("/register");
   };
 
   return (
     <div className="flex w-screen justify-center items-center">
-      <div className="w-2/3 md:w-2/5 my-5">
+      <div className="px-5 xxs:px-10 lg:px-28 w-full sm:w-2/3 md:w-2/4  xl:w-2/5 my-5">
         <div className="my-5">
           <div className="my-5">
             <p className="text-green-300 text-center text-4xl font-extrabold">
@@ -127,7 +157,7 @@ const Login = ({ setEmail }) => {
           <div className="my-5 w-full">
             <label className="text-green-300">Email</label>
             <input
-              className={`p-5 w-full text-gray-400 bg-[#121212] rounded-md ${border.email}`}
+              className={`p-5 w-full text-gray-400 bg-[#121212] rounded-md `}
               type="text"
               placeholder="@example.com"
               value={data.email}
@@ -135,16 +165,11 @@ const Login = ({ setEmail }) => {
                 setData({ ...data, email: e.target.value });
               }}
             />
-            {message.email !== "" && (
-              <p className="text-red-500 border-2 my-2 border-red-500 border-solid py-2 px-5 bg-red-300 rounded-md">
-                {message.email}
-              </p>
-            )}
           </div>
           <div className="mt-5 w-full relative">
             <label className="text-green-300">Password</label>
             <input
-              className={`p-5 w-full text-gray-400 bg-[#121212] rounded-md ${border.password}`}
+              className={`p-5 w-full text-gray-400 bg-[#121212] rounded-md `}
               type={`${pass}`}
               placeholder="Password"
               value={data.password}
@@ -162,41 +187,44 @@ const Login = ({ setEmail }) => {
               {!show ? <MdVisibility /> : <MdVisibilityOff />}
             </div>
           </div>
-          {message.password !== "" ? (
-            <div className="text-red-500 mt-2 border-2 border-red-500 border-solid py-2 px-5 bg-red-300 rounded-md ">
-              <span>{message.password}</span>
-            </div>
+
+          {error ? (
+            <Modal isOpen={isError} setIsOpen={setIsError}>
+              <div className="flex flex-col gap-5 justify-center items-center">
+                <ErrorMessage error={error} />
+                {passwordError && (
+                  <ConfirmComp
+                    item={"recover your password"}
+                    setConfirm={clearPassError}
+                    Action={SendOtp}
+                  />
+                )}
+                {emailError && (
+                  <ConfirmComp
+                    item={"register a new user"}
+                    setConfirm={clearEmailError}
+                    Action={RegisterUser}
+                  />
+                )}
+              </div>
+            </Modal>
           ) : null}
-          <div onClick={SendOtp} className="text-blue-500 mt-5 cursor-pointer">
-            Forgot password?
-          </div>
-          <div
-            className={`flex flex-col align-center  ${
-              showing || success ? "justify-between" : "justify-end"
-            } items-center`}
-          >
-            {showing ? (
-              <div className="text-red-500 border-2 border-red-500 border-solid py-5 px-5 w-full bg-red-300 rounded-md ">
-                <p>
-                  <span> or please </span>
-                  <Link href="/register">
-                    <span className="text-blue-500 underline">Register</span>
-                  </Link>
-                  <span> User</span>
-                </p>
-              </div>
-            ) : null}
 
-            {success ? (
-              <div className="text-green-600  border-2 border-green-600 border-solid py-5 px-5 w-full bg-green-300 rounded-md">
-                <p className="text-center w-full">Login Successful</p>
-              </div>
-            ) : null}
+          {success ? (
+            <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
+              <SuccessMessage success={success} />
+            </Modal>
+          ) : null}
 
-            <button className="w-full bg-green-300 my-2 text-black px-4 py-5  rounded-lg hover:bg-green-600">
-              Login
-            </button>
-          </div>
+          <button className="w-full bg-green-300 my-2 text-black px-4 py-5  rounded-lg ">
+            <div className="flex justify-center items-center">
+              {!isLoading ? (
+                "Login"
+              ) : (
+                <AiOutlineLoading3Quarters className=" font-black text-2xl animate-spin" />
+              )}
+            </div>
+          </button>
         </form>
       </div>
     </div>

@@ -1,12 +1,25 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 
-const CartButton = ({ SingleProd, AddHandler, show, colour }) => {
+const CartButton = ({
+  ToastDisplay,
+  SingleProd,
+  AddHandler,
+  isNotInCart,
+  show,
+  colour,
+}) => {
+  const HandleAdd = () => {
+    const res = AddHandler(SingleProd);
+    console.log({ res });
+    ToastDisplay(res);
+  };
   return (
     <button
-      className={`py-5 px-5 rounded-md w-full capitalize transition-all active:scale-105 ${colour}`}
+      disabled={SingleProd.stock <= 0 && isNotInCart}
+      className={`py-5 px-5 rounded-2xl w-full capitalize transition-all disabled:bg-gray-300 active:scale-105 ${colour}`}
       onClick={() => {
-        AddHandler(SingleProd);
+        HandleAdd();
       }}
     >
       {show}

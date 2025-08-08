@@ -1,11 +1,24 @@
+"use client";
 import { useState, useContext, useEffect } from "react";
 import RecoveryContext from "@/contextProvider/Recovery";
 import { useRouter } from "next/navigation";
 import * as style from "@/app/Styles/index.module.css";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
+import SubHeader from "./SubHeader";
+import Modal from "@/app/components/Modal";
+import SuccessMessage from "@/app/components/SuccessMessage";
+import ErrorMessage from "@/app/components/ErrorMessage";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const Reset = () => {
   const [state, setState] = useState(<MdVisibility />);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [isError, setIsError] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState();
+
   const [show, setShow] = useState({
     password: false,
     password2: false,
@@ -42,29 +55,42 @@ const Reset = () => {
 
   const HandleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("/api/recovery/reset", {
-      method: "POST",
-      header: {
-        "Content-Type": "Application/json",
-      },
-      body: JSON.stringify({ ...value }),
-    });
-    const data = await response.json();
-    console.log(response, "response.ok");
-    if (response.ok) {
-      setMessage("Reset Successful");
-      setTimeout(() => {
-        setPage("Login");
-      }, 3000);
+    try {
+      setIsLoading(true);
+      const response = await fetch("/api/recovery/reset", {
+        method: "POST",
+        header: {
+          "Content-Type": "Application/json",
+        },
+        body: JSON.stringify({ ...value }),
+      });
+      const data = await response.json();
+      console.log(response, "response.ok");
+      if (response.ok) {
+        setSuccess(data.message);
+        setIsOpen(true);
+        setTimeout(() => {
+          setPage("Login");
+          setSuccess("");
+        }, 3000);
+      } else {
+        throw new Error(data.message);
+      }
+    } catch (error) {
+      setIsLoading(false);
+      setError(error.message);
+      setIsError(true);
     }
   };
 
   return (
-    <div className="flex justify-center">
-      <div className="bg-white w-2/3 md:w-2/5 p-5 text-black rounded-md">
-        <h1 className="text-2xl text-center font-extrabold my-3">Reset</h1>
-
-        <form onSubmit={HandleSubmit}>
+    <div className="w-full px-5 xxs:px-10 lg:px-28  ">
+      <SubHeader tag="Reset" />
+      <div className="w-full flex  justify-center">
+        <form
+          className="bg-[#121212] w-full md:w-2/4 lg:w-2/5 p-5 text-green-300 rounded-2xl"
+          onSubmit={HandleSubmit}
+        >
           <div>
             {[
               {
@@ -90,9 +116,9 @@ const Reset = () => {
               return (
                 <div key={p.name} className="flex flex-col mt-2">
                   <label>{p.label}</label>
-                  <div className="flex flex-col relative">
+                  <div className="flex flex-col relative ">
                     <input
-                      className={`py-3 px-5 rounded-md relative text-white ${style.input}`}
+                      className={`py-5 px-5 bg-black rounded-2xl  text-white ${style.input}`}
                       type={p.type}
                       name={p.name}
                       required={true}
@@ -106,7 +132,7 @@ const Reset = () => {
                       focused={p.focus}
                     />
                     <div
-                      className="absolute right-0 top-0 bottom-0  flex items-center"
+                      className="absolute right-0 top-[20%] flex items-center"
                       onClick={(e) => {
                         if (!show[p.name]) {
                           setShow({ ...show, [p.name]: true });
@@ -117,7 +143,7 @@ const Reset = () => {
                         }
                       }}
                     >
-                      <span className=" mx-5 p-2 rounded-full text-white hover:bg-gray-800">
+                      <span className=" mx-5 p-2 rounded-full text-white hover:bg-[#121212]">
                         {!show[p.name] ? <MdVisibility /> : <MdVisibilityOff />}
                       </span>
                     </div>
@@ -130,10 +156,25 @@ const Reset = () => {
             })}
           </div>
 
-          <button className="hover:bg-green-500 hover:text-white transition-all ease py-3 border-2 border-solid border-green-500 rounded-xl my-3 w-full">
-            Save
+          <button className="bg-green-300 text-black py-5  rounded-xl my-3 w-full">
+            <div className="flex justify-center items-center">
+              {!isLoading ? (
+                "Save"
+              ) : (
+                <AiOutlineLoading3Quarters className=" font-black text-2xl animate-spin" />
+              )}
+            </div>
           </button>
-          <span className="text-green-500 align-center">{message}</span>
+          {success ? (
+            <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
+              <SuccessMessage success={success} />
+            </Modal>
+          ) : null}
+          {error ? (
+            <Modal isOpen={isError} setIsOpen={setIsError}>
+              <ErrorMessage error={error} />
+            </Modal>
+          ) : null}
         </form>
       </div>
     </div>

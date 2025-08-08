@@ -91,11 +91,13 @@ body {
 
 /* Track */
 ::-webkit-scrollbar-track {
+  background: black;
   border-radius: 5px;
 }
 /* Handle on hover */
 ::-webkit-scrollbar-thumb {
-  background: #2e2e2e;
+  /* background: #2e2e2e; */
+  background: black;
   border-radius: 5px;
 }
 
@@ -105,4 +107,72 @@ body {
 
 ::-webkit-scrollbar-corner{
   background: none;
+}
+
+.pop_out{
+  
+  position: fixed;
+  z-index: 200;
+opacity:1;
+display: flex;
+justify-content: center;
+  top: 10%;
+  right: 0;
+  left: 0;
+  
+  transform: translateY(0%);
+animation-name: popper_out;
+animation-iteration-count: initial;
+animation-duration: 1s;
+animation-timing-function: ease-in-out;
+animation-fill-mode: forwards;
+
+
+}
+
+@keyframes popper_out {
+
+  20% {
+    opacity: 1;
+    transform: translateY(50%)
+  }
+
+ 
+
+  100% {
+    opacity: 0;
+    transform: translateY(-200%)
+  }
+}
+.pop_in{
+  
+  position: fixed;
+  z-index: 200;
+opacity:0;
+display: flex;
+justify-content: center;
+  top: 10%;
+  right: 0;
+  left: 0;
+  
+  transform: translateY(-200%);
+animation-name: popper;
+animation-iteration-count: initial;
+animation-duration: 1s;
+animation-timing-function: ease-in-out;
+animation-fill-mode: forwards;
+
+
+}
+
+@keyframes popper {
+
+ 70% { 
+  opacity: 1;
+  transform :translateY(50%) 
+}
+ 100% { 
+  opacity: 1;
+  transform :translateY(0%)
+ }
 }

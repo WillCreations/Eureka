@@ -95,7 +95,7 @@ export const updateUser = async (formData, formData2) => {
         console.log("image: ", pictureFile);
         const imagebyte = await pictureFile.arrayBuffer();
         console.log(imagebyte, "imagebyte");
-        const buffer = Buffer.from(imagebyte);
+        const buffer = Buffer.from(imagebyte) as any;
         console.log("buffer: ", buffer);
         fs.writeFileSync(pathname, buffer);
         if (picture.includes("/userimage/")) {
@@ -141,7 +141,7 @@ export const updateUser = async (formData, formData2) => {
     revalidatePath(`/users/${email}`);
     return {
       ok: true,
-      message: "Updated Successfully",
+      message: `${user.name} Updated Successfully`,
       redirect: email,
     };
   } catch (error) {

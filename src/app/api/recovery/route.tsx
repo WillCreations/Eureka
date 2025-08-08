@@ -32,7 +32,7 @@ const sendEmail = async (body) => {
                 console.log(error)
                 return reject({message: "An error occurred"})
             }
-            return resolve({message: "Email sent succesfully"})
+            return resolve({message: "Email sent successfully"})
         })
         
         })

@@ -9,6 +9,7 @@ import { addUser } from "@/app/(Engine)/actions/addUser";
 import SearchBar from "@/app/components/SearchBar";
 import { fetchSearch } from "@/app/(Engine)/actions/fetchSearch";
 import Pagination from "@/app/components/Pagination";
+import DeleteForm from "@/app/components/DeleteForm";
 
 const UserList = async ({ searchParams }) => {
   const q = searchParams?.q || "";
@@ -22,13 +23,13 @@ const UserList = async ({ searchParams }) => {
   }
 
   return (
-    <div className="mx-10 lg:mx-28  grid grid-cols-1">
+    <div className="mx-5 xxs:mx-10 lg:mx-28  grid grid-cols-1">
       <div className="col-span-1 my-10 md:flex-1">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between">
           <div className=" text-4xl py-2 font-bold  text-green-300 ">
             <h2>BroadSheet</h2>
           </div>
-          <div className="w-1/2 mt-10">
+          <div className="w-full md:w-1/2 mt-5">
             <SearchBar placeholder="Search User..." />
           </div>
         </div>
@@ -36,31 +37,31 @@ const UserList = async ({ searchParams }) => {
           className="grid-cols-12 grid gap-2 justify-between items-center my-5"
           key={user._id}
         >
-          <div className="flex col-span-3 lg:col-span-1 rounded-tl-lg rounded-bl-lg px-5 py-3 w-full bg-[#121212]  items-center">
+          <div className="flex col-span-3 lg:col-span-1 rounded-tl-lg rounded-bl-lg xxs:px-5 py-3 w-full bg-[#121212]  items-center">
             <div className="  text-center  w-full ">Image</div>
           </div>
 
-          <div className=" bg-[#121212] w-full py-3 px-5 text-center capitalize col-span-3 lg:col-span-1">
+          <div className=" bg-[#121212] w-full py-3 xxs:px-5 text-center capitalize col-span-3 lg:col-span-1">
             <h1>Name</h1>
           </div>
 
-          <div className=" capitalize bg-[#121212] w-full py-3 px-5 text-center hidden lg:block  col-span-6 lg:col-span-4">
+          <div className=" capitalize bg-[#121212] w-full py-3 xxs:px-5 text-center hidden lg:block  col-span-6 lg:col-span-4">
             <h2>Address</h2>
           </div>
-          <div className="capitalize bg-[#121212] w-full py-3 px-5 text-center hidden lg:block lg:col-span-2">
+          <div className="capitalize bg-[#121212] w-full py-3 xxs:px-5 text-center hidden lg:block lg:col-span-2">
             <h2>Phone No</h2>
           </div>
-          <div className=" capitalize bg-[#121212] w-full py-3 px-5 text-center hidden lg:block lg:col-span-2">
+          <div className=" capitalize bg-[#121212] w-full py-3 xxs:px-5 text-center hidden lg:block lg:col-span-2">
             <h2>Email</h2>
           </div>
 
           <div className=" col-span-3 lg:col-span-1">
-            <div className=" bg-[#121212] text-center w-full px-5 py-3 text-white">
+            <div className=" bg-[#121212] text-center w-full xxs:px-5 py-3 text-white">
               Action
             </div>
           </div>
           <div className=" col-span-3 lg:col-span-1">
-            <div className=" rounded-tr-lg text-center rounded-br-lg bg-[#121212] w-full px-5 py-3 text-gray-300">
+            <div className=" rounded-tr-lg text-center rounded-br-lg bg-[#121212] w-full xxs:px-5 py-3 text-gray-300">
               Action
             </div>
           </div>
@@ -75,7 +76,7 @@ const UserList = async ({ searchParams }) => {
               <div className="flex col-span-3 lg:col-span-1  items-center">
                 <div className=" w-14 h-14 flex justify-center items-center rounded-full overflow-hidden ">
                   <Image
-                    src={user.picture}
+                    src={user.picture ? user.picture : "/personHead.svg"}
                     alt={user.name}
                     style={{ objectFit: "cover" }}
                     width={200}
@@ -100,19 +101,12 @@ const UserList = async ({ searchParams }) => {
 
               <div className="  col-span-3 lg:col-span-1">
                 <Link className="w-full" href={`/users/${user.email}`}>
-                  <button className="rounded-lg bg-green-300 w-full px-5 py-3 text-black">
+                  <button className="rounded-lg bg-green-300 w-full text-center xxs:px-5 py-3 text-black">
                     View
                   </button>
                 </Link>
               </div>
-              <form className=" col-span-3 lg:col-span-1" action={deleteUser}>
-                <input type="hidden" name="url" value={user.picture} />
-                <input type="hidden" name="cloud" value={user.destroy} />
-                <input type="hidden" name="id" value={user._id.toString()} />
-                <button className="rounded-lg bg-[#121212] w-full px-5 py-3 text-gray-300">
-                  Delete
-                </button>
-              </form>
+              <DeleteForm item={user} Action={deleteUser} />
             </div>
           );
         })}

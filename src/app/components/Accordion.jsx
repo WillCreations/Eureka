@@ -3,6 +3,7 @@ import Image from "next/image";
 import React, { useState, useRef, useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "framer-motion";
+import * as styles from "@/app/Styles/index.module.css";
 
 const Accordion = () => {
   const [isActive, setIsActive] = useState(0);
@@ -56,7 +57,7 @@ const Accordion = () => {
           return (
             <div
               ref={Accordium}
-              className="bg-[#121212] mb-1 lg:mb-0 rounded-lg p-5"
+              className={`${styles.AccSlideIn} bg-[#121212] mb-1 lg:mb-0 rounded-lg p-5`}
               key={index}
             >
               <div
@@ -83,10 +84,11 @@ const Accordion = () => {
           );
         })}
       </div>
-      <div className="col-span-1 bg-[#121212] h-[700px] overflow-hidden rounded-lg">
+      <div
+        className={`${styles.BoxSlideIn} col-span-1 bg-[#121212] h-[700px] overflow-hidden rounded-2xl`}
+      >
         <Image
-          className=" overflow-hidden w-full h-full "
-          style={{ objectFit: "contain" }}
+          className=" overflow-hidden w-full h-full object-cover lg:object-contain"
           src={isActive === null ? "/accord/home.jpg" : Arrays[isActive]?.image}
           width={300}
           height={300}

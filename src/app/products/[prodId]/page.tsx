@@ -7,13 +7,41 @@ import { getServerSession } from "next-auth";
 import Image from "next/image";
 import BuyButton from "@/app/components/BuyButton";
 import CompGrid from "@/app/components/CompGrid";
+import Rater from "@/app/components/Rater";
+import { rateProduct } from "@/app/(Engine)/actions/rateProduct";
+import { updateStock } from "@/app/(Engine)/actions/updateStock";
+
+import { checkLike } from "@/app/(Engine)/actions/checkLike";
+import { unlikeProduct } from "@/app/(Engine)/actions/unlikeProduct";
+import { fetchProductLikes } from "@/app/(Engine)/actions/fetchProductLikes";
+import { likeProduct } from "@/app/(Engine)/actions/likeProduct";
+
+export const metadata = {
+  title: "Product Page",
+};
+const actions = {
+  checkLike,
+  unlikeProduct,
+  likeProduct,
+  fetchProductLikes,
+};
 
 const ProductDetails = async ({ params }) => {
   const session = await getServerSession(options);
   await connectToDb();
   const cluster = await Product.findOne({ _id: Object(params.prodId) });
 
-  const { _id, name, description, category, price, image, stock } = cluster;
+  const {
+    _id,
+    name,
+    description,
+    category,
+    price,
+    image,
+    stock,
+    count,
+    averageRate,
+  } = cluster;
   const cate = await Product.find({ category: category });
   const catego = cate.filter((cat) => {
     return cat._id !== _id;
@@ -29,6 +57,8 @@ const ProductDetails = async ({ params }) => {
       price,
       image,
       stock,
+      count,
+      averageRate,
     },
   ];
 
@@ -39,7 +69,7 @@ const ProductDetails = async ({ params }) => {
   console.log("transCluster: ", transCluster);
 
   return (
-    <div className="min-h-screen box-border m-1 lg:px-28 px-10 pb-96">
+    <div className="min-h-screen box-border m-1 lg:px-28 xxs:px-10 px-5 pb-96">
       <div className="flex justify-between items-center rounded-md py-2  ">
         <h2 className="text-4xl text-green-300 font-bold">Product Details</h2>
         <div>
@@ -52,7 +82,7 @@ const ProductDetails = async ({ params }) => {
           )}
         </div>
       </div>
-      <div className="flex flex-col  md:justify-between bg-[#121212] rounded-md p-10 my-5 text-black">
+      <div className="flex flex-col  md:justify-between bg-[#121212] rounded-md p-5 xxs:p-10 my-5 text-black">
         <div className="grid gap-5 grid-cols-1 md:grid-cols-2 md:items-start ">
           <div className=" w-full  md:col-span-1   ">
             <div className=" relative rounded-md w-full shadow-2xl overflow-hidden max-h-[650px] ">
@@ -79,10 +109,11 @@ const ProductDetails = async ({ params }) => {
               <div className="h-28 my-5">
                 <h3 className=" text-sm text-white font-thin">{description}</h3>
               </div>
+              <Rater prod={prime[0]} Action={rateProduct} />
             </div>
 
             <div className=" text-white">
-              <BuyButton prod={prime} />
+              <BuyButton prod={prime} updateStock={updateStock} />
             </div>
           </div>
         </div>
@@ -93,12 +124,12 @@ const ProductDetails = async ({ params }) => {
             </div>
           </div>
           <div className=" col-span-1 ">
-            <Box prod={prime[0]} />
+            <Box prod={prime[0]} updateStock={updateStock} />
           </div>
         </div>
       </div>
 
-      <CompGrid prodo={arrayone} cluster={transCluster} />
+      <CompGrid updateStock={updateStock} prodo={arrayone} cluster={transCluster} actions={actions} />
     </div>
   );
 };

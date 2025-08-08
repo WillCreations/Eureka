@@ -5,7 +5,7 @@ import Multipier from "@/app/components/Multipier";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-const BuyButton = ({ prod }) => {
+const BuyButton = ({ prod, updateStock }) => {
   const router = useRouter();
   const context = useContext(ProductCart);
   const prodo = context.Cart;
@@ -13,23 +13,18 @@ const BuyButton = ({ prod }) => {
   const [index, setIndex] = useState(-1);
 
   const HandleQuant = (prod, value) => {
-    context.QuantHandle(prod, value);
+    return context.QuantHandle(prod, value);
   };
 
   const inside = context.Bool(prod[0]._id);
-  console.log(inside, "insider");
 
   useEffect(() => {
     prodo.forEach((p, index) => {
-      console.log(p, index, "cart index");
-
       if (p._id === prod[0]._id) {
         setIndex(index);
       }
     });
   }, [prodo]);
-
-  console.log(index, "index find");
 
   const HandleCheckout = () => {
     router.push("/cart");
@@ -41,6 +36,7 @@ const BuyButton = ({ prod }) => {
         SingleProd={inside && index !== -1 ? prodo[index] : prod[0]}
         Quant={HandleQuant}
         disabler={inside}
+        updateStock={updateStock}
       />
 
       <button

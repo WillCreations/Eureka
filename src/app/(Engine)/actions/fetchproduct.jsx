@@ -16,6 +16,6 @@ export const fetchproduct = async (q, page) => {
     console.log(count, "countererre in server");
     return { count, products };
   } catch (error) {
-    throw new Error("Failed Search");
+    console.log(error.message)
   }
 };

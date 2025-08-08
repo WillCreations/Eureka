@@ -68,7 +68,7 @@
 }
 
 
-.Service {
+.Pop {
     scale: .8;
     opacity: 0;
     animation-name: appear-pop;
@@ -88,6 +88,62 @@
 }
 
 
+.BoxSlideIn {
+    
+    
+    animation-name: Box-Slide-in;
+    animation-fill-mode: both;
+    animation-timing-function: ease-in-out;
+    animation-timeline: view();
+   
+    animation-range: entry ;
+   
+
+}
+
+
+
+@keyframes Box-Slide-in {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+
+    }
+
+    100% {
+        transform: translateX(0%);
+        opacity: 1;
+        
+    }
+}
+.AccSlideIn {
+    
+    
+    animation-name: AccSlide-in;
+    animation-fill-mode: both;
+    animation-timing-function: ease-in-out;
+    animation-timeline: view();
+   
+    animation-range: entry ;
+   
+
+}
+
+
+
+@keyframes AccSlide-in {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+
+    }
+
+    100% {
+        transform: translateX(0%);
+        opacity: 1;
+        
+    }
+}
 .SlideIn {
     
     
@@ -95,6 +151,7 @@
     animation-fill-mode: both;
     animation-timing-function: linear;
     animation-timeline: view();
+    animation-duration: 2s;
     animation-range: 100px 350px;
     animation-delay: 500ms;
 
@@ -332,7 +389,7 @@ position:  relative;
 }
 
 .input:invalid[focused="true"] ~ div {
-    top: 10%;
+    top: 45px;
  
     
 }

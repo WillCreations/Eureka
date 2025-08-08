@@ -2,11 +2,12 @@
 import React from "react";
 import ClientForm from "@/app/components/ClientForm";
 import Image from "next/image";
+import SubHeader from "@/app/components/SubHeader";
 
 const Contact = ({ Action }) => {
   return (
     <div>
-      <h1 className="Header">Contact</h1>
+      <SubHeader tag="Contact" />
       <p className="lg:text-center">
         Ready to collaborate or have a project in mind? Feel free to reach out
         to me through the contact form or connect with me on social media.

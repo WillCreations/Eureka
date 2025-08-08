@@ -1,6 +1,7 @@
 import { addClient } from "@/app/(Engine)/actions/addClient";
 import PortfolioPage from "@/app/components/PortfolioPage";
 import Client from "@/app/(Engine)/models/clientSchema";
+import * as styles from "@/app/Styles/index.module.css";
 
 export const metadata = {
   title: "Princewill Igwe Portfolio",
@@ -127,7 +128,7 @@ const portfolio = async () => {
     { name: "Docker", image: "/tech/Docker.svg", black: "/tech/DockerBlk.svg" },
   ];
   return (
-    <div className="min-h-screen my-5 px-10 lg:px-28 text-white overflow-hidden">
+    <div className="min-h-screen my-5 px-5 xxs:px-10 lg:px-28 text-white overflow-hidden">
       <PortfolioPage
         projects={projects}
         picture={picture}
@@ -135,6 +136,7 @@ const portfolio = async () => {
         skills={skills}
         inbox={inbox}
         addClient={addClient}
+        styles={styles}
       />
     </div>
   );

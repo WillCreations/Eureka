@@ -1,6 +1,8 @@
 "use client";
 import { Codes, CountryCoder } from "@/CountryCodes";
-
+import Modal from "./Modal";
+import SuccessMessage from "./SuccessMessage";
+import ErrorMessage from "./ErrorMessage";
 import { useRouter } from "next/navigation";
 import Uploader from "@/app/components/Uploader";
 import { signOut, useSession } from "next-auth/react";
@@ -13,11 +15,15 @@ import {
   MdOutlineToggleOff,
 } from "react-icons/md";
 import * as style from "@/app/Styles/index.module.css";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
-const UserEdit = ({ Updater, Use }) => {
+const UserEdit = ({ Updater, Use, deleteImage }) => {
   const router = useRouter();
-
-  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [isError, setIsError] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { data: session } = useSession();
   const [pictureFile, setPictureFile] = useState();
   const [show, setShow] = useState({
@@ -37,13 +43,21 @@ const UserEdit = ({ Updater, Use }) => {
     password: "password",
     password2: "password",
   });
-  const [message, setMessage] = useState({
-    error: "",
-    success: "",
-  });
+
   const [base64, setBase64] = useState("");
 
-  const { _id, name, admin, email, address, countryCode, phone, picture } = Use;
+  const {
+    _id,
+    name,
+    admin,
+    email,
+    address,
+    countryCode,
+    phone,
+    picture,
+    image,
+    destroy,
+  } = Use;
   const [details, setDetails] = useState({
     name,
     email,
@@ -55,6 +69,14 @@ const UserEdit = ({ Updater, Use }) => {
     password2: "",
     admin,
   });
+
+  const DeleteObj = {
+    id: _id,
+    fsUnlink: image,
+    cloudDestroy: destroy,
+    itemType: "user",
+    Action: deleteImage,
+  };
 
   const nameRegex = /^([A-Z])[a-z\d]{3,12}$/;
   const emailRegex = /^([a-z\d\.]+)@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/;
@@ -68,75 +90,93 @@ const UserEdit = ({ Updater, Use }) => {
     router.push("/login");
   };
 
+  const clear = () => {
+    document.body.style.overflow = "auto";
+    setSuccess("");
+    setError("");
+    setBase64("");
+  };
+
   const Netflix = async (formData) => {
-    try {
-      setLoading(true);
-      setMessage({ ...message, error: "", success: "" });
+    setIsLoading(true);
+    setTimeout(async () => {
+      try {
+        setError("");
+        setSuccess("");
 
-      const { password, password2, email, name, address, phone } = details;
+        const { password, password2, email, name, address, phone } = details;
 
-      if (name && !nameRegex.test(name)) {
-        throw new Error(
-          "Username must be alphanumeric,must have only the first charcter as caps, and must contain 5-12 characters"
-        );
-      }
+        if (name && !nameRegex.test(name)) {
+          throw new Error(
+            "Username must be alphanumeric,must have only the first charcter as caps, and must contain 5-12 characters"
+          );
+        }
 
-      if (email && !emailRegex.test(email)) {
-        throw new Error("Email must be a valid address e.g me@mydomain.com");
-      }
-      if (address && !addressRegex.test(address)) {
-        throw new Error(
-          "Address must be alphanumber betweeen 5-100 characters"
-        );
-      }
-      if (phone && !phoneRegex.test(phone)) {
-        throw new Error("Telephone must be number betweeen 5-12 characters");
-      }
-      if (password && !passRegex.test(password)) {
-        throw new Error(
-          "password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one special character !@#$%^&* and one digit"
-        );
-      }
-      if (password !== password2) {
-        throw new Error("Confirmation Failed");
-      }
+        if (email && !emailRegex.test(email)) {
+          throw new Error("Email must be a valid address e.g me@mydomain.com");
+        }
+        if (address && !addressRegex.test(address)) {
+          throw new Error(
+            "Address must be alphanumber betweeen 5-100 characters"
+          );
+        }
+        if (phone && !phoneRegex.test(phone)) {
+          throw new Error("Telephone must be number betweeen 5-12 characters");
+        }
+        if (password && !passRegex.test(password)) {
+          throw new Error(
+            "password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one special character !@#$%^&* and one digit"
+          );
+        }
+        if (password !== password2) {
+          throw new Error("Confirmation Failed");
+        }
 
-      const formData2 = new FormData();
+        const formData2 = new FormData();
 
-      formData2.append("pictureFile", pictureFile);
-      formData2.append("admin", details.admin);
-      formData2.append("base64", base64);
-      formData2.append("picture", picture);
+        formData2.append("pictureFile", pictureFile);
+        formData2.append("admin", details.admin);
+        formData2.append("base64", base64);
+        formData2.append("picture", picture);
 
-      const response = await Updater(formData, formData2);
+        const response = await Updater(formData, formData2);
 
-      if (response.ok) {
-        console.log(response);
-        setLoading(false);
-        setMessage({ ...message, error: "" });
-        setMessage({ ...message, success: response.message });
+        if (response.ok) {
+          console.log(response);
+          setIsLoading(false);
+          setIsOpen(true);
+          setSuccess(response.message);
+          document.body.style.overflow = "hidden";
+          setTimeout(() => {
+            clear();
+
+            if (
+              session?.user.email === response.redirect ||
+              response.redirect === ""
+            ) {
+              router.push(`/users/${session?.user.email}`);
+            } else if (
+              session?.user.email !== response.redirect &&
+              session?.user.admin === true
+            ) {
+              router.push(`/users/${response.redirect}`);
+            } else {
+              handleSignout();
+            }
+          }, 3000);
+        } else {
+          throw new Error(response.message);
+        }
+      } catch (error) {
+        setIsLoading(false);
+        setError(error.message);
+        setIsError(true);
+        document.body.style.overflow = "hidden";
         setTimeout(() => {
-          setMessage({ ...message, success: "" });
-
-          if (
-            session?.user.email === response.redirect ||
-            response.redirect === ""
-          ) {
-            router.push(`/users/${session?.user.email}`);
-          } else {
-            handleSignout();
-          }
-        }, 3000);
-      } else {
-        throw new Error(response.message);
+          clear();
+        }, 5000);
       }
-    } catch (error) {
-      setLoading(false);
-      setMessage({ ...message, error: error.message });
-      setTimeout(() => {
-        setMessage({ ...message, error: "" });
-      }, 3000);
-    }
+    }, 5000);
   };
 
   const onChangeHandler = (e) => {
@@ -196,22 +236,23 @@ const UserEdit = ({ Updater, Use }) => {
   ];
 
   return (
-    <div className=" mx-10 lg:mx-28">
+    <div className=" mx-5 xxs:mx-10 lg:mx-28">
       <div className="my-5 flex justify-start rounded-md  text-white ">
         <p className="text-green-300 text-4xl font-bold">Update Profile</p>
       </div>
 
       <form
-        className="grid w-full text-gray-300 grid-cols-2 gap-10 lg:flex-row justify-between my-5 bg-[#121212] py-5 px-10  rounded-md"
+        className="grid w-full text-gray-300 grid-cols-2 gap-10 lg:flex-row justify-between my-5 bg-[#121212] py-5 px-5 xxs:px-10  rounded-2xl"
         action={Netflix}
       >
-        <div className="w-full col-span-2 lg:col-span-1 my-3 mr-10">
+        <div className="w-full col-span-2 lg:col-span-1 xxs:my-3 xxs:mr-10">
           <Uploader
             picture={picture ? picture : "/personHead.svg"}
             imagine="picture"
             setPictureFile={setPictureFile}
             base64={base64}
             setBase64={setBase64}
+            DeleteObj={DeleteObj}
           />
 
           <input className="p-5" type="hidden" name="id" value={_id} />
@@ -224,8 +265,10 @@ const UserEdit = ({ Updater, Use }) => {
                 key={p.name}
                 className=" grid grid-cols-6 my-5 items-center gap-5 relative h-fit"
               >
-                <label className="capitalize col-span-2">{p.label}</label>
-                <div className=" col-span-4">
+                <label className="capitalize col-span-6 sm:col-span-2">
+                  {p.label}
+                </label>
+                <div className=" col-span-6 sm:col-span-4">
                   {p.name !== "phone" && (
                     <input
                       className={`p-5 bg-black w-full text-gray-400 rounded-md col-span-5 ${style.input}`}
@@ -275,7 +318,7 @@ const UserEdit = ({ Updater, Use }) => {
                   ) : null}
                   {(p.name === "password" || p.name === "password2") && (
                     <div
-                      className="absolute right-0 top-[30%] flex items-center"
+                      className="absolute right-0 top-[55%] sm:top-[30%] flex items-center"
                       onClick={(e) => {
                         if (!show[p.name]) {
                           setShow({ ...show, [p.name]: true });
@@ -319,19 +362,28 @@ const UserEdit = ({ Updater, Use }) => {
               </div>
             </div>
           )}
-          {message.error !== "" && (
-            <div className="text-red-500 border-2 my-2  border-red-500 border-solid p-5 w-full bg-red-300 rounded-md">
-              {message.error}
-            </div>
+          {success && (
+            <Modal setIsOpen={setIsOpen} isOpen={isOpen}>
+              <SuccessMessage success={success} />{" "}
+            </Modal>
           )}
-          {message.success !== "" && (
-            <div className="text-green-500 border-2 my-2  border-green-500 border-solid p-5 w-full bg-green-300 rounded-md">
-              {message.success}
-            </div>
+          {error && (
+            <Modal setIsOpen={setIsError} isOpen={isError}>
+              <ErrorMessage error={error} />{" "}
+            </Modal>
           )}
 
-          <button className="w-full text-black bg-green-300 my-2  px-4 py-5 rounded-md hover:bg-green-600">
-            {loading ? <MdOutlineIncompleteCircle /> : "update"}
+          <button
+            disabled={isLoading}
+            className="w-full text-black bg-green-300 my-2  px-4 py-5 rounded-2xl "
+          >
+            <div className="flex justify-center items-center">
+              {!isLoading ? (
+                "Update User"
+              ) : (
+                <AiOutlineLoading3Quarters className=" text-black text-2xl animate-spin" />
+              )}
+            </div>
           </button>
         </div>
       </form>

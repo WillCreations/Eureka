@@ -4,7 +4,7 @@ import Image from "next/image";
 const Loading = () => {
   return (
     <div>
-      <div className="px-10 lg:px-28 grid gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div className="px-5 xxs:px-10 lg:px-28 grid gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {[...Array(10)].map((p, index) => {
           return (
             <div

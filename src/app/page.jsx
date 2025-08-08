@@ -11,7 +11,7 @@ import Navbutton from "./components/Navbutton";
 import Slide from "@/app/components/Slide";
 import Testimonial from "@/app/components/Testimonial";
 import Contact from "@/app/components/Contact";
-import Accrodion from "@/app/components/Accordion";
+import SubHeader from "@/app/components/SubHeader";
 import Round from "@/app/components/Round";
 import Accordion from "@/app/components/Accordion";
 
@@ -100,7 +100,7 @@ export default async function Home() {
   const session = await getServerSession(options);
   return (
     <div className="min-h-screen text-white">
-      <div className="bg-[#121212]  px-10 lg:px-28  h-auto md:gap-5 md:grid grid-cols-2">
+      <div className="bg-[#121212] px-5 xxs:px-10 lg:px-28  h-auto md:gap-5 md:grid grid-cols-2">
         <div className="flex flex-col py-20  justify-start">
           <div>
             <h1 className="text-6xl text-green-300 font-extrabold">
@@ -151,20 +151,26 @@ export default async function Home() {
           </Link>
         </div>
       </div>
-      <div className="mx-10 gap-10 lg:mx-28 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 my-28 ">
-        {[25, 50, 60, 80, 90, 100].map((p) => {
-          return (
-            <div key={p} className="flex p-5 bg-[#121212] rounded-2xl justify-center items-center">
-              <Round perc={p} />
-            </div>
-          );
-        })}
+
+      <div className="mx-5 xxs:mx-10 lg:mx-28 my-28 ">
+        <SubHeader tag="Ratings" />
+        <div className=" grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5 ">
+          {[100, 90, 80, 60, 50, 30].map((p) => {
+            return (
+              <div
+                key={p}
+                className={`${styles.Pop} flex p-5 bg-[#121212] rounded-2xl justify-center items-center`}
+              >
+                <Round perc={p} />
+              </div>
+            );
+          })}
+        </div>
       </div>
       <div className="my-5 px-10 lg:px-28"></div>
-      <div className={`px-10 lg:px-28 mt-32`}>
-        <h2 className="text-2xl my-5 font-semibold text-green-300 text-center">
-          Our Services
-        </h2>
+      <div className={`px-5 xxs:px-10 lg:px-28 mt-32`}>
+        <SubHeader tag="Our Services" />
+
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
           {[
             {
@@ -201,7 +207,7 @@ export default async function Home() {
             return (
               <div
                 key={unit.tag}
-                className={`bg-[#121212] rounded-2xl text-green-300  p-5 ${styles.Service}`}
+                className={`bg-[#121212] rounded-2xl text-green-300  p-5 ${styles.Pop}`}
               >
                 <div className="flex justify-center  h-40 w-full overflow-hidden py-10 my-5">
                   <Image
@@ -213,7 +219,9 @@ export default async function Home() {
                   />
                 </div>
 
-                <h4 className="text-2xl text-white font-extrabold">{unit.tag}</h4>
+                <h4 className="text-2xl text-white font-extrabold">
+                  {unit.tag}
+                </h4>
                 <p className="text-xs text-justify">{unit.para}</p>
               </div>
             );
@@ -221,17 +229,15 @@ export default async function Home() {
         </div>
       </div>
 
-      <div className="mt-32">
-        <div className="text-2xl font-black my-5 text-green-300 text-center">
-          Our Products
-        </div>
+      <div className=" mx-5 xxs:mx-10  lg:mx-28 mt-32">
+        <SubHeader tag="Our Products" />
 
-        <div className="mx-10 my-10 lg:mx-28 grid md:grid-cols-3  grid-cols-1  gap-5">
+        <div className=" grid md:grid-cols-3  grid-cols-1  gap-5">
           {Offers.map((Obj, index) => {
             return (
               <div
                 key={index}
-                className=" col-span-1 w-full flex justify-center items-center"
+                className={`${styles.Pop} col-span-1 w-full flex justify-center items-center`}
               >
                 <div className="bg-[#121212]  rounded-2xl px-8 py-10  w-[350px] lg:w-full ">
                   <div className="text-green-300 text-xl font-bold">
@@ -276,12 +282,12 @@ export default async function Home() {
             );
           })}
         </div>
-        <Slide Prod={prodSend} />
+        <div className="my-10">
+          <Slide Prod={prodSend} />
+        </div>
       </div>
       <div className="my-5 px-10 lg:px-28 mt-32">
-        <h2 className="text-2xl my-5 font-semibold text-green-300 text-center ">
-          Why Choose Us
-        </h2>
+        <SubHeader tag="Why Choose Us" />
         <p
           className={`text-justify lg:text-center text-base ${styles.SlideIn}`}
         >
@@ -293,25 +299,28 @@ export default async function Home() {
           strategy, we have the skills and experience to help you succeed.
         </p>
       </div>
-      <div className="my-5 px-10 lg:px-28 mt-32">
-        <h2 className="text-2xl my-5 font-semibold text-green-300 text-center">
-          Testimonials
-        </h2>
+      <div className="my-5 px-5 xxs:px-10 lg:px-28 mt-32">
+        <SubHeader tag="Testimonials" />
         <p className="text-justify lg:text-center text-base">
           Don't take our word for it, here's what our customers have to say
           about us
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl: xl:grid-cols-6 gap-5 my-5 w-full">
           {Clients.map((c, index) => {
-            return <Testimonial key={index} client={c} />;
+            return (
+              <div key={index} className={`${styles.Pop}`}>
+                <Testimonial client={c} />
+              </div>
+            );
           })}
         </div>
       </div>
 
-      <div className="my-5 px-10 lg:px-28 mt-32">
+      <div className="my-5 px-5 xxs:px-10 lg:px-28 mt-32">
+        <SubHeader tag="FAQ" />
         <Accordion />
       </div>
-      <div className="my-5 px-10 lg:px-28 mt-32">
+      <div className="my-5 px-5 xxs:px-10 lg:px-28 mt-32">
         <Contact Action={addClient} />
       </div>
 

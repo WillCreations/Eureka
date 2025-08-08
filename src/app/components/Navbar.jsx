@@ -57,13 +57,9 @@ const Navbar = ({ Action }) => {
     wrapper();
   }, [session]);
 
-  console.log(user, "current user");
-
-  console.log(session?.user.name, "user");
-
   return (
     <div className="md:flex sticky z-[100] top-0 left-0  w-full bg-black justify-between block md:py-8 md:items-Start  pb-0">
-      <div className="flex sticky lg:pl-28 px-10 md:pr-0 py-8 md:py-0 bg-black z-10 w-full md:w-fit justify-between items-center">
+      <div className="flex sticky lg:pl-28 px-5 xxs:px-10 md:pr-0 py-8 md:py-0 bg-black z-10 w-full md:w-fit justify-between items-center">
         <Link href="/">
           <div className="flex  my-2 items-center">
             <div className="flex mr-2 mb-2  items-center">
@@ -148,7 +144,7 @@ const Navbar = ({ Action }) => {
       <div
         className={` ${styles.first}  ${
           isOpen ? styles.ul : styles.ulReverse
-        } absolute md:pr-10 lg:pr-28 md:relative lg:h-full w-full md:w-fit `}
+        } absolute  md:pr-10 lg:pr-28 md:relative lg:h-full w-full md:w-fit overflow-auto `}
       >
         {session ? (
           <ul
@@ -160,7 +156,7 @@ const Navbar = ({ Action }) => {
                 Pathname === "/"
                   ? "text-green-300 bg-black border-solid border-b-2 border-green-300"
                   : null
-              } lg:hidden px-10 py-5 md:p-0 md:my-2 md:mx-6   hover:text-green-300`}
+              } lg:hidden px-5 xxs:px-10 py-5 md:p-0 md:my-2 md:mx-6   hover:text-green-300`}
             >
               <Link href="/">Home </Link>
             </li>
@@ -171,7 +167,7 @@ const Navbar = ({ Action }) => {
                 Pathname.startsWith("/portfolio")
                   ? "text-green-300 bg-black border-solid border-b-2 border-green-300"
                   : null
-              } lg:hidden px-10 py-5 md:p-0 md:my-2 md:mx-6   hover:text-green-300`}
+              } lg:hidden px-5 xxs:px-10 py-5 md:p-0 md:my-2 md:mx-6   hover:text-green-300`}
             >
               <Link href="/portfolio">Portfolio </Link>
             </li>
@@ -181,7 +177,7 @@ const Navbar = ({ Action }) => {
                 Pathname.startsWith("/products")
                   ? "text-green-300 bg-black border-solid border-b-2 border-green-300"
                   : null
-              } lg:hidden px-10 py-5 md:p-0 md:my-2 md:mx-6   hover:text-green-300`}
+              } lg:hidden px-5 xxs:px-10 py-5 md:p-0 md:my-2 md:mx-6   hover:text-green-300`}
             >
               <Link href="/products">Shop</Link>
             </li>
@@ -191,7 +187,7 @@ const Navbar = ({ Action }) => {
                 Pathname.startsWith("/cart")
                   ? "text-green-300 bg-black border-solid border-b-2 border-green-300"
                   : null
-              } lg:hidden px-10 md:p-0 py-5 md:my-2 md:mx-6 relative  hover:text-green-300`}
+              } lg:hidden px-5 xxs:px-10 md:p-0 py-5 md:my-2 md:mx-6 relative  hover:text-green-300`}
             >
               <Link href="/cart" className="flex items-center flex-nowrap">
                 <div className="mr-1">Cart </div>
@@ -209,11 +205,14 @@ const Navbar = ({ Action }) => {
                 Pathname.startsWith("/users")
                   ? "text-green-300 bg-black border-solid border-b-2 border-green-300 md:border-b-0"
                   : null
-              } px-10 py-5 md:p-0 md:my-2 md:mx-6 flex items-center`}
+              } px-5  xxs:px-10 py-5 md:p-0 md:my-2 md:mx-6 flex items-center`}
             >
               <div
                 className={`${
-                Pathname.startsWith("/users") ? "border-2 border-green-300 border-solid":null} flex justify-center rounded-full overflow-hidden w-6 h-6`}
+                  Pathname.startsWith("/users")
+                    ? "border-2 border-green-300 border-solid"
+                    : null
+                } flex justify-center rounded-full overflow-hidden w-6 h-6`}
               >
                 <Image
                   src={
@@ -242,7 +241,7 @@ const Navbar = ({ Action }) => {
                 onClick={() => {
                   handleSignout();
                 }}
-                className="text-green-300 md:text-black hover:text-red-800 md:bg-green-300 md:hover:bg-red-700 md:hover:text-white mx-10 md:mx-0 md:px-4 py-2 my-5 md:my-2  md:ml-4 rounded"
+                className="text-green-300 md:text-black hover:text-red-800 md:bg-green-300 md:hover:bg-red-700 md:hover:text-white mx-5 xxs:mx-10 md:mx-0 md:px-4 py-2 my-5 md:my-2  md:ml-4 rounded"
               >
                 Sign out
               </button>
@@ -256,7 +255,7 @@ const Navbar = ({ Action }) => {
               <Link href="/login">
                 <button
                   onClick={Toggler}
-                  className="text-green-300 md:text-black my-5 md:my-2 hover:text-white md:bg-green-300  mx-10 md:mx-0 md:px-4 py-2 md:ml-4 rounded md:hover:bg-green-600"
+                  className="text-green-300 md:text-black my-5 md:my-2 hover:text-white md:bg-green-300 mx-5  xxs:mx-10 md:mx-0 md:px-4 py-2 md:ml-4 rounded md:hover:bg-green-600"
                 >
                   Sign in
                 </button>
@@ -267,7 +266,7 @@ const Navbar = ({ Action }) => {
               <Link href="/register">
                 <button
                   onClick={Toggler}
-                  className="text-green-300 md:text-black my-5 md:my-2 hover:text-white md:bg-green-300 mx-10 md:mx-0 md:px-4 py-2 md:ml-4 rounded md:hover:bg-green-600"
+                  className="text-green-300 md:text-black my-5 md:my-2 hover:text-white md:bg-green-300 mx-5 xxs:mx-10 md:mx-0 md:px-4 py-2 md:ml-4 rounded md:hover:bg-green-600"
                 >
                   Register
                 </button>

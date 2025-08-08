@@ -10,10 +10,15 @@ import {
   MdOutlineToggleOff,
 } from "react-icons/md";
 import * as style from "@/app/Styles/index.module.css";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import Modal from "./Modal";
+import SuccessMessage from "./SuccessMessage";
+import ErrorMessage from "./ErrorMessage";
 
 const UserForm = ({ Action, button }) => {
   const { data: session } = useSession();
   const [pictureFile, setPictureFile] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   const [show, setShow] = useState({
     password: false,
     password2: false,
@@ -32,6 +37,9 @@ const UserForm = ({ Action, button }) => {
     password2: "password",
   });
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [isError, setIsError] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [base64, setBase64] = useState("");
 
   const [details, setDetails] = useState({
@@ -45,28 +53,55 @@ const UserForm = ({ Action, button }) => {
     admin: false,
   });
 
+  const clear = () => {
+    document.body.style.overflow = "auto";
+    setSuccess("");
+    setError("");
+    setBase64("");
+    setDetails({
+      name: "",
+      email: "",
+      address: "",
+      phone: "",
+      picture: "",
+      password: "",
+      password2: "",
+      admin: false,
+    });
+  };
   const Netflix = async (formData) => {
-    console.log(formData, "onSubmit");
-    const formData2 = new FormData();
-    formData2.append("pictureFile", pictureFile);
-    formData2.append("admin", details.admin);
-    formData2.append("base64", base64);
-    const result = await Action(formData, formData2);
+    setIsLoading(true);
+    setSuccess("");
+    setError("");
+    setTimeout(async () => {
+      try {
+        console.log(formData, "onSubmit");
+        const formData2 = new FormData();
+        formData2.append("pictureFile", pictureFile);
+        formData2.append("admin", details.admin);
+        formData2.append("base64", base64);
+        const response = await Action(formData, formData2);
 
-    if (result) {
-        setError("");
-         setBase64("");
-      setDetails({
-        name: "",
-        email: "",
-        address: "",
-        phone: "",
-        picture: "",
-        password: "",
-        password2: "",
-        admin: false,
-      });
-    }
+        if (response.ok) {
+          setIsLoading(false);
+          setSuccess(response.message);
+          setIsOpen(true);
+          document.body.style.overflow = "hidden";
+        } else {
+          throw new Error(response.message);
+        }
+      } catch (error) {
+        setIsLoading(false);
+        setIsError(true);
+        setError(error.message);
+        document.body.style.overflow = "hidden";
+        console.log("error: ", error.message);
+      }
+
+      setTimeout(() => {
+        clear();
+      }, 10000);
+    }, 5000);
   };
 
   const onChangeHandler = (e) => {
@@ -76,7 +111,8 @@ const UserForm = ({ Action, button }) => {
   const inputs = [
     {
       name: "name",
-      placeholder: details.name,
+      placeholder: "Enter Username...",
+      value: details.name,
       label: "Username",
       error: "Enter Name ",
       type: "text",
@@ -84,7 +120,8 @@ const UserForm = ({ Action, button }) => {
     },
     {
       name: "email",
-      placeholder: details.email,
+      placeholder: "Enter Email...",
+      value: details.email,
       label: "Email",
       error: "enter valid email ",
       type: "text",
@@ -92,7 +129,8 @@ const UserForm = ({ Action, button }) => {
     },
     {
       name: "address",
-      placeholder: details.address,
+      placeholder: "Enter Address...",
+      value: details.address,
       label: "Address",
       error: "enter valid address ",
       type: "text",
@@ -100,7 +138,8 @@ const UserForm = ({ Action, button }) => {
     },
     {
       name: "phone",
-      placeholder: details.phone,
+      placeholder: "Enter Phone Number...",
+      value: details.phone,
       label: "Phone No.",
       error: "enter valid number",
       type: "text",
@@ -108,7 +147,8 @@ const UserForm = ({ Action, button }) => {
     },
     {
       name: "password",
-      placeholder: details.password,
+      placeholder: "Enter Password...",
+      value: details.password,
       label: "Password",
       error:
         "password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one special character !@#$%^&* and one digit",
@@ -117,7 +157,8 @@ const UserForm = ({ Action, button }) => {
     },
     {
       name: "password2",
-      placeholder: details.password2,
+      placeholder: "Confirm Password...",
+      value: details.password2,
       label: "Confirm Password",
       error: "Passwords don't match ",
       type: pass.password2,
@@ -127,7 +168,7 @@ const UserForm = ({ Action, button }) => {
 
   return (
     <form
-      className="grid w-full grid-cols-2 text-gray-300 gap-10 lg:flex-row justify-between my-5 bg-[#121212] py-5 px-10 rounded-md"
+      className="grid w-full grid-cols-2 text-gray-300 gap-10 lg:flex-row justify-between my-5 bg-[#121212] py-5 px-5 xxs:px-10 rounded-2xl"
       action={Netflix}
     >
       <Uploader
@@ -142,16 +183,19 @@ const UserForm = ({ Action, button }) => {
           return (
             <div
               key={p.name}
-              className=" grid grid-cols-6 my-5 items-center gap-5 relative h-fit"
+              className=" grid grid-cols-6 my-5 items-center gap-2 xxs:gap-5 relative h-fit"
             >
-              <label className="capitalize col-span-2">{p.label}</label>
-              <div className=" col-span-4">
+              <label className="capitalize col-span-6 xxs:col-span-2">
+                {p.label}
+              </label>
+              <div className="col-span-6 sm:col-span-4">
                 {p.name !== "phone" && (
                   <input
                     className={`p-5 bg-black w-full text-gray-300 rounded-md col-span-5 ${style.input}`}
                     type={p.type}
                     name={p.name}
-                    value={p.placeholder}
+                    value={p.value}
+                    placeholder={p.placeholder}
                     pattern={p.pattern}
                     onChange={onChangeHandler}
                     onBlur={(e) => {
@@ -163,7 +207,7 @@ const UserForm = ({ Action, button }) => {
                 {p.name === "phone" ? (
                   <div className="relative grid gap-3 grid-cols-6 w-full">
                     <select
-                      className="p-5 col-span-2 bg-black text-gray-400  block rounded-md"
+                      className="p-5 col-span-6 sm:col-span-2 bg-black text-gray-400  block rounded-md"
                       name="code"
                     >
                       <option value="">Country Code</option>;
@@ -177,10 +221,11 @@ const UserForm = ({ Action, button }) => {
                       })}
                     </select>
                     <input
-                      className={`p-5 bg-black w-full text-gray-300 rounded-md col-span-4 ${style.input}`}
+                      className={`p-5 bg-black w-full text-gray-300 rounded-md col-span-6 sm:col-span-4 ${style.input}`}
                       type={p.type}
                       name={p.name}
-                      value={p.placeholder}
+                      value={p.value}
+                      placeholder={p.placeholder}
                       pattern={p.pattern}
                       onChange={onChangeHandler}
                       onBlur={(e) => {
@@ -193,7 +238,7 @@ const UserForm = ({ Action, button }) => {
 
                 {(p.name === "password" || p.name === "password2") && (
                   <div
-                    className="absolute right-0 top-[30%] flex items-center"
+                    className="absolute right-0 top-[55%] xxs:top-[30%] flex items-center"
                     onClick={(e) => {
                       if (!show[p.name]) {
                         setShow({ ...show, [p.name]: true });
@@ -235,8 +280,27 @@ const UserForm = ({ Action, button }) => {
           </div>
         )}
 
-        <button className="w-full text-black bg-green-300 my-2  px-4 py-5 rounded-md hover:bg-green-600">
-          {button}
+        {success && (
+          <Modal setIsOpen={setIsOpen} isOpen={isOpen}>
+            <SuccessMessage success={success} />{" "}
+          </Modal>
+        )}
+        {error && (
+          <Modal setIsOpen={setIsError} isOpen={isError}>
+            <ErrorMessage error={error} />{" "}
+          </Modal>
+        )}
+        <button
+          disabled={isLoading}
+          className="w-full text-black bg-green-300 my-2  px-4 py-5 rounded-2xl"
+        >
+          <div className="flex justify-center items-center">
+            {!isLoading ? (
+              "Register New User"
+            ) : (
+              <AiOutlineLoading3Quarters className=" text-black text-2xl animate-spin" />
+            )}
+          </div>
         </button>
       </div>
     </form>

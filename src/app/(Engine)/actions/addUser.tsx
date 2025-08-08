@@ -22,7 +22,6 @@ export const addUser = async (formData, formData2) => {
     let clouding;
     let newName;
     let hashed;
-    let phoneNum;
 
     if (NODE_ENV === "development") {
       if (pictureFile.name) {
@@ -33,7 +32,7 @@ export const addUser = async (formData, formData2) => {
         console.log("image: ", pictureFile);
         const imagebyte = await pictureFile.arrayBuffer();
         console.log(imagebyte, "imagebyte");
-        const buffer = Buffer.from(imagebyte);
+        const buffer = Buffer.from(imagebyte) as any;
         console.log("buffer: ", buffer);
         fs.writeFileSync(pathname, buffer);
       }
@@ -44,10 +43,10 @@ export const addUser = async (formData, formData2) => {
       console.log(hashed, "hashed");
     }
 
-    const user = new User({
+    const user = await User.create({
       name,
       email,
-      phone: phoneNum,
+      phone,
       countryCode: code,
       picture: newName,
       image: newName,
@@ -57,11 +56,11 @@ export const addUser = async (formData, formData2) => {
       admin,
     });
 
-    Object.entries(user).forEach(([key, value]) => {
-      if (value === "" || undefined) {
-        delete user[key];
-      }
-    });
+    // Object.entries(user).forEach(([key, value]) => {
+    //   if (value === "" || undefined) {
+    //     delete user[key];
+    //   }
+    // });
 
     console.log(user, "wetin i return");
     user.save();
@@ -79,13 +78,11 @@ export const addUser = async (formData, formData2) => {
       cloudinary.uploader.destroy(user.destroy);
     }
 
-    return true;
-  } catch (error) {
-    console.log(error);
-    throw new Error(" failed to add new User");
-    return false;
-  }
+    revalidatePath(`/users`);
 
-  revalidatePath(`/users`);
+    return { ok: true, message: `${user.name} registered successfully` };
+  } catch (error) {
+    return { ok: false, message: error.message };
+  }
   redirect(`/users`);
 };

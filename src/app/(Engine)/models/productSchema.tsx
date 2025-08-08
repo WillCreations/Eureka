@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { Schema, model, models } from "mongoose";
 
 const ProductSchema = new Schema(
@@ -19,12 +20,25 @@ const ProductSchema = new Schema(
     category: {
       type: String,
       required: [true, "product category"],
-      enum: ["Clothing", "Beauty", "Kitchen", "Phone", "Electronics"],
     },
 
     image: {
       type: String,
       required: [true, " product image"],
+    },
+    likes: [
+      {
+        type: ObjectId,
+        ref: "User",
+      },
+    ],
+
+    totalRates: {
+      type: Number,
+    },
+
+    averageRate: {
+      type: Number,
     },
 
     alt_image: {
@@ -45,6 +59,10 @@ const ProductSchema = new Schema(
     stock: {
       type: Number,
       required: [true, "product unit"],
+    },
+    count: {
+      type: Number,
+      required: [true, "product count"],
     },
   },
   { timestamps: true }

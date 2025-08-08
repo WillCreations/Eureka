@@ -12,7 +12,6 @@ export const fetchUserDetails = async (email: String) => {
       return JSON.stringify(user);
     }
   } catch (error) {
-    console.log({ error });
-    throw new Error("failed to fetch user id");
+    console.log(error.message);
   }
 };

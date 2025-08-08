@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import SearchBar from "@/app/components/SearchBar";
 import Link from "next/link";
 import Category from "@/app/components/Category";
@@ -11,10 +11,8 @@ import Grid from "@/app/components/Grid";
 import React, { useState } from "react";
 import Image from "next/image";
 
-const ProductPage = ({q}) => {
-
-
-    const [cateSearch, setCateSearch] = useState("");
+const ProductPage = ({ q, category, actions , updateStock}) => {
+  const [cateSearch, setCateSearch] = useState("");
   const [allSearch, setAllSearch] = useState();
 
   const FetchFilter = async (cate) => {
@@ -32,10 +30,11 @@ const ProductPage = ({q}) => {
     FetchFilter: FetchFilter,
     Fetcher: Fetcher,
     cateSearch,
+    catego: category,
   };
   return (
     <div className="min-h-screen text-white">
-      <div className="hidden mx-10 lg:mx-28 md:block">
+      <div className="hidden mx-5 xxs:mx-10 lg:mx-28 md:block">
         <div className=" flex justify-between items-center ">
           <h1 className=" text-4xl font-extrabold text-green-300 flex-1">
             Shop
@@ -45,18 +44,29 @@ const ProductPage = ({q}) => {
         <Category {...Functions} />
       </div>
 
-      <div className="mx-10 md:hidden ">
+      <div className="mx-5 xxs:mx-10 md:hidden ">
         <div className="my-5">
           <SearchBar placeholder="Search Product..." />
         </div>
         <AltCategory {...Functions} />
       </div>
 
-      <Suspense fallback={<Load />}>
+      {/* <Suspense fallback={<Load />}>
         <Grid cateSearch={cateSearch} allSearch={allSearch} q={q}>
           <Loading />
         </Grid>
-      </Suspense>
+      </Suspense> */}
+
+      <Grid
+      updateStock={updateStock}
+        cateSearch={cateSearch}
+        allSearch={allSearch}
+        q={q}
+        actions={actions}
+      >
+        <Loading />
+      </Grid>
+
       <Link href="https://wa.me/qr/OCNXFD5QJOYXE1">
         <div className="fixed bg-green-500  bottom-20 rounded-full p-3 right-10 h-14 w-14 flex justify-center items-center  overflow-hidden transition cursor-pointer ">
           <Image
@@ -71,7 +81,7 @@ const ProductPage = ({q}) => {
       </Link>
       <ScrollToTop />
     </div>
-  )
-}
+  );
+};
 
-export default ProductPage  
+export default ProductPage;

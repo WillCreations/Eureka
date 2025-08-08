@@ -23,8 +23,6 @@ export const ProductCartProvider = (props) => {
 
   useEffect(() => {
     const checker = () => {
-      console.log(session?.user, "session");
-
       const oldsession = localStorage.getItem("session");
       const storedCart = localStorage.getItem("cart");
       if (oldsession) {
@@ -32,18 +30,13 @@ export const ProductCartProvider = (props) => {
         if (storedCart) {
           const persist = JSON.parse(storedCart);
           localStorage.getItem("session");
-          console.log("current: ", session?.user.email);
-          console.log("old: ", olduser.email);
-          console.log("storedCart: ", storedCart);
 
           if (session?.user) {
-            console.log("Persist Loaded");
             localStorage.setItem("session", JSON.stringify(session?.user));
 
             if (persist && session?.user.email === olduser.email) {
               setcartWheels(persist);
             } else {
-              console.log("cart deleted");
               localStorage.removeItem("cart");
             }
           }
@@ -55,15 +48,16 @@ export const ProductCartProvider = (props) => {
   }, [session?.user]);
 
   const AddHandler = (CartMover) => {
-    console.log(cartWheels, "array");
+    const altered = { ...CartMover, count: 1, stock: CartMover.stock - 1 };
+    console.log({ altered });
     setcartWheels((prevCart) => {
-      const altered = { ...CartMover, stock: 1 };
-      console.log({ altered });
       const NewCart = prevCart.concat(altered);
       localStorage.setItem("cart", JSON.stringify(NewCart));
       localStorage.setItem("session", JSON.stringify(session?.user));
       return prevCart.concat(altered);
     });
+
+    return `${CartMover?.name} added to cart`;
   };
 
   const RemoveHandler = (Id) => {
@@ -74,34 +68,54 @@ export const ProductCartProvider = (props) => {
     });
 
     localStorage.removeItem("cart", Id);
+
+    const CartMover = cartWheels.find((c) => {
+      return c._id === Id;
+    });
+    console.log({ CartMover });
+    if (CartMover) {
+      return `${CartMover?.name} removed from cart`;
+    }
   };
 
-  const HandleQuantity = (item, value) => {
-    console.log(item, value);
-    let Ind = 0;
-    if (value === "Inc") {
-      cartWheels.forEach((cart, index) => {
-        console.log(index);
-        if (cart._id === item._id) {
-          Ind = index;
-        }
-      });
+  const HandleQuantity = async (item, value) => {
+    try {
+      let Ind = 0;
+      if (value === "Inc") {
+        await cartWheels.forEach((cart, index) => {
+          if (cart._id === item._id) {
+            Ind = index;
+          }
+        });
 
-      const newCart = cartWheels;
-      newCart[Ind].stock += 1;
-      new setcartWheels([...newCart]);
-    } else if (value === "Dec") {
-      cartWheels.forEach((cart, index) => {
-        if (cart._id === item._id) {
-          Ind = index;
+        const newCart = cartWheels;
+        if (newCart[Ind].stock === 0) {
+          throw new Error(`${newCart[Ind].name} is out of stock`);
         }
-      });
+        if (newCart[Ind].stock !== 0) {
+          newCart[Ind].count += 1;
+          const newStock = (newCart[Ind].stock -= 1);
+          setcartWheels([...newCart]);
+        }
+      } else if (value === "Dec") {
+        cartWheels.forEach((cart, index) => {
+          if (cart._id === item._id) {
+            Ind = index;
+          }
+        });
 
-      const newCart = cartWheels;
-      if (newCart[Ind].stock >= 1) {
-        newCart[Ind].stock -= 1;
-        setcartWheels([...newCart]);
+        const newCart = cartWheels;
+        if (newCart[Ind].count >= 1) {
+          newCart[Ind].count -= 1;
+          const prevStock = newCart[Ind].stock;
+          console.log({ prevStock });
+          const newStock = (newCart[Ind].stock += 1);
+          console.log({ newStock });
+          setcartWheels([...newCart]);
+        }
       }
+    } catch (error) {
+      throw new Error(error.message);
     }
   };
 
@@ -114,8 +128,6 @@ export const ProductCartProvider = (props) => {
   const indexa = (s) => {
     let result;
     cartWheels.forEach((p, index) => {
-      console.log(p, index, "cart index");
-
       if (p._id === s) {
         console.log("index in global: ", index);
         result = index;

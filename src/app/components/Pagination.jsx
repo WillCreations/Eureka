@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 const Pagination = ({ Count }) => {
   const searchParams = useSearchParams();
@@ -25,25 +26,25 @@ const Pagination = ({ Count }) => {
   return (
     <div className="flex justify-between">
       <button
-        className="flex items-center float-right disabled:bg-green-950 disabled:text-gray-500 bg-green-300 my-2 text-black px-10 py-3  rounded hover:bg-green-600"
+        className="flex items-center float-right disabled:bg-[#121212] disabled:text-gray-300 bg-[#121212] my-2 text-green-300 p-5 text-2xl font-black  rounded-full cursor-pointer"
         disabled={!hasPrev}
         onClick={() => {
           HandlePageChange("Prev");
         }}
       >
-        Prev
+        <FaAngleLeft />
       </button>
       <div className="px-10 py-3 flex items-center rounded-md font-semibold my-2 bg-[#121212] text-green-300">
-        {`${page} of ${Math.ceil(pageTotal)}`}
+        {`${page} / ${Math.ceil(pageTotal)}`}
       </div>
       <button
-        className="flex items-center float-right disabled:bg-green-950 disabled:text-gray-500 bg-green-300 my-2 text-black px-10 py-3  rounded hover:bg-green-600"
+        className="flex items-center float-right disabled:bg-[#121212] disabled:text-gray-300 bg-[#121212] my-2 text-green-300 p-5 text-2xl font-black rounded-full cursor-pointer "
         disabled={!hasNext}
         onClick={() => {
           HandlePageChange("Next");
         }}
       >
-        Next
+        <FaAngleRight />
       </button>
     </div>
   );

@@ -54,7 +54,7 @@ const DnD = () => {
           Schedule New Task
         </div>
         <form
-          className="grid grid-cols-3 col-span-1 gap-5"
+          className="grid grid-cols-1 md:grid-cols-3 col-span-1 gap-5"
           onSubmit={handleSubmit}
         >
           <input
@@ -75,12 +75,12 @@ const DnD = () => {
             <option value="doing">Doing</option>
             <option value="done">Done</option>
           </select>
-          <button className="col-span-1 bg-green-300 text-black rounded-lg">
+          <button className="col-span-1 bg-green-300 py-5 text-black rounded-lg">
             Add New Task
           </button>
         </form>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 my-5 bg-[#121212] p-5 text-gray-400 rounded-lg">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 my-10 bg-[#121212] p-5 text-gray-400 rounded-lg">
         {Stages.map((Stage, index) => {
           return (
             <TaskColumn

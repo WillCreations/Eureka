@@ -16,7 +16,7 @@ cloudinary.config({
 
 export const addProduct = async (formData, formData2) => {
   "use server";
-  const { name, category, price, description, slug, stock } =
+  const { name, category, price, description, stock, slug } =
     Object.fromEntries(formData);
   const { base64, pictureFile } = Object.fromEntries(formData2);
 
@@ -27,9 +27,9 @@ export const addProduct = async (formData, formData2) => {
   try {
     connectToDb();
 
-    let clouding = "/personHead.svg";
-    let alt = "/personHead.svg";
-    let newName = "/personHead.svg";
+    let clouding = "/productModel.svg";
+    let alt = "/productModel.svg";
+    let newName = "/productModel.svg";
     let cate = category;
 
     if (NODE_ENV === "development") {
@@ -41,7 +41,7 @@ export const addProduct = async (formData, formData2) => {
         console.log("image: ", pictureFile);
         const imagebyte = await pictureFile.arrayBuffer();
         console.log(imagebyte, "imagebyte");
-        const buffer = Buffer.from(imagebyte);
+        const buffer = Buffer.from(imagebyte) as any;
         console.log("buffer: ", buffer);
         fs.writeFileSync(pathname, buffer);
         alt = newName;
@@ -51,16 +51,21 @@ export const addProduct = async (formData, formData2) => {
 
     console.log(`cate: ${cate} - newName: ${newName}`);
 
+    const slugg = slug.split(" ").join("_");
+
+    console.log({ slug });
+
     const product = new Product({
       name,
       category: cate,
       price,
       description,
-      slug,
+      slug: slugg,
       image: newName,
       alt_image: alt,
       destroy: clouding,
       stock,
+      count: 1,
     });
 
     console.log(product, "wetin i return");
@@ -77,14 +82,17 @@ export const addProduct = async (formData, formData2) => {
 
       cloudinary.uploader.destroy(product.destroy);
     }
+
+    revalidatePath(`/product_panel`);
+
+    return {
+      ok: true,
+      message: `${product.name} added successfully`,
+    };
   } catch (error) {
     console.log(error);
-
-    throw new Error(" failed to add new Product");
+    return { ok: false, message: error.message };
   }
-
-  revalidatePath(`/product_panel`);
-  redirect(`/product_panel`);
 };
 
 // if (request.method === 'POST') {
