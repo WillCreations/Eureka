@@ -400,12 +400,12 @@ position:  relative;
     transition: 1s;
 }
 
-.cover div {
+.cover .backdrop {
     transform: translateY(100%);
     transition: transform  3s ease-in-out, opacity 3s;
 }
 
-.cover h1{
+.cover .content{
     transform: translateY(-200%);
     transition: transform 2s 1s;
 }
@@ -414,13 +414,13 @@ position:  relative;
     transform: translateY(30%);
 }
 
-.cover:hover div {
+.cover:hover .backdrop {
     opacity: 0.5;
     transform: translateY(0%);
     
 }
 
-.cover:hover h1{
+.cover:hover .content{
     transform: translateY(100%);
 }
 

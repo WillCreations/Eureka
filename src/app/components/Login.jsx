@@ -81,7 +81,7 @@ const Login = ({ setEmail }) => {
 
           setTimeout(() => {
             router.push("/");
-          }, 3000);
+          }, 1000);
         }
       }
     } catch (error) {
@@ -216,7 +216,7 @@ const Login = ({ setEmail }) => {
             </Modal>
           ) : null}
 
-          <button className="w-full bg-green-300 my-2 text-black px-4 py-5  rounded-lg ">
+          <button className="w-full bg-green-300 my-5 text-black px-4 py-5  rounded-lg ">
             <div className="flex justify-center items-center">
               {!isLoading ? (
                 "Login"

@@ -1,28 +1,35 @@
-"use client"
-import { useEffect } from 'react'
-import Typed from 'typed.js'
-
+"use client";
+import { useEffect } from "react";
+import Typed from "typed.js";
 
 const Typo = () => {
+  useEffect(() => {
+    var typed = new Typed(".text", {
+      strings: [
+        "Founder",
+        "Full ^1000 Stack ^1000 Developer",
+        "Graphic ^1000 Designer",
+        "Brand ^1000 Strategist",
+        "Lawyer",
+      ],
+      typeSpeed: 150,
+      backSpeed: 150,
+      backDelay: 1000,
+      loop: true,
+      fadeOut: false,
+    });
 
-    useEffect(() => {
-        var typed = new Typed(".text", {
-            strings: ['Founder', 'Full ^1000 Stack ^1000 Developer', 'Brand ^1000 Strategist', 'Graphic ^1000 Designer'],
-            typeSpeed: 150,
-            backSpeed: 150,
-            backDelay: 1000,
-            loop: true,
-            fadeOut: false,
-        })
-
-        typed
-    }, [])
+    typed;
+  }, []);
 
   return (
-      <div>
-          <p> <span className="text text-green-300 font-extrabold text-2xl"></span></p>
-      </div>
-  )
-}
+    <div>
+      <p>
+        {" "}
+        <span className="text text-green-300 font-extrabold text-2xl"></span>
+      </p>
+    </div>
+  );
+};
 
-export default Typo
+export default Typo;

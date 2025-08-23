@@ -133,7 +133,7 @@ export default async function Home() {
         <div className="w-full flex items-end justify-center md:justify-end">
           <Link href="/portfolio">
             <div
-              className={` ${styles.cover} flex bg-green-300 items-end justify-center hover:scale-90  md:hover:scale-105 md:active:scale-90 w-full h-[500px] shadow hover:shadow-2xl  relative cursor-pointer hover:-rotate-6 transition overflow-hidden mt-14 md:mt-0 rounded-md`}
+              className={` ${styles.cover} flex bg-green-300 items-end justify-center hover:scale-90  md:hover:scale-105 md:active:scale-90 w-full h-[500px] shadow-black hover:shadow-stone-950  relative cursor-pointer hover:-rotate-6 transition overflow-hidden mt-14 md:mt-0 rounded-t-2xl hover:rounded-[25px] `}
             >
               <Image
                 className="object-contain top translate-y-5"
@@ -142,11 +142,18 @@ export default async function Home() {
                 height={500}
                 alt="Igwe Princewill"
               />
-              <h1 className=" absolute px-10 py-5 w-full text center rounded-md bg-black z-[5] text-5xl font-extrabold">
-                <span className="text-green-300">l</span> Port
+              <div
+                className={`${styles.content} absolute px-10 py-5 w-full text center flex items-center bg-black z-[5] text-5xl font-extrabold`}
+              >
+                <div
+                  className={`${styles.contentBox} bg-green-300 rounded-md w-10 h-10 mr-3 `}
+                ></div>{" "}
+                Port
                 <span className="text-green-300">folio</span>
-              </h1>
-              <div className="absolute  z-10 opacity-1  bg-black top-0 bottom-0  w-full h-full"></div>
+              </div>
+              <div
+                className={`${styles.backdrop} absolute  z-10 opacity-1  bg-black top-0 bottom-0  w-full h-full`}
+              ></div>
             </div>
           </Link>
         </div>

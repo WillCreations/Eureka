@@ -119,7 +119,7 @@ const OTPInput = ({ page, context }) => {
   };
 
   return (
-    <div className=" px-5 xxs:px-10 lg:px-28  ">
+    <div className=" px-5 xxs:px-10 lg:px-28 h-screen ">
       <SubHeader tag="Enter OTP" />
       <div className="flex justify-center w-full">
         <div className="grid grid-cols-1 gap-5 py-5 px-5 bg-[#121212] w-full md:w-2/3 lg:w-2/5 my-auto rounded-2xl justify-center items-center">
