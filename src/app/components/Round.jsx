@@ -9,12 +9,12 @@ const Round = ({ perc }) => {
   const [stroke, setStroke] = useState("red");
   const circumference = Math.ceil(2 * Math.PI * ((40 / 100) * 128));
   const [offSet, setOffSet] = useState(circumference);
-  console.log("percentage: ", perc);
-  console.log("circimference: ", circumference);
+  //console.log("percentage: ", perc);
+  //console.log("circimference: ", circumference);
   const percentile = Math.round((perc / 100) * circumference);
   const mark = circumference - percentile;
-  console.log("percentile: ", percentile);
-  console.log("mark: ", mark);
+  //console.log("percentile: ", percentile);
+  //console.log("mark: ", mark);
 
   useEffect(() => {
     let offsetting = setInterval(() => {

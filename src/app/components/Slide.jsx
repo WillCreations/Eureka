@@ -65,7 +65,7 @@ const Slide = ({ Prod }) => {
 
   return (
     <div
-      className={`relative inset-0 ${butt}  rounded-md bg-[#121212]  lg:px-28  overflow-hidden `}
+      className={`relative inset-0 ${butt}  rounded-2xl bg-[#121212]  lg:px-28  overflow-hidden `}
     >
       <div
         ref={containerRef}

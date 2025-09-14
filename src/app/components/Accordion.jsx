@@ -57,7 +57,7 @@ const Accordion = () => {
           return (
             <div
               ref={Accordium}
-              className={`${styles.AccSlideIn} bg-[#121212] mb-1 lg:mb-0 rounded-lg p-5`}
+              className={`${styles.AccSlideIn} bg-[#121212] mb-1 lg:mb-0 rounded-2xl p-5`}
               key={index}
             >
               <div

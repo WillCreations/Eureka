@@ -116,6 +116,8 @@ const Login = ({ setEmail }) => {
           body: JSON.stringify({
             OTP,
             recepient_Email: data.email,
+            subject: "Email Authentication",
+            stats: "login",
           }),
         });
 

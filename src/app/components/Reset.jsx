@@ -36,22 +36,10 @@ const Reset = () => {
   });
   const [message, setMessage] = useState("");
   const [value, setValue] = useState({
-    id: "",
+    email,
     password: "",
     password2: "",
   });
-
-  useEffect(() => {
-    const Changer = async () => {
-      console.log(email, "current email");
-      const response = await fetch(`/api/recovery/reset?search=${email}`);
-      const data = await response.json();
-      console.log(data, "user iddd");
-      setValue({ ...value, id: data._id });
-    };
-
-    Changer();
-  }, []);
 
   const HandleSubmit = async (e) => {
     e.preventDefault();

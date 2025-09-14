@@ -23,8 +23,8 @@ export const GET = async (request) => {
 export const POST = async (request) => {
   try {
     const body = await request.json();
-    const { id, password, password2 } = await body;
-    console.log(id, password, "value in end point");
+    const { email, password, password2 } = await body;
+    console.log(email, password, password2, "body data");
     if (password !== password2) {
       throw new Error("passwords don't match");
     }
@@ -34,7 +34,14 @@ export const POST = async (request) => {
     console.log(hash, "new hashed password");
 
     await connectToDb();
-    const user = await User.findByIdAndUpdate(id, { password: hash });
+    const userObject = await User.findOne({ email: email });
+    if (!userObject) {
+      throw new Error("user not found");
+    }
+    console.log(userObject, "user object");
+    const user = await User.findByIdAndUpdate(userObject._id, {
+      password: hash,
+    });
     console.log(user, "user in endpoint");
     return new NextResponse(
       JSON.stringify({ message: `${user.name} changed password successfully` }),

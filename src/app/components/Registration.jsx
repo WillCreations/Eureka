@@ -101,6 +101,8 @@ const Register = () => {
         body: JSON.stringify({
           OTP,
           recepient_Email: data.email,
+          subject: "Account Verification",
+          stats: "register",
         }),
       });
 
@@ -129,7 +131,7 @@ const Register = () => {
 
   return (
     <>
-      <div className="min-h-screen pt-32 w-screen flex justify-center text-white">
+      <div className="min-h-screen pt-12 w-screen flex justify-center text-white">
         <div className="w-full px-5 xxs:px-10 lg:px-28 md:w-2/3  my-5">
           <div className="my-5">
             <p className="text-green-300 text-center text-4xl font-extrabold">

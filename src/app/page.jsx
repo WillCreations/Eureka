@@ -14,6 +14,7 @@ import Contact from "@/app/components/Contact";
 import SubHeader from "@/app/components/SubHeader";
 import Round from "@/app/components/Round";
 import Accordion from "@/app/components/Accordion";
+import Offer from "@/app/components/Offer";
 
 export default async function Home() {
   await connectToDb();
@@ -240,53 +241,8 @@ export default async function Home() {
         <SubHeader tag="Our Products" />
 
         <div className=" grid md:grid-cols-3  grid-cols-1  gap-5">
-          {Offers.map((Obj, index) => {
-            return (
-              <div
-                key={index}
-                className={`${styles.Pop} col-span-1 w-full flex justify-center items-center`}
-              >
-                <div className="bg-[#121212]  rounded-2xl px-8 py-10  w-[350px] lg:w-full ">
-                  <div className="text-green-300 text-xl font-bold">
-                    {Obj.Tag}
-                  </div>
-                  <div className="text-white my-3 text-6xl font-bold">
-                    &#8358;{Obj.Price}
-                    <span className="text-gray-300 text-4xl">/mo</span>
-                  </div>
-                  <div className="text-gray-300 my-3 text-md font-thin ">
-                    Up to{" "}
-                    <span className="text-green-300 text-xl font-bold ">
-                      &#8358;{Obj.Bonus}K
-                    </span>{" "}
-                    refferal ARR
-                  </div>
-                  <div className="text-white mt-10 text-mg font-bold">
-                    {Obj.FeatureTag}:
-                  </div>
-                  <div className="text-gray-300 my-3 text-md font-thin ">
-                    {Obj.Feature.map((f, index) => {
-                      return (
-                        <div
-                          key={index}
-                          className="grid grid-cols-10 justify-center items-start"
-                        >
-                          <div className="col-span-1">&rarr;</div>
-                          <div className="col-span-9 text-left">{f}</div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                  {Obj.Recommended && (
-                    <div className="mt-14 flex justify-center">
-                      <div className="px-10 py-2 italic rounded-full w-fit bg-green-700 text-green-300">
-                        Recommended
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            );
+          {Offers?.map((Obj, index) => {
+            return <Offer key={index} Obj={Obj} index={index} />;
           })}
         </div>
         <div className="my-10">
@@ -315,7 +271,10 @@ export default async function Home() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl: xl:grid-cols-6 gap-5 my-5 w-full">
           {Clients.map((c, index) => {
             return (
-              <div key={index} className={`${styles.Pop}`}>
+              <div
+                key={index}
+                className={`${styles.Pop} bg-[#121212] rounded-2xl`}
+              >
                 <Testimonial client={c} />
               </div>
             );

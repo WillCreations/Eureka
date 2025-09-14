@@ -109,6 +109,8 @@ const OTPInput = ({ page, context }) => {
       body: JSON.stringify({
         OTP,
         recepient_Email: email,
+        subject: "OTP Refresh",
+        stats: "resend",
       }),
     });
 
