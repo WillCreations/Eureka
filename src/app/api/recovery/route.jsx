@@ -5,18 +5,6 @@ import User from "@/app/(Engine)/models/user";
 import { google } from "googleapis";
 import crypto from "crypto";
 
-export async function sendAuthLink(email) {
-  const token = crypto.randomBytes(32).toString("hex");
-  // Save token and email to DB with expiry (not shown here)
-  const link = `https://yourdomain.com/api/auth/verify?token=${token}`;
-
-  await transporter.sendMail({
-    to: email,
-    subject: "Verify your email",
-    html: `<a href="${link}">Click here to verify your email</a>`,
-  });
-}
-
 export const sendEmail = async (body) => {
   try {
     const {
@@ -35,8 +23,7 @@ export const sendEmail = async (body) => {
     const REFRESH_TOKEN = process.env.GOOGLE_REFRESH_TOKEN;
     const USER_EMAIL = process.env.GMAIL_ADDRESS;
     const REDIRECT_URI = process.env.REDIRECT_URI;
-    const token = crypto.randomBytes(32).toString("hex");
-    const link = `${REPLY_URI}/api/auth/verify?token=${token}`;
+
     console.log({ body });
     console.log({ REFRESH_TOKEN });
     console.log({ CLIENT_SECRET });
@@ -176,11 +163,11 @@ export const sendEmail = async (body) => {
              Sign Up
             </p>
           </a>
-          <a href="${link}"  
+          <a href="${REPLY_URI}"  
           target="_blank" rel="noopener noreferrer">
             <p 
              style="display: inline-block; background-color: #4CAF50; color: #fff; text-decoration: none; padding: 12px 20px; border-radius: 4px; font-size: 16px;">
-             Sign Up
+             See Our Services
             </p>
           </a>
           
