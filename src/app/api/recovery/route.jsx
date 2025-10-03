@@ -3,16 +3,40 @@ import nodemailer from "nodemailer";
 import { connectToDb } from "@/app/(Engine)/mongodb/database";
 import User from "@/app/(Engine)/models/user";
 import { google } from "googleapis";
+import crypto from "crypto";
 
-const sendEmail = async (body) => {
+export async function sendAuthLink(email) {
+  const token = crypto.randomBytes(32).toString("hex");
+  // Save token and email to DB with expiry (not shown here)
+  const link = `https://yourdomain.com/api/auth/verify?token=${token}`;
+
+  await transporter.sendMail({
+    to: email,
+    subject: "Verify your email",
+    html: `<a href="${link}">Click here to verify your email</a>`,
+  });
+}
+
+export const sendEmail = async (body) => {
   try {
-    const { OTP, recepient_Email, subject, stats } = body;
+    const {
+      firstName,
+      lastName,
+      OTP,
+      recepient_Email,
+      subject,
+      stats,
+      oldMessage,
+      message,
+    } = body;
+    const REPLY_URI = process.env.REPLY_URI;
     const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
     const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
     const REFRESH_TOKEN = process.env.GOOGLE_REFRESH_TOKEN;
     const USER_EMAIL = process.env.GMAIL_ADDRESS;
     const REDIRECT_URI = process.env.REDIRECT_URI;
-
+    const token = crypto.randomBytes(32).toString("hex");
+    const link = `${REPLY_URI}/api/auth/verify?token=${token}`;
     console.log({ body });
     console.log({ REFRESH_TOKEN });
     console.log({ CLIENT_SECRET });
@@ -24,7 +48,6 @@ const sendEmail = async (body) => {
       CLIENT_SECRET,
       REDIRECT_URI
     );
-
     oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 
     const accessToken = await oAuth2Client.getAccessToken();
@@ -52,11 +75,40 @@ const sendEmail = async (body) => {
         tempUser = user;
       }
     }
-    const result = await transporter.sendMail({
-      from: `Eureka: <${USER_EMAIL}>`,
-      to: recepient_Email,
-      subject: subject,
-      html: `
+
+    let html;
+
+    switch (stats) {
+      case "register":
+        html = `
+    <div style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;">
+      <div style="max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+        
+        <div style="background-color: #4CAF50; color: white; text-align: center; padding: 16px; font-size: 20px;">
+          Welcome to Our Service
+        </div>
+
+        <div style="padding: 20px; color: #333;">
+          <p style="font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
+            Hi <strong>There</strong>,
+          </p>
+          <p style="font-size: 14px; line-height: 1.6; margin-bottom: 20px;">
+             Please confirm your email address by Entering the OTP below:
+          </p>
+          <p 
+             style="display: inline-block; background-color: #4CAF50; color: #fff; text-decoration: none; padding: 12px 20px; border-radius: 4px; font-size: 16px;">
+             ${OTP}
+          </p>
+          <p style="font-size: 12px; color: #888; margin-top: 20px;">
+            If you didn’t request this, you can ignore this email.
+          </p>
+        </div>
+      </div>
+    </div>
+  `;
+        break;
+      case "login":
+        html = `
     <div style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;">
       <div style="max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
         
@@ -67,9 +119,7 @@ const sendEmail = async (body) => {
         <div style="padding: 20px; color: #333;">
           <p style="font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
             Hi <strong>${
-              (stats === "login" || "resend") && tempUser !== undefined
-                ? tempUser.name
-                : "User"
+              tempUser !== undefined ? tempUser.name : "There"
             }</strong>,
           </p>
           <p style="font-size: 14px; line-height: 1.6; margin-bottom: 20px;">
@@ -85,7 +135,72 @@ const sendEmail = async (body) => {
         </div>
       </div>
     </div>
-  `,
+  `;
+        break;
+      case "client":
+        html = `
+    <div style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;">
+      <div style="max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+        
+        <div style="background-color: #4CAF50; color: white; text-align: center; padding: 16px; font-size: 20px; font-weight: 500px">
+          Eureka
+        </div>
+
+        <div style="padding: 20px; color: #333;">
+          <p style="font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
+            Hi <strong>${firstName + " " + lastName}</strong>,
+          </p>
+          <p style="font-size: 14px; line-height: 1.6; margin-bottom: 20px; ">
+            You sent us a message.
+          </p>
+          <p style="font-size: 14px; line-height: 1.6; margin-bottom: 20px;">
+           Thank you for reaching out to us. Here is a copy of your message:
+            <br />
+            <blockquote>
+              <strong>"${oldMessage}"</strong>
+              <cite>– ${firstName + " " + lastName}</cite>
+            </blockquote>
+            <br />
+            <br />
+          </p>
+          <p style="font-size: 14px; line-height: 1.6; margin-bottom: 20px;">
+             ${message}
+          </p>
+          <p style="font-size: 12px; line-height: 1.0; margin-bottom: 5px;">
+             Click the link below to sign up and get started!
+          </p>
+          <a href="${REPLY_URI}/register"  
+          target="_blank" rel="noopener noreferrer">
+            <p 
+             style="display: inline-block; background-color: #4CAF50; color: #fff; text-decoration: none; padding: 12px 20px; border-radius: 4px; font-size: 16px;">
+             Sign Up
+            </p>
+          </a>
+          <a href="${link}"  
+          target="_blank" rel="noopener noreferrer">
+            <p 
+             style="display: inline-block; background-color: #4CAF50; color: #fff; text-decoration: none; padding: 12px 20px; border-radius: 4px; font-size: 16px;">
+             Sign Up
+            </p>
+          </a>
+          
+          <p style="font-size: 12px; color: #888; margin-top: 20px;">
+            If you are no longer interested or are already a client, you can ignore this email.
+          </p>
+        </div>
+      </div>
+    </div>
+  `;
+        break;
+      default:
+        html = `<div>No Mail</div>`;
+    }
+
+    const result = await transporter.sendMail({
+      from: `Eureka: <${USER_EMAIL}>`,
+      to: recepient_Email,
+      subject: subject,
+      html,
     });
     console.log("Email sent:", result);
 

@@ -20,12 +20,12 @@ const Accordion = () => {
   const Arrays = [
     {
       tag: "Full Stack Web Development",
-      image: "/accord/webdev.jpg",
+      image: "/accord/webdev.webp",
       para: "Our expert team brings your digital vision to life with custom-built websites and web applications tailored to your specific needs. With proficiency in a variety of programming languages and frameworks, we ensure your online presence stands out in the crowded digital landscape",
     },
     {
       tag: "Graphic Designs",
-      image: "/accord/graphics.jpg",
+      image: "/accord/graphics.webp",
       para: "Captivate your audience with visually stunning graphics crafted by our talented designers. Whether it's logos, illustrations, infographics, or any other graphical elements, we infuse creativity and innovation into every design to make your brand shine.",
     },
     {
@@ -51,7 +51,7 @@ const Accordion = () => {
   ];
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 ">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-5  ">
       <div className=" col-span-1 flex flex-col justify-between">
         {Arrays.map((array, index) => {
           return (
@@ -66,16 +66,20 @@ const Accordion = () => {
                   setIsActive(index);
                 }}
               >
-                <div>{array.tag}</div>
-                <motion.div initial={{ rotate: 0 }} animate={{ rotate: 360 }}>
+                <div className=" font-extralight">{array.tag}</div>
+                <motion.div
+                  className=" text-xl extrabold"
+                  initial={{ rotate: 0 }}
+                  animate={{ rotate: 360 }}
+                >
                   {isActive === index ? "-" : "+"}
                 </motion.div>
               </div>
               <div
                 className={`${
                   isActive === index
-                    ? "opacity-1 h-40 bg-black rounded-lg p-5 overflow-scroll transition-all"
-                    : "opacity-0 h-0 transition-all"
+                    ? "opacity-1 h-40 bg-black font-mono rounded-lg p-5 overflow-scroll transition-all"
+                    : "opacity-0 h-0 transition-all "
                 }`}
               >
                 {array.para}
@@ -85,13 +89,13 @@ const Accordion = () => {
         })}
       </div>
       <div
-        className={`${styles.BoxSlideIn} col-span-1 bg-[#121212] h-[700px] overflow-hidden rounded-2xl`}
+        className={`${styles.BoxSlideIn} col-span-1 bg-[#121212] lg:h-[700px] overflow-hidden rounded-2xl`}
       >
         <Image
-          className=" overflow-hidden w-full h-full object-cover lg:object-contain"
+          className=" overflow-hidden w-full h-full object-cover"
           src={isActive === null ? "/accord/home.jpg" : Arrays[isActive]?.image}
-          width={300}
-          height={300}
+          width={1000}
+          height={1000}
         />
       </div>
     </div>

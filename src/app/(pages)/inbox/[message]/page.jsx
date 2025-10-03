@@ -5,7 +5,7 @@ import WhatsappForm from "@/app/components/WhatsappForm";
 import Email from "@/app/components/Email";
 import { connectToDb } from "@/app/(Engine)/mongodb/database";
 import Client from "@/app/(Engine)/models/clientSchema";
-import { sendEmail } from "@/app/(Engine)/actions/sendEmail";
+import { emailAction } from "@/app/(Engine)/actions/emailAction";
 
 const page = async ({ params }) => {
   console.log(params.message, "hello");
@@ -18,15 +18,16 @@ const page = async ({ params }) => {
   const transferObj = JSON.stringify(messenger);
   const wrapper = async (formData) => {
     "use server";
-    const { subject, message } = Object.fromEntries(formData);
+    const { subject, replyMessage } = Object.fromEntries(formData);
     const newFormData = new FormData();
     newFormData.append("firstName", firstName);
     newFormData.append("lastName", lastName);
-    newFormData.append("email", email);
+    newFormData.append("recepient_Email", email);
     newFormData.append("subject", subject);
-    newFormData.append("message", message);
+    newFormData.append("message", replyMessage);
+    newFormData.append("oldMessage", message);
 
-    const response = await sendEmail(newFormData);
+    const response = await emailAction(newFormData);
     console.log({ response });
   };
 

@@ -8,7 +8,7 @@ const Contact = ({ Action }) => {
   return (
     <div>
       <SubHeader tag="Contact" />
-      <p className="lg:text-center">
+      <p className="lg:text-center font-mono">
         Ready to collaborate or have a project in mind? Feel free to reach out
         to me through the contact form or connect with me on social media.
       </p>

@@ -30,7 +30,7 @@ const EmailForm = ({ email, Action, roletag }) => {
         <textarea
           className="p-5 rounded-md w-full"
           rows={5}
-          name="message"
+          name="replyMessage"
           placeholder="Message..."
         />
       </div>

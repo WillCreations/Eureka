@@ -1,24 +1,30 @@
 import React from "react";
 import * as styles from "@/app/Styles/index.module.css";
 
-const Offer = ({ Obj, index }) => {
+const Offer = ({ Obj, index, colour }) => {
   return (
     <div
       key={index}
-      className={`${styles.Pop} col-span-1  flex justify-center items-center`}
+      className={`${styles.Pop} col-span-1 ${
+        index === 3 && "lg:col-span-3"
+      } flex justify-center `}
     >
-      <div className="bg-[#121212]  rounded-2xl px-8 py-10 md:w-[200px] w-[350px] lg:w-full ">
+      <div
+        className={`bg-${colour}  rounded-2xl px-8 py-10  w-full ${
+          index === 3 && "lg:w-1/3"
+        } h-full`}
+      >
         <div className="text-green-300 text-xl font-bold">{Obj.Tag}</div>
         <div className="text-white my-3 text-6xl font-bold">
           &#8358;{Obj.Price}
-          <span className="text-gray-300 text-4xl">/mo</span>
+          <span className="text-gray-300 text-4xl">{Obj.Denomination}</span>
         </div>
         <div className="text-gray-300 my-3 text-md font-thin ">
           Up to{" "}
           <span className="text-green-300 text-xl font-bold ">
-            &#8358;{Obj.Bonus}K
+            {Obj.Bonus}%
           </span>{" "}
-          refferal ARR
+          off, refferal ARR
         </div>
         <div className="text-white mt-10 text-mg font-bold">
           {Obj.FeatureTag}:

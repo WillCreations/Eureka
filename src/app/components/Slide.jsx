@@ -88,14 +88,14 @@ const Slide = ({ Prod }) => {
                     {p.name}
                   </h2>
                   <h2 className="text-xl inline-block shadow-md font-bold bg-white text-green-500 rounded-md  px-5 py-2">
-                    {p.price}
+                    &#8358;{p.price}
                   </h2>
 
-                  <h2 className="text-sm font-bold bg-black py-5 px-10 h-fit mt-3 rounded-md shadow-md">
-                    <span className="text-2xl block font-medium  capitalize text-green-300">
-                      {p.category}
+                  <h2 className="text-sm font-bold bg-[#121212] py-5 px-10 h-fit mt-3 rounded-md shadow-md">
+                    <div>{p.description}.</div>
+                    <span className="text-md block font-bold  capitalize text-green-300">
+                      - {p.category}
                     </span>
-                    {p.description}
                   </h2>
                 </div>
               </div>

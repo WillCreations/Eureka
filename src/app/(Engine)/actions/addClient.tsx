@@ -31,10 +31,13 @@ export const addClient = async (formData) => {
     });
 
     user.save();
+
+    return {
+      ok: true,
+      message: `Message sent successfully`,
+    };
   } catch (error) {
     console.log(error);
-    throw new Error(" failed to add client");
+    return { ok: false, message: error.message };
   }
-
-  revalidatePath(`/portfolio`);
 };
