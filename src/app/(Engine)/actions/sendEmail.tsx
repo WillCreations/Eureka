@@ -1,11 +1,8 @@
-import { NextResponse } from "next/server";
-import { connectToDb } from "@/app/(Engine)/mongodb/database";
+import { google } from "googleapis";
+import nodemailer from "nodemailer";
 import User from "@/app/(Engine)/models/user";
 
-import nodemailer from "nodemailer";
-import { google } from "googleapis";
-
-const sendEmail = async (body) => {
+export const sendEmail = async (body: any) => {
   try {
     const {
       firstName,
@@ -13,7 +10,6 @@ const sendEmail = async (body) => {
       OTP,
       recepient_Email,
       subject,
-      clientEmail,
       stats,
       oldMessage,
       message,
@@ -67,30 +63,6 @@ const sendEmail = async (body) => {
     let html;
 
     switch (stats) {
-      case "notice":
-        html = `
-    <div style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;">
-      <div style="max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-        
-        <div style="background-color: #4CAF50; color: white; text-align: center; padding: 16px; font-size: 20px;">
-          ${subject}
-        </div>
-
-        <div style="padding: 20px; color: #333;">
-          <p style="font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
-            Hi <strong>${firstName} ${lastName}</strong>,
-          </p>
-          <p style="font-size: 14px; line-height: 1.6; margin-bottom: 20px;">
-             ${message}
-          </p>
-          <p style="font-size: 12px; color: #888; margin-top: 20px;">
-            If you didn’t request this, you can ignore this email.
-          </p>
-        </div>
-      </div>
-    </div>
-  `;
-        break;
       case "client":
         html = `
     <div style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;">
@@ -108,14 +80,13 @@ const sendEmail = async (body) => {
              ${message}
           </p>
           <p style="font-size: 12px; color: #888; margin-top: 20px;">
-            ${clientEmail}
+            ${recepient_Email}
           </p>
         </div>
       </div>
     </div>
   `;
         break;
-  
       case "register":
         html = `
     <div style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;">
@@ -174,6 +145,61 @@ const sendEmail = async (body) => {
     </div>
   `;
         break;
+      case "client":
+        html = `
+    <div style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;">
+      <div style="max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+        
+        <div style="background-color: #4CAF50; color: white; text-align: center; padding: 16px; font-size: 20px; font-weight: 500px">
+          Eureka
+        </div>
+
+        <div style="padding: 20px; color: #333;">
+          <p style="font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
+            Hi <strong>${firstName + " " + lastName}</strong>,
+          </p>
+          <p style="font-size: 14px; line-height: 1.6; margin-bottom: 20px; ">
+            You sent us a message.
+          </p>
+          <p style="font-size: 14px; line-height: 1.6; margin-bottom: 20px;">
+           Thank you for reaching out to us. Here is a copy of your message:
+            <br />
+            <blockquote>
+              <strong>"${oldMessage}"</strong>
+              <cite>– ${firstName + " " + lastName}</cite>
+            </blockquote>
+            <br />
+            <br />
+          </p>
+          <p style="font-size: 14px; line-height: 1.6; margin-bottom: 20px;">
+             ${message}
+          </p>
+          <p style="font-size: 12px; line-height: 1.0; margin-bottom: 5px;">
+             Click the link below to sign up and get started!
+          </p>
+          <a href="${REPLY_URI}/register"  
+          target="_blank" rel="noopener noreferrer">
+            <p 
+             style="display: inline-block; background-color: #4CAF50; color: #fff; text-decoration: none; padding: 12px 20px; border-radius: 4px; font-size: 16px;">
+             Sign Up
+            </p>
+          </a>
+          <a href="${REPLY_URI}"  
+          target="_blank" rel="noopener noreferrer">
+            <p 
+             style="display: inline-block; background-color: #4CAF50; color: #fff; text-decoration: none; padding: 12px 20px; border-radius: 4px; font-size: 16px;">
+             See Our Services
+            </p>
+          </a>
+          
+          <p style="font-size: 12px; color: #888; margin-top: 20px;">
+            If you are no longer interested or are already a client, you can ignore this email.
+          </p>
+        </div>
+      </div>
+    </div>
+  `;
+        break;
       default:
         html = `<div>No Mail</div>`;
     }
@@ -192,21 +218,3 @@ const sendEmail = async (body) => {
     throw new Error("email Failed");
   }
 };
-
-export async function GET(request) {
-  const { searchParams } = new URL(request.url);
-  const email = searchParams.get("search");
-  await connectToDb();
-  const user = await User.findOne({ email: email });
-  return new NextResponse(JSON.stringify(user));
-}
-
-export async function POST(request) {
-  try {
-    const body = await request.json();
-    const sent = await sendEmail(body);
-    return new NextResponse(JSON.stringify(sent), { status: 200 });
-  } catch (error) {
-    return new NextResponse(JSON.stringify(error), { status: 500 });
-  }
-}

@@ -11,6 +11,14 @@ const ClientForm = ({ Action }) => {
   const [message, setMessage] = useState({ error: "", success: "" });
   const [modalOpen, setModalOpen] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [form, setForm] = useState({
+    firstName:"",
+    lastName:"",
+    email:"",
+    code:"",
+    phone:"",
+    message:"",
+  })
   const formRef = useRef(null);
 
   const clear = () => {
@@ -20,15 +28,54 @@ const ClientForm = ({ Action }) => {
     if (formRef.current) formRef.current.reset();
   };
 
-  const Wrapper = async (formData) => {
+
+
+  const UpdateForm = (e) => {
+    setForm({...form, [e.target.name]: e.target.value})
+  }
+  const Wrapper = async () => {
     setIsLoading(true);
     setMessage({ error: "", success: "" });
     setModalOpen(false);
     setIsError(false);
 
     try {
+    
+      const sendEmail = await fetch("/api/recovery", {
+      method: "POST",
+      body: JSON.stringify({
+        firstName: form.firstName,
+        lastName: form.lastName,
+        message: form.message,
+        clientEmail: form.email,
+        recepient_Email: "princewilligwe15@gmail.com",
+        subject: "New Client",
+        stats: "client",
+      }),
+    });
+      
+    const noticeEmail = await fetch("/api/recovery", {
+      method: "POST",
+      body: JSON.stringify({
+        firstName: form.firstName,
+        lastName: form.lastName,
+        message: "We have received your message and we will get back to you shortly, most likely within 24 hours. Thank you for reaching out to us.",
+        recepient_Email: form.email,
+        subject: "Eureka - Message Received",
+        stats: "notice",
+      }),
+    });
+
+    const formData = new FormData();
+    formData.append("firstName", form.firstName);
+    formData.append("lastName", form.lastName);
+    formData.append("email", form.email);
+    formData.append("code", form.code);
+    formData.append("phone", form.phone);
+    formData.append("message", form.message);
       const response = await Action(formData);
-      if (response.ok) {
+
+      if (response.ok && sendEmail.ok && noticeEmail) {
         setMessage({ success: response.message, error: "" });
         setIsError(false);
       } else {
@@ -67,12 +114,14 @@ const ClientForm = ({ Action }) => {
           type="text"
           name="firstName"
           placeholder="First Name"
+          onChange={(e) => UpdateForm(e)}
         />
         <input
           className="p-5 col-span-6 md:col-span-3 bg-[#121212] text-gray-400 rounded-md w-full"
           type="text"
           name="lastName"
           placeholder="Last Name"
+          onChange={(e) => UpdateForm(e)}
         />
       </div>
       <div className="relative my-5">
@@ -81,6 +130,7 @@ const ClientForm = ({ Action }) => {
           type="text"
           name="email"
           placeholder="Email"
+          onChange={(e) => UpdateForm(e)}
         />
       </div>
 
@@ -88,6 +138,7 @@ const ClientForm = ({ Action }) => {
         <select
           className="p-5 col-span-6 md:col-span-2 text-gray-400 bg-[#121212] block rounded-md"
           name="code"
+          onChange={(e) => UpdateForm(e)}
         >
           <option value="">Country Code</option>
           {Codes?.map((opt, index) => (
@@ -102,6 +153,7 @@ const ClientForm = ({ Action }) => {
           type="text"
           name="phone"
           placeholder="Phone"
+          onChange={(e) => UpdateForm(e)}
         />
       </div>
 
@@ -111,6 +163,7 @@ const ClientForm = ({ Action }) => {
           rows={5}
           name="message"
           placeholder="Message..."
+          onChange={(e) => UpdateForm(e)}
         />
       </div>
 

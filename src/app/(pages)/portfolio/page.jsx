@@ -1,4 +1,5 @@
 import { addClient } from "@/app/(Engine)/actions/addClient";
+import {connectToDb} from "@/app/(Engine)/mongodb/database";
 import PortfolioPage from "@/app/components/PortfolioPage";
 import Client from "@/app/(Engine)/models/clientSchema";
 import * as styles from "@/app/Styles/index.module.css";
@@ -8,6 +9,7 @@ export const metadata = {
 };
 
 const portfolio = async () => {
+  connectToDb();
   const inbox = await Client.find({ read: false }).count();
 
   console.log({ inbox });
