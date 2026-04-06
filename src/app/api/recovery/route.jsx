@@ -38,8 +38,21 @@ const sendEmail = async (body) => {
     );
     oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 
-    const accessToken = await oAuth2Client.getAccessToken();
-    console.log({ accessToken });
+      const accessToken = await oAuth2Client.getAccessToken();
+    // Robust token refresh with error handling
+    // let accessToken;
+    // try {
+    //   const tokenResponse = await oAuth2Client.getAccessToken();
+    //   accessToken = typeof tokenResponse === 'object' && tokenResponse.token ? tokenResponse.token : tokenResponse;
+    //   if (!accessToken) {
+    //     throw new Error('No access token received');
+    //   }
+    //   console.log({ accessToken });
+    // } catch (tokenError) {
+    //   console.error('Failed to refresh access token:', tokenError);
+    //   throw new Error('Failed to refresh access token');
+    // }
+
     console.log("before transporter has fired");
 
     const transporter = nodemailer.createTransport({
@@ -174,6 +187,34 @@ const sendEmail = async (body) => {
     </div>
   `;
         break;
+        case "resend":
+        html = `
+    <div style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;">
+      <div style="max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+        
+        <div style="background-color: #4CAF50; color: white; text-align: center; padding: 16px; font-size: 20px;">
+          Welcome to Our Service
+        </div>
+
+        <div style="padding: 20px; color: #333;">
+          <p style="font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
+            Hi <strong>There</strong>,
+          </p>
+          <p style="font-size: 14px; line-height: 1.6; margin-bottom: 20px;">
+             Please confirm your email address by Entering the OTP below:
+          </p>
+          <p 
+             style="display: inline-block; background-color: #4CAF50; color: #fff; text-decoration: none; padding: 12px 20px; border-radius: 4px; font-size: 16px;">
+             ${OTP}
+          </p>
+          <p style="font-size: 12px; color: #888; margin-top: 20px;">
+            If you didn’t request this, you can ignore this email.
+          </p>
+        </div>
+      </div>
+    </div>
+  `;
+      break;
       default:
         html = `<div>No Mail</div>`;
     }

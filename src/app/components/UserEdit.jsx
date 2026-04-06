@@ -78,12 +78,16 @@ const UserEdit = ({ Updater, Use, deleteImage }) => {
     Action: deleteImage,
   };
 
-  const nameRegex = /^([A-Z])[a-z\d]{3,12}$/;
-  const emailRegex = /^([a-z\d\.]+)@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/;
-  const addressRegex = /^([A-Z])[a-zA-Z\d].{5,100}$/;
+  // Name: First char uppercase, 4-12 total, only letters and digits
+  const nameRegex = /^[A-Z][a-zA-Z\d]{3,11}$/;
+  // Email: RFC-like, stricter
+  const emailRegex = /^[a-zA-Z\d._%+-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
+  // Address: First char uppercase, 6-100 total, letters, digits, spaces, commas, periods
+  const addressRegex = /^[A-Z][a-zA-Z\d ,.]{5,99}$/;
+  // Phone: 5-12 digits only
   const phoneRegex = /^\d{5,12}$/;
-  const passRegex =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*].{8,20}$/;
+  // Password: 8-20 chars, at least one uppercase, one lowercase, one digit, one special
+  const passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/;
 
   const handleSignout = () => {
     signOut({ redirect: false });
@@ -105,35 +109,38 @@ const UserEdit = ({ Updater, Use, deleteImage }) => {
         setSuccess("");
 
         const { password, password2, email, name, address, phone } = details;
-
+        let errorMsg = "";
         if (name && !nameRegex.test(name)) {
-          throw new Error(
-            "Username must be alphanumeric,must have only the first charcter as caps, and must contain 5-12 characters"
-          );
+          errorMsg =
+            "Username requirements: First character uppercase, 4-12 total, only letters and digits.";
+        } else if (email && !emailRegex.test(email)) {
+          errorMsg =
+            "Email requirements: Valid format (e.g. user@domain.com).";
+        } else if (address && !addressRegex.test(address)) {
+          errorMsg =
+            "Address requirements: First character uppercase, 6-100 total, letters, digits, spaces, commas, periods.";
+        } else if (phone && !phoneRegex.test(phone)) {
+          errorMsg =
+            "Phone requirements: 5-12 digits only.";
+        } else if (password && !passRegex.test(password)) {
+          errorMsg =
+            "Password requirements: 8-20 characters, at least one uppercase, one lowercase, one digit, one special character (!@#$%^&*).";
+        } else if (password !== password2) {
+          errorMsg = "Confirmation Failed: Passwords do not match.";
         }
 
-        if (email && !emailRegex.test(email)) {
-          throw new Error("Email must be a valid address e.g me@mydomain.com");
-        }
-        if (address && !addressRegex.test(address)) {
-          throw new Error(
-            "Address must be alphanumber betweeen 5-100 characters"
-          );
-        }
-        if (phone && !phoneRegex.test(phone)) {
-          throw new Error("Telephone must be number betweeen 5-12 characters");
-        }
-        if (password && !passRegex.test(password)) {
-          throw new Error(
-            "password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one special character !@#$%^&* and one digit"
-          );
-        }
-        if (password !== password2) {
-          throw new Error("Confirmation Failed");
+        if (errorMsg) {
+          setIsLoading(false);
+          setError(errorMsg);
+          setIsError(true);
+          document.body.style.overflow = "hidden";
+          setTimeout(() => {
+            clear();
+          }, 5000);
+          return;
         }
 
         const formData2 = new FormData();
-
         formData2.append("pictureFile", pictureFile);
         formData2.append("admin", details.admin);
         formData2.append("base64", base64);
