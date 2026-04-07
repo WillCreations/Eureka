@@ -78,16 +78,16 @@ const UserEdit = ({ Updater, Use, deleteImage }) => {
     Action: deleteImage,
   };
 
-  // Name: First char uppercase, 4-12 total, only letters and digits
-  const nameRegex = /^[A-Z][a-zA-Z\d]{3,11}$/;
-  // Email: RFC-like, stricter
-  const emailRegex = /^[a-zA-Z\d._%+-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
-  // Address: First char uppercase, 6-100 total, letters, digits, spaces, commas, periods
-  const addressRegex = /^[A-Z][a-zA-Z\d ,.]{5,99}$/;
-  // Phone: 5-12 digits only
+  // Name: Start with letter (uppercase), 4-20 chars, letters and digits only
+  const nameRegex = /^[A-Z][a-zA-Z0-9]{3,19}$/;
+  // Email: RFC 5321 compliant, prevents consecutive dots and invalid patterns
+  const emailRegex = /^[a-zA-Z0-9]+([._-][a-zA-Z0-9]+)*@[a-zA-Z0-9]+([.-][a-zA-Z0-9]+)*\.[a-zA-Z]{2,}$/;
+  // Address: Start with uppercase, 6-100 chars, letters, digits, spaces, commas, periods, hyphens, apostrophes, hash
+  const addressRegex = /^[A-Z][a-zA-Z0-9\s,.#'-]{5,99}$/;
+  // Phone: 5-12 digits only (international format compatible)
   const phoneRegex = /^\d{5,12}$/;
-  // Password: 8-20 chars, at least one uppercase, one lowercase, one digit, one special
-  const passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/;
+  // Password: 8-20 chars, min one uppercase, one lowercase, one digit, one special (!@#$%^&*)
+  const passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,20}$/;
 
   const handleSignout = () => {
     signOut({ redirect: false });
@@ -112,21 +112,21 @@ const UserEdit = ({ Updater, Use, deleteImage }) => {
         let errorMsg = "";
         if (name && !nameRegex.test(name)) {
           errorMsg =
-            "Username requirements: First character uppercase, 4-12 total, only letters and digits.";
+            "Username must start with an uppercase letter, 4-20 characters, containing only letters and digits.";
         } else if (email && !emailRegex.test(email)) {
           errorMsg =
-            "Email requirements: Valid format (e.g. user@domain.com).";
+            "Email format invalid. Use format like: user@example.com";
         } else if (address && !addressRegex.test(address)) {
           errorMsg =
-            "Address requirements: First character uppercase, 6-100 total, letters, digits, spaces, commas, periods.";
+            "Address must start with uppercase letter, 6-100 characters (letters, numbers, spaces, commas, periods, hyphens, apostrophes, #).";
         } else if (phone && !phoneRegex.test(phone)) {
           errorMsg =
-            "Phone requirements: 5-12 digits only.";
+            "Phone must contain 5-12 digits only.";
         } else if (password && !passRegex.test(password)) {
           errorMsg =
-            "Password requirements: 8-20 characters, at least one uppercase, one lowercase, one digit, one special character (!@#$%^&*).";
+            "Password: 8-20 chars minimum, with at least one uppercase letter, one lowercase letter, one digit, and one special character (!@#$%^&*).";
         } else if (password !== password2) {
-          errorMsg = "Confirmation Failed: Passwords do not match.";
+          errorMsg = "Passwords do not match.";
         }
 
         if (errorMsg) {
@@ -195,48 +195,48 @@ const UserEdit = ({ Updater, Use, deleteImage }) => {
       name: "name",
       placeholder: details.name,
       label: "User Name",
-      error: "Enter Name ",
+      error: "Username must start with uppercase letter, 4-20 characters, letters and digits only",
       type: "text",
-      pattern: `^[a-z\d].{5,12}$/i`,
+      pattern: `^[A-Z][a-zA-Z0-9]{3,19}$`,
     },
     {
       name: "email",
       placeholder: details.email,
       label: "Email",
-      error: "enter valid email ",
+      error: "Email must be valid format (e.g., user@example.com)",
       type: "text",
-      pattern: `^([a-z\d\.]+)@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$`,
+      pattern: `^[a-zA-Z0-9]+([._-][a-zA-Z0-9]+)*@[a-zA-Z0-9]+([.-][a-zA-Z0-9]+)*\\.[a-zA-Z]{2,}$`,
     },
     {
       name: "address",
       placeholder: details.address,
       label: "Address",
-      error: "enter valid address ",
+      error: "Address must start with uppercase, 6-100 characters including letters, numbers, spaces, commas, periods, hyphens, apostrophes",
       type: "text",
-      pattern: `^[a-zA-Z0-9].{2,500}$`,
+      pattern: `^[A-Z][a-zA-Z0-9\\s,.#'-]{5,99}$`,
     },
     {
       name: "phone",
       placeholder: details.phone,
       label: "Phone No.",
-      error: "enter valid number",
+      error: "Phone must be 5-12 digits only",
       type: "text",
-      pattern: `^[0-9].{0,11}$`,
+      pattern: `^\\d{5,12}$`,
     },
     {
       name: "password",
       placeholder: details.password,
       label: "New Password",
       error:
-        "password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one special character !@#$%^&* and one digit",
+        "Password must be 8-20 characters with at least one uppercase letter, one lowercase letter, one digit, and one special character (!@#$%^&*)",
       type: pass.password,
-      pattern: `^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*].{8,20}$`,
+      pattern: `^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,20}$`,
     },
     {
       name: "password2",
       placeholder: details.password2,
       label: "Confirm Password",
-      error: "Passwords don't match ",
+      error: "Passwords must match",
       type: pass.password2,
       pattern: details.password,
     },

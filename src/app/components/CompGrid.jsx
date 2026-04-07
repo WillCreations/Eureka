@@ -39,7 +39,7 @@ const CompGrid = ({ prodo, cluster, actions, updateStock}) => {
 
   return (
     <div>
-      <h1 className="text-2xl text-green-500 font-extrabold my-5">
+      <h1 className="text-2xl text-green-300 font-extrabold my-5">
         Similar Products
       </h1>
       <div className="grid sm:grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4">

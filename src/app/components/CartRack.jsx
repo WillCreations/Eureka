@@ -128,7 +128,7 @@ const CartRack = ({ updateStock }) => {
           </h1>
           <h1 className="  w-full md:w-40 bg-[#121212] px-5 text-black py-5 rounded-md ">
             <span className=" block text-center text-4xl text-green-300 font-extrabold">
-              ${total}
+              ${total.toFixed(2)}
             </span>
             <p className="text-center text-gray-300">Sub Total</p>
           </h1>

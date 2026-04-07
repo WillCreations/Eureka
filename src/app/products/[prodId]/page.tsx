@@ -119,7 +119,7 @@ const ProductDetails = async ({ params }) => {
         </div>
         <div className="grid grid-cols-2 gap-5  sm:flex-row flex-col mt-5 justify-between items-center lg:items-end">
           <div className="col-span-1">
-            <div className="font-bold  w-full text-center text-black text-md bg-green-300 py-5 px-5  rounded-md">
+            <div className="font-bold  w-full text-center text-green-300 border-2 border-green-300 text-md bg-[#121212] py-5 px-5  rounded-2xl">
               {category}
             </div>
           </div>

@@ -91,7 +91,7 @@ const ProductForm = ({ Action, button, count, category }) => {
       label: "Name",
       error: "Enter product name ",
       type: "text",
-      pattern: `^[a-zA-Z0-9].{2,16}$`,
+      pattern: `^[a-zA-Z0-9!@#$%^&*"].{2,50}$`,
     },
     {
       name: "slug",
@@ -100,7 +100,7 @@ const ProductForm = ({ Action, button, count, category }) => {
       label: "Slug",
       error: "Enter product slug ",
       type: "text",
-      pattern: `^[a-zA-Z0-9].{2,16}$`,
+      pattern: `^[a-zA-Z0-9!@#$%^&*"].{2,50}$`,
     },
     {
       name: "price",

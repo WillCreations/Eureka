@@ -99,7 +99,7 @@ const EditForm = ({ deleteImage, Updater, Prod, cate }) => {
       label: "Name",
       error: "Enter product name ",
       type: "text",
-      pattern: `^[a-zA-Z0-9].{2,16}$`,
+      pattern: `^[a-zA-Z0-9!@#$%^&*_"].{2,50}$`,
     },
     {
       name: "slug",
@@ -107,7 +107,7 @@ const EditForm = ({ deleteImage, Updater, Prod, cate }) => {
       label: "Slug",
       error: "Enter product slug ",
       type: "text",
-      pattern: `^[a-zA-Z0-9!@#$%^&*_].{2,30}$`,
+      pattern: `^[a-zA-Z0-9!@#$%^&*_"].{2,50}$`,
     },
     {
       name: "price",

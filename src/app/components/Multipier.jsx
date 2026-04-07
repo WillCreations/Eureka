@@ -122,7 +122,7 @@ const Multipier = ({ SingleProd, Quant, disabler, updateStock }) => {
             !disabler && true ? "text-gray-200" : "text-green-300"
           } text-4xl font-bold`}
         >
-          ${isNaN(feedback) ? price : feedback}
+          ${isNaN(feedback) ? price.toFixed(2) : feedback.toFixed(2)}
         </span>
       </div>
       {error && <Toast isError={isError} message={error} />}

@@ -50,30 +50,30 @@ const productList = async ({ searchParams }) => {
 
         <div className="grid-cols-12 grid gap-2 justify-between items-center my-5">
           <div className="flex col-span-3 lg:col-span-1 rounded-tl-lg rounded-bl-lg px-5 py-3 w-full bg-[#121212]  items-center">
-            <div className="  text-center  w-full ">Image</div>
+            <div className="  text-green-300 text-center  w-full ">Image</div>
           </div>
 
-          <div className=" bg-[#121212] w-full py-3 xxs:px-5 text-center capitalize   col-span-3 lg:col-span-4">
+          <div className=" bg-[#121212] w-full py-3 xxs:px-5 text-green-300 text-center capitalize   col-span-3 lg:col-span-4">
             <h1>Name</h1>
           </div>
 
-          <div className=" capitalize bg-[#121212] w-full py-3 xxs:px-5 text-center hidden lg:block  col-span-3 lg:col-span-2">
+          <div className=" capitalize bg-[#121212] w-full py-3 xxs:px-5 text-green-300 text-green-300 text-center hidden lg:block  col-span-3 lg:col-span-2">
             <h2>Category</h2>
           </div>
-          <div className="capitalize bg-[#121212] w-full py-3 px-5 text-center hidden lg:block lg:col-span-2">
+          <div className="capitalize bg-[#121212] w-full py-3 px-5 text-green-300  text-center hidden lg:block lg:col-span-2">
             <h2>Price</h2>
           </div>
-          <div className=" capitalize bg-[#121212] w-full py-3 px-5 text-center hidden lg:block lg:col-span-1">
+          <div className=" capitalize bg-[#121212] w-full py-3 px-5 text-green-300 text-center hidden lg:block lg:col-span-1">
             <h2>Stock</h2>
           </div>
 
           <div className=" col-span-3 lg:col-span-1">
-            <div className=" bg-[#121212] text-center w-full xxs:px-5 py-3 text-white">
+            <div className=" bg-[#121212] text-center w-full xxs:px-5 py-3 text-green-300">
               Action
             </div>
           </div>
           <div className=" col-span-3 lg:col-span-1">
-            <div className=" rounded-tr-lg text-center rounded-br-lg bg-[#121212] w-full xxs:px-5 py-3 text-gray-300">
+            <div className=" rounded-tr-lg text-center rounded-br-lg bg-[#121212] w-full xxs:px-5 py-3 text-green-300">
               Action
             </div>
           </div>
@@ -105,18 +105,18 @@ const productList = async ({ searchParams }) => {
                 </div>
 
                 <div className="  w-full py-3 xxs:px-5  capitalize flex items-center justify-between  col-span-3 lg:col-span-4">
-                  <h1 className="mr-5">{prod?.name}</h1> {!prod.stock && <div className="bg-red-700  rounded-full  px-5 py-2 hidden lg:block "> <span className="">Re-Stock</span></div> }
+                  <h1 className="mr-5 text-white font-bold">{prod?.name}</h1> {!prod.stock && <div className="bg-red-700  rounded-full  px-5 py-2 hidden lg:block "> <span className="">Re-Stock</span></div> }
                 </div>
 
                 <div className=" capitalize  w-full py-3 px-5  items-center hidden lg:flex  col-span-3 lg:col-span-2">
-                  <h2>{prod?.category}</h2>
+                  <h2 className="text-green-300">{prod?.category}</h2>
                 </div>
 
                 <div className=" capitalize w-full py-3 px-5  items-center hidden lg:flex lg:col-span-2">
-                  <h2>${prod?.price}</h2>
+                  <h2 className="text-green-300">${prod?.price}</h2>
                 </div>
                 <div className=" capitalize w-full py-3 px-5  items-center hidden lg:flex lg:col-span-1">
-                  <h2>{prod?.stock} Units</h2>
+                  <h2 className="text-green-300">{prod?.stock} Units</h2>
                 </div>
                 <div className=" col-span-3 flex items-center lg:col-span-1">
                   <Link className="w-full" href={`/products/${prod?._id}`}>
